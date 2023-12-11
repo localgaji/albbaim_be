@@ -41,7 +41,7 @@ public class UserService {
         log.debug("비회원 여부 확인 시작");
 
         User user = userRepository.findById(kakaoAuth.getUser().getUserId())
-                .orElseThrow(() -> new CustomException(ErrorType.MEMBER_NOT_FOUND));;
+                .orElseThrow(() -> new CustomException(ErrorType.MEMBER_NOT_FOUND));
 
         log.debug("비회원 여부 확인 완료");
 
