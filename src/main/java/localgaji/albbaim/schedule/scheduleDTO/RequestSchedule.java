@@ -11,7 +11,7 @@ public class RequestSchedule {
     }
 
     @Schema(description = "매니저 스케줄 모집 마감 : 추천 후보 조회")
-    public record GetRecommends(
+    public record GetRecommendsRequest(
             @Schema(description = "주 시작 날짜")
             String startWeekDate
     ) {
@@ -25,7 +25,7 @@ public class RequestSchedule {
     }
 
     @Schema(description = "매니저 스케줄 모집 시작 : 스케줄 템플릿 조회")
-    public record GetTemplate(
+    public record GetTemplateRequest(
             @Schema(description = "주 시작 날짜")
             String startWeekDate
     ) {
