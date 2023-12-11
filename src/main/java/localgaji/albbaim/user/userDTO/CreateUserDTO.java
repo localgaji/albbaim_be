@@ -10,18 +10,15 @@ import java.time.LocalDateTime;
 public class CreateUserDTO {
     private final String userName;
     private final Boolean isAdmin;
-    private final LocalDateTime createdAt;
     @Builder
     public CreateUserDTO(String userName, Boolean isAdmin) {
         this.userName = userName;
         this.isAdmin = isAdmin;
-        this.createdAt = LocalDateTime.now();
     }
 
     public User createNewUser() {
         return User.builder()
                 .userName(this.userName)
-                .createdAt(this.createdAt)
                 .isAdmin(this.isAdmin)
                 .build();
     }
