@@ -1,10 +1,11 @@
-package localgaji.albbaim.oauth.kakaoAuth;
+package localgaji.albbaim.auth.oauth.kakaoAuth;
 
 import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.__core__.exception.ErrorType;
-import localgaji.albbaim.oauth.kakaoAuth.kakaoAuthTemp.KakaoAuthTemp;
-import localgaji.albbaim.oauth.kakaoAuth.kakaoAuthTemp.KakaoAuthTempService;
-import localgaji.albbaim.user.User;
+import localgaji.albbaim.auth.oauth.kakaoAuth.kakaoIdCache.KakaoIdCache;
+import localgaji.albbaim.auth.oauth.kakaoAuth.kakaoIdCache.KakaoIdCacheService;
+import localgaji.albbaim.auth.oauth.kakaoAuth.fetch.KakaoAPIFetcher;
+import localgaji.albbaim.auth.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,34 +15,30 @@ import java.util.Optional;
 @Service @Slf4j @RequiredArgsConstructor
 public class KakaoAuthService {
 
+    private final KakaoAPIFetcher kakaoAPIFetcher;
     private final KakaoAuthRepository kakaoAuthRepository;
-
-    private final KakaoAuthAPIFetcher kakaoAuthAPIFetcher;
-
-    private final KakaoAuthTempService kakaoAuthTempService;
+    private final KakaoIdCacheService kakaoIdCacheService;
 
     public void makeNewKakaoUser(String code, User newUser) {
-        KakaoAuthTemp kakaoAuthTemp = kakaoAuthTempService.findKakaoIdByCode(code);
+        KakaoIdCache kakaoIdCache = kakaoIdCacheService.findKakaoIdByCode(code);
 
         log.debug("카카오 정보 객체 생성 시작");
         KakaoAuth newKakaoAuth = KakaoAuth.builder()
                 .user(newUser)
-                .kakaoId(kakaoAuthTemp.getKakaoId())
+                .kakaoId(kakaoIdCache.getKakaoId())
                 .build();
 
         log.debug("카카오 정보 저장 시작");
         kakaoAuthRepository.save(newKakaoAuth);
 
-        kakaoAuthTempService.deleteWaiting(kakaoAuthTemp);
+        kakaoIdCacheService.deleteWaiting(kakaoIdCache);
     }
 
-    public KakaoAuth findAuthData(String code) {
-        Long kakaoId = kakaoAuthAPIFetcher.codeToKakaoId(code);
-
+    public KakaoAuth findKakaoAuthByCode(String code) {
+        Long kakaoId = kakaoAPIFetcher.codeToKakaoId(code);
         Optional<KakaoAuth> optKakaoAuth = kakaoAuthRepository.findByKakaoId(kakaoId);
-
         if (optKakaoAuth.isEmpty()) {
-            kakaoAuthTempService.createKakaoTemp(code, kakaoId);
+            kakaoIdCacheService.createKakaoIdCache(code, kakaoId);
             throw new CustomException(ErrorType.NOT_OUR_MEMBER);
         }
         return optKakaoAuth.get();
