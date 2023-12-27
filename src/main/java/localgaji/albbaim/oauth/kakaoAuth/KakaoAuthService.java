@@ -7,7 +7,6 @@ import localgaji.albbaim.oauth.kakaoAuth.kakaoAuthTemp.KakaoAuthTempService;
 import localgaji.albbaim.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,8 +15,8 @@ import java.util.Optional;
 public class KakaoAuthService {
 
     private final KakaoAuthRepository kakaoAuthRepository;
-    @Autowired
-    private final KakaoAuthAPIController kakaoAuthAPIController;
+
+    private final KakaoAuthAPIFetcher kakaoAuthAPIFetcher;
 
     private final KakaoAuthTempService kakaoAuthTempService;
 
@@ -25,24 +24,24 @@ public class KakaoAuthService {
         KakaoAuthTemp kakaoAuthTemp = kakaoAuthTempService.findKakaoIdByCode(code);
 
         log.debug("카카오 정보 객체 생성 시작");
-        KakaoAuth kakaoAuth = KakaoAuth.builder()
+        KakaoAuth newKakaoAuth = KakaoAuth.builder()
                 .user(newUser)
                 .kakaoId(kakaoAuthTemp.getKakaoId())
                 .build();
 
         log.debug("카카오 정보 저장 시작");
-        kakaoAuthRepository.save(kakaoAuth);
+        kakaoAuthRepository.save(newKakaoAuth);
 
         kakaoAuthTempService.deleteWaiting(kakaoAuthTemp);
     }
 
     public KakaoAuth findAuthData(String code) {
-        Long kakaoId = kakaoAuthAPIController.codeToKakaoId(code);
+        Long kakaoId = kakaoAuthAPIFetcher.codeToKakaoId(code);
 
         Optional<KakaoAuth> optKakaoAuth = kakaoAuthRepository.findByKakaoId(kakaoId);
 
         if (optKakaoAuth.isEmpty()) {
-            kakaoAuthTempService.saveKakaoTemp(code, kakaoId);
+            kakaoAuthTempService.createKakaoTemp(code, kakaoId);
             throw new CustomException(ErrorType.NOT_OUR_MEMBER);
         }
         return optKakaoAuth.get();

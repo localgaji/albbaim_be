@@ -15,30 +15,31 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController @RequiredArgsConstructor
 @Tag(name = "회원", description = "로그인/회원가입/회원 정보 관련 API")
+@RequestMapping("/auth")
 public class UserController {
 
     private final LoginService loginService;
     
-    @GetMapping("/api/test")
+    @GetMapping("/test")
     @Operation(summary = "테스트", description = "ok 테스트")
     public ResponseEntity<ApiUtil.Response<String>> test() {
         return ResponseEntity.ok()
                 .body(ApiUtil.success(null));
     }
 
-    @GetMapping("/api/errorTest")
+    @GetMapping("/errorTest")
     @Operation(summary = "테스트", description = "에러 테스트")
     public ResponseEntity<ApiUtil.Response<String>> errorTest() {
         throw new CustomException(ErrorType.NOT_OUR_MEMBER);
     }
 
-    @PostMapping("/api/auth/login")
+    @PostMapping("/login")
     @Operation(summary = "카카오 로그인", description = "카카오 로그인")
     public ResponseEntity<ApiUtil.Response<ResponseAuth.PostLoginResponse>> postKakaoLogin(@RequestBody RequestAuth.LoginRequest requestBody) {
         return loginService.kakaoLogin(requestBody);
     }
 
-    @PostMapping("/api/auth/join")
+    @PostMapping("/join")
     @Operation(summary = "카카오 회원가입", description = "카카오 회원가입")
     public ResponseEntity<ApiUtil.Response<ResponseAuth.PostLoginResponse>> postKakaoSignUp(@RequestBody RequestAuth.SignUpRequest requestBody) {
         return loginService.kakaoSignUp(requestBody);

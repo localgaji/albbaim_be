@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 public class KakaoAuthTempService {
     private final KakaoAuthTempRepository kakaoAuthTempRepository;
 
-    public void saveKakaoTemp(String code, Long kakaoId) {
-        KakaoAuthTemp kakaoAuthTemp = KakaoAuthTemp.builder()
+    public void createKakaoTemp(String code, Long kakaoId) {
+        KakaoAuthTemp newKakaoAuthTemp = KakaoAuthTemp.builder()
                 .code(code).kakaoId(kakaoId)
                 .build();
-        kakaoAuthTempRepository.save(kakaoAuthTemp);
+        kakaoAuthTempRepository.save(newKakaoAuthTemp);
     }
 
     public KakaoAuthTemp findKakaoIdByCode(String code) {
