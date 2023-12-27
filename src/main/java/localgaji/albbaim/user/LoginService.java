@@ -17,7 +17,6 @@ public class LoginService {
 
     private final UserService userService;
     private final KakaoAuthService kakaoAuthService;
-    @Autowired
     private final TokenProvider tokenProvider;
 
     public ResponseEntity<ApiUtil.Response<ResponseAuth.PostLoginResponse>> kakaoLogin(RequestAuth.LoginRequest requestBody) {
