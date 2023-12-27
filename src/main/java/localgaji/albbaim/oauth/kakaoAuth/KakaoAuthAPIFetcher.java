@@ -15,7 +15,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 @Slf4j @Component
-public class KakaoAuthAPIController {
+public class KakaoAuthAPIFetcher {
     @Value("${kakaoAuth.client_id}")
     private String client_id;
 
