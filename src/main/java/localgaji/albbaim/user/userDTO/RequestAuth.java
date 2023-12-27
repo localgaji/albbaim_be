@@ -1,5 +1,6 @@
 package localgaji.albbaim.user.userDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
+import localgaji.albbaim.user.User;
 
 public class RequestAuth {
     @Schema(description = "카카오 로그인")
@@ -18,5 +19,12 @@ public class RequestAuth {
         @Schema(description = "카카오 인가코드")
         String code
     ) {
+        public User toEntity() {
+            return User.builder()
+                    .userName(userName)
+                    .isAdmin(isAdmin)
+                    .build();
+        }
     }
+
 }

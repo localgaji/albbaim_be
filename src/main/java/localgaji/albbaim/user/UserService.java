@@ -3,7 +3,6 @@ package localgaji.albbaim.user;
 import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.__core__.exception.ErrorType;
 import localgaji.albbaim.oauth.kakaoAuth.KakaoAuth;
-import localgaji.albbaim.user.userDTO.CreateUserDTO;
 import localgaji.albbaim.user.userDTO.RequestAuth;
 import localgaji.albbaim.workplace.Workplace;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +20,7 @@ public class UserService {
     public User makeNewUser(RequestAuth.SignUpRequest signUpRequest) {
         log.debug("유저 저장 시작");
 
-        CreateUserDTO dto = CreateUserDTO.builder()
-                .userName(signUpRequest.userName())
-                .isAdmin(signUpRequest.isAdmin())
-                .build();
-        User newUser = dto.createNewUser();
+        User newUser = signUpRequest.toEntity();
 
         log.debug("유저 객체 생성 {}", newUser.getUserId());
 
@@ -53,7 +48,6 @@ public class UserService {
         log.debug("그룹 업데이트 시작");
 
         user.updateGroup(workplace);
-        userRepository.save(user);
 
         log.debug("그룹 업데이트 완료");
     }
