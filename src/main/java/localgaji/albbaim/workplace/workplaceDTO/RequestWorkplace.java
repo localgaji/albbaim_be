@@ -1,6 +1,7 @@
 package localgaji.albbaim.workplace.workplaceDTO;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import localgaji.albbaim.workplace.Workplace;
 
 public class RequestWorkplace {
     @Schema(description = "그룹 가입")
@@ -24,6 +25,14 @@ public class RequestWorkplace {
         @Schema(description = "주소2")
         String detailAddress
     ) {
+        public Workplace toEntity() {
+            return Workplace.builder()
+                    .marketName(this.marketName)
+                    .marketNumber(this.marketNumber)
+                    .mainAddress(this.mainAddress)
+                    .detailAddress(this.detailAddress)
+                    .build();
+        }
     }
 
     @Schema(description = "초대장으로 그룹 정보 조회")
