@@ -1,9 +1,8 @@
-package localgaji.albbaim.user;
+package localgaji.albbaim.auth.user;
 
 import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.__core__.exception.ErrorType;
-import localgaji.albbaim.oauth.kakaoAuth.KakaoAuth;
-import localgaji.albbaim.user.userDTO.RequestAuth;
+import localgaji.albbaim.auth.user.userDTO.RequestAuth;
 import localgaji.albbaim.workplace.Workplace;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,26 +20,11 @@ public class UserService {
         log.debug("유저 저장 시작");
 
         User newUser = signUpRequest.toEntity();
-
-        log.debug("유저 객체 생성 {}", newUser.getUserId());
-
         userRepository.save(newUser);
 
-        log.debug("유저 저장 완료");
+        log.debug("유저 저장 완료 {}", newUser.getUserId());
 
         return newUser;
-    }
-
-    // 유저 찾기 by kakaoId
-    public User findUserByKakaoAuth(KakaoAuth kakaoAuth) {
-        log.debug("비회원 여부 확인 시작");
-
-        User user = userRepository.findById(kakaoAuth.getUser().getUserId())
-                .orElseThrow(() -> new CustomException(ErrorType.MEMBER_NOT_FOUND));
-
-        log.debug("비회원 여부 확인 완료");
-
-        return user;
     }
 
     // 그룹 가입
@@ -48,6 +32,7 @@ public class UserService {
         log.debug("그룹 업데이트 시작");
 
         user.updateGroup(workplace);
+        userRepository.save(user);
 
         log.debug("그룹 업데이트 완료");
     }

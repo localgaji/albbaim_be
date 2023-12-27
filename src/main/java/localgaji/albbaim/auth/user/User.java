@@ -1,4 +1,4 @@
-package localgaji.albbaim.user;
+package localgaji.albbaim.auth.user;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
