@@ -1,6 +1,6 @@
-package localgaji.albbaim.oauth.kakaoAuth;
+package localgaji.albbaim.auth.oauth.kakaoAuth;
 
-import localgaji.albbaim.user.User;
+import localgaji.albbaim.auth.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

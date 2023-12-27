@@ -1,4 +1,4 @@
-package localgaji.albbaim.oauth.kakaoAuth;
+package localgaji.albbaim.auth.oauth.kakaoAuth;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
