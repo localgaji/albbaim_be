@@ -2,9 +2,9 @@ package localgaji.albbaim.__core__;
 
 import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.__core__.exception.ErrorType;
-import localgaji.albbaim.user.User;
-import localgaji.albbaim.user.UserRepository;
-import localgaji.albbaim.user.token.TokenProvider;
+import localgaji.albbaim.auth.user.User;
+import localgaji.albbaim.auth.user.UserRepository;
+import localgaji.albbaim.auth.token.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
