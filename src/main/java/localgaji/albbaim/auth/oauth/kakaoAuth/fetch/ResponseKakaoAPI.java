@@ -1,4 +1,4 @@
-package localgaji.albbaim.oauth.kakaoAuth.kakaoAuthDTO;
+package localgaji.albbaim.auth.oauth.kakaoAuth.fetch;
 
 public class ResponseKakaoAPI {
     public record GetTokenResponse(

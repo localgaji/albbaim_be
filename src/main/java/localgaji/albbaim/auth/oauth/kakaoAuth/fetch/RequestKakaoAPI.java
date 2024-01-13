@@ -1,4 +1,4 @@
-package localgaji.albbaim.oauth.kakaoAuth.kakaoAuthDTO;
+package localgaji.albbaim.auth.oauth.kakaoAuth.fetch;
 
 import lombok.Builder;
 import lombok.Getter;

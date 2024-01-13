@@ -1,22 +1,25 @@
-package localgaji.albbaim.oauth.kakaoAuth.kakaoAuthTemp;
+package localgaji.albbaim.auth.oauth.kakaoAuth;
 
+import localgaji.albbaim.auth.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
-@Entity
+@Entity @Table(name = "kakao_auth")
 @Getter @Builder @NoArgsConstructor @AllArgsConstructor
-@Table(name = "kakao_temp")
-public class KakaoAuthTemp {
+public class KakaoAuth {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String code;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column
+    @Column @NotNull
     private Long kakaoId;
+
 }

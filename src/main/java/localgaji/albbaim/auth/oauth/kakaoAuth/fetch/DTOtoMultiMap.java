@@ -1,4 +1,4 @@
-package localgaji.albbaim.__core__;
+package localgaji.albbaim.auth.oauth.kakaoAuth.fetch;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

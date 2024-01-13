@@ -1,9 +1,6 @@
-package localgaji.albbaim.oauth.kakaoAuth;
+package localgaji.albbaim.auth.oauth.kakaoAuth.fetch;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import localgaji.albbaim.__core__.DTOtoMultiMap;
-import localgaji.albbaim.oauth.kakaoAuth.kakaoAuthDTO.RequestKakaoAPI;
-import localgaji.albbaim.oauth.kakaoAuth.kakaoAuthDTO.ResponseKakaoAPI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -15,7 +12,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 @Slf4j @Component
-public class KakaoAuthAPIController {
+public class KakaoAPIFetcher {
     @Value("${kakaoAuth.client_id}")
     private String client_id;
 

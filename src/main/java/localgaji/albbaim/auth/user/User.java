@@ -1,5 +1,7 @@
-package localgaji.albbaim.user;
+package localgaji.albbaim.auth.user;
 
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 import localgaji.albbaim.__core__.BaseTime;
 import localgaji.albbaim.workplace.Workplace;
 import jakarta.persistence.*;
@@ -7,8 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 @Entity @Table(name = "userTable")
 @Getter @Builder @AllArgsConstructor @NoArgsConstructor
@@ -20,14 +20,14 @@ public class User extends BaseTime {
     @NotNull
     private Boolean isAdmin;
 
-
     @NotNull
     private String userName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "workplace_id", nullable = true) @Nullable
+    @JoinColumn(name = "workplace_id") @Nullable
     private Workplace workplace;
 
+    @Nullable
     private String profileImg;
 
     public void updateGroup(Workplace workplace) {
@@ -36,5 +36,21 @@ public class User extends BaseTime {
 
     public void updateProfileImg(String profileImg) {
         this.profileImg = profileImg;
+    }
+
+    public UserType getUserType() {
+        if (isAdmin) {
+            if (workplace == null) {
+                return UserType.ADMIN_NO_GROUP;
+            } else {
+                return UserType.ADMIN;
+            }
+        } else {
+            if (workplace == null) {
+                return UserType.ALBA_NO_GROUP;
+            } else {
+                return UserType.ALBA;
+            }
+        }
     }
 }

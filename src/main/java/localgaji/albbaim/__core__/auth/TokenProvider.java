@@ -1,8 +1,7 @@
-package localgaji.albbaim.user.token;
+package localgaji.albbaim.__core__.auth;
 
 import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.__core__.exception.ErrorType;
-import localgaji.albbaim.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -31,8 +30,8 @@ public class TokenProvider {
     }
 
     // 토큰 생성
-    public String createToken(User user) {
-        log.debug("토큰 생성 시작 {}", user.getUserId());
+    public String createToken(Long userId) {
+        log.debug("토큰 생성 시작 {}", userId);
 
         //Header 부분 설정
         Map<String, Object> headers = new HashMap<>();
@@ -42,7 +41,7 @@ public class TokenProvider {
         LocalDateTime now = LocalDateTime.now(); // 토큰 만료 시간
         LocalDateTime expireTime = now.plusSeconds(tokenValidityInSeconds);
 
-        String sub = String.valueOf(user.getUserId());
+        String sub = String.valueOf(userId);
 
         log.debug("토큰 정보 설정 완료");
 

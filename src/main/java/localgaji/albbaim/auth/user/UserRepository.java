@@ -1,4 +1,4 @@
-package localgaji.albbaim.user;
+package localgaji.albbaim.auth.user;
 
 import localgaji.albbaim.workplace.Workplace;
 import org.springframework.data.jpa.repository.JpaRepository;

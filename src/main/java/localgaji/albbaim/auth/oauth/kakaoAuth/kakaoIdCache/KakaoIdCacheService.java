@@ -1,4 +1,4 @@
-package localgaji.albbaim.oauth.kakaoAuth.kakaoAuthTemp;
+package localgaji.albbaim.auth.oauth.kakaoAuth.kakaoIdCache;
 
 import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.__core__.exception.ErrorType;
@@ -8,25 +8,26 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service @RequiredArgsConstructor
-public class KakaoAuthTempService {
-    private final KakaoAuthTempRepository kakaoAuthTempRepository;
+public class KakaoIdCacheService {
 
-    public void saveKakaoTemp(String code, Long kakaoId) {
-        KakaoAuthTemp kakaoAuthTemp = KakaoAuthTemp.builder()
+    private final KakaoIdCacheRepository kakaoIdCacheRepository;
+
+    public void createKakaoIdCache(String code, Long kakaoId) {
+        KakaoIdCache newKakaoIdCache = KakaoIdCache.builder()
                 .code(code).kakaoId(kakaoId)
                 .build();
-        kakaoAuthTempRepository.save(kakaoAuthTemp);
+        kakaoIdCacheRepository.save(newKakaoIdCache);
     }
 
-    public KakaoAuthTemp findKakaoIdByCode(String code) {
+    public KakaoIdCache findKakaoIdByCode(String code) {
         log.debug("카카오 임시 인증 정보 찾기 시작");
-        return kakaoAuthTempRepository.findByCode(code)
+        return kakaoIdCacheRepository.findByCode(code)
                 .orElseThrow(()-> new CustomException(ErrorType.ETC_ERROR));
     }
 
-    public void deleteWaiting(KakaoAuthTemp kakaoAuthTemp) {
+    public void deleteWaiting(KakaoIdCache kakaoIdCache) {
         log.debug("카카오 임시 인증 정보 제거 시작");
-        kakaoAuthTempRepository.delete(kakaoAuthTemp);
+        kakaoIdCacheRepository.delete(kakaoIdCache);
     }
 
 }
