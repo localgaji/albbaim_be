@@ -1,4 +1,4 @@
-package localgaji.albbaim.__core__;
+package localgaji.albbaim.__core__.auth;
 
 import java.lang.annotation.*;
 

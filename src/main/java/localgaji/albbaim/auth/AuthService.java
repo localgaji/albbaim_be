@@ -5,7 +5,7 @@ import localgaji.albbaim.auth.user.User;
 import localgaji.albbaim.auth.user.UserService;
 import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuth;
 import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuthService;
-import localgaji.albbaim.auth.token.TokenProvider;
+import localgaji.albbaim.__core__.auth.TokenProvider;
 import localgaji.albbaim.auth.user.userDTO.RequestAuth;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

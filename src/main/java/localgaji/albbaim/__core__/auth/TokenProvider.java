@@ -1,4 +1,4 @@
-package localgaji.albbaim.auth.token;
+package localgaji.albbaim.__core__.auth;
 
 import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.__core__.exception.ErrorType;
