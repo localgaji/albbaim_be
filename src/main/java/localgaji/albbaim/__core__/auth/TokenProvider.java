@@ -2,7 +2,6 @@ package localgaji.albbaim.__core__.auth;
 
 import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.__core__.exception.ErrorType;
-import localgaji.albbaim.auth.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
