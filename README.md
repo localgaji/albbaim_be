@@ -6,9 +6,14 @@
 ## 프로젝트 기획 설명
 [설명 바로가기](https://github.com/localgaji/albbaim)
 
-## 링크
+## Links
 [ERD](https://www.erdcloud.com/d/eLam3QpQPYo74w8xR)
 [API 문서]()
 
-
-
+## Stacks
+<div>
+  <img src="https://img.shields.io/badge/Java-007396.svg?style=flat"/>
+  <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=springboot&logoColor=white"/>
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=white"/>
+  <img src="https://img.shields.io/badge/swagger-85EA2D?style=flat&logo=swagger&logoColor=black"/>
+</div>
