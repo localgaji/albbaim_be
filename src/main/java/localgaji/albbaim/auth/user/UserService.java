@@ -27,8 +27,8 @@ public class UserService {
         return newUser;
     }
 
-    // 그룹 가입
-    public void joinGroup(User user, Workplace workplace) {
+    // 유저에 일터 추가
+    public void addWorkplace(User user, Workplace workplace) {
         log.debug("그룹 업데이트 시작");
 
         user.updateGroup(workplace);
@@ -37,7 +37,7 @@ public class UserService {
         log.debug("그룹 업데이트 완료");
     }
 
-    // 그룹에 가입된 유저 찾기
+    // 일터에 가입된 유저 찾기
     public List<User> findUsersByWorkplace(Workplace workplace) {
         return userRepository.findByWorkplace(workplace)
                 .orElseThrow(() -> new CustomException(ErrorType.ETC_ERROR));
