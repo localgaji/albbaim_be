@@ -6,11 +6,11 @@
 ## 프로젝트 기획 설명
 [설명 바로가기](https://github.com/localgaji/albbaim)
 
-## Links
+## 📎 Links
 [ERD](https://www.erdcloud.com/d/eLam3QpQPYo74w8xR)
 [API 문서]()
 
-## Stacks
+## 📚 Stacks
 <div>
   <img src="https://img.shields.io/badge/Java-007396.svg?style=flat"/>
   <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=springboot&logoColor=white"/>
