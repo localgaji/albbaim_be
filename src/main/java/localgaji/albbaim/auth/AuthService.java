@@ -34,6 +34,6 @@ public class AuthService {
     }
 
     public String getToken(User user) {
-        return tokenProvider.createToken(user);
+        return tokenProvider.createToken(user.getUserId());
     }
 }
