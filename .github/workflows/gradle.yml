@@ -27,11 +27,11 @@ jobs:
           distribution: 'temurin'
 
       # 3. properties 생성
-      - name: make application.yml
+      - name: make application-prod.yml
         run: |
           cd ./src/main/resources
-          touch ./application.yml
-          echo "${{ secrets.YML_PROD }}" > ./application.yml
+          touch ./application-prod.yml
+          echo "${{ secrets.YML_PROD }}" > ./application-prod.yml
 
       # 4. gradle 통해 자바 소스 빌드
       - name: Build with Gradle

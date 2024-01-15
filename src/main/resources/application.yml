@@ -1,26 +1,4 @@
-jwt:
-  header: Authorization
-  secret: aaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbccccccccccc
-  tokenValidityInSeconds: 8640000
-kakaoAuth:
-  client_id: d573e4a7b2fcae0f0289d5807605d726
-  redirect_uri: http://localhost:3000/login/kakao
 spring:
-  h2:
-    console:
-      enabled: true
-  datasource:
-    url: jdbc:h2:mem:test;MODE=MySQL
-    driver-class-name: org.h2.Driver
-    username: sa
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-spring-doc:
-  api-docs:
-    path: /api-docs
-  default-consumes-media-type: application/json
-  default-produces-media-type: application/json
-  paths-to-match:
-    - /api/**
+  profiles:
+    include:
+      - local
