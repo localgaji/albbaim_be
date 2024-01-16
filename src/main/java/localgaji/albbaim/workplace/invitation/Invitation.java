@@ -39,6 +39,6 @@ public class Invitation extends BaseTime {
     }
 
     public boolean isExpired() {
-        return keyUpdatedDate.plusHours(durationHours).isAfter(LocalDateTime.now());
+        return keyUpdatedDate.plusHours(durationHours).isBefore(LocalDateTime.now());
     }
 }
