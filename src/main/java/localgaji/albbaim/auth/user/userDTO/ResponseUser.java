@@ -10,11 +10,11 @@ public class ResponseUser {
     @Schema(description = "내 정보 조회")
     public static class GetMyInfoResponse {
         @Schema(description = "회원 이름")
-        String username;
+        String userName;
         @Schema(description = "회원 타입")
         UserType userType;
         public GetMyInfoResponse(User user) {
-            this.username = user.getUserName();
+            this.userName = user.getUserName();
             this.userType = user.getUserType();
         }
     }
