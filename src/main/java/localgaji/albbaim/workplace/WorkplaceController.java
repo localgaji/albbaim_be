@@ -62,7 +62,7 @@ public class WorkplaceController {
     @GetMapping("/invitation/information")
     @Operation(summary = "매장 초대 페이지 조회")
     public ResponseEntity<ApiUtil.Response<ResponseWorkplace.GetInvitationInfoResponse>> getGroupInfo(
-            @RequestParam RequestWorkplace.GetGroupInfoRequest requestParams) {
+            RequestWorkplace.GetGroupInfoRequest requestParams) {
 
         ResponseWorkplace.GetInvitationInfoResponse responseBody =
                 workplaceService.findWorkplaceByInvitationKey(requestParams.invitationKey());
