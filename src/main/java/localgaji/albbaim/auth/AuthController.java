@@ -2,8 +2,8 @@ package localgaji.albbaim.auth;
 
 import localgaji.albbaim.__core__.ApiUtil;
 import localgaji.albbaim.auth.user.User;
-import localgaji.albbaim.auth.user.userDTO.RequestAuth;
-import localgaji.albbaim.auth.user.userDTO.ResponseAuth;
+import localgaji.albbaim.auth.authDTO.RequestAuth;
+import localgaji.albbaim.auth.authDTO.ResponseAuth;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController @RequiredArgsConstructor
-@Tag(name = "회원", description = "로그인/회원가입/회원 정보 관련 API")
+@Tag(name = "로그인/회원가입", description = "로그인/회원가입 관련 API")
 @RequestMapping("/auth")
 public class AuthController {
 
