@@ -2,7 +2,7 @@ package localgaji.albbaim.auth.user;
 
 import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.__core__.exception.ErrorType;
-import localgaji.albbaim.auth.user.userDTO.RequestAuth;
+import localgaji.albbaim.auth.authDTO.RequestAuth;
 import localgaji.albbaim.workplace.Workplace;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class UserService {
         return newUser;
     }
 
-    // 유저에 일터 추가
+    // 유저에 매장 추가
     public void addWorkplace(User user, Workplace workplace) {
         log.debug("그룹 업데이트 시작");
 
@@ -37,9 +37,10 @@ public class UserService {
         log.debug("그룹 업데이트 완료");
     }
 
-    // 일터에 가입된 유저 찾기
+    // 매장에 가입된 유저 찾기
     public List<User> findUsersByWorkplace(Workplace workplace) {
         return userRepository.findByWorkplace(workplace)
                 .orElseThrow(() -> new CustomException(ErrorType.ETC_ERROR));
     }
+
 }
