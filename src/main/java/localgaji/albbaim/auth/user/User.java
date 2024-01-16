@@ -1,5 +1,6 @@
 package localgaji.albbaim.auth.user;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import localgaji.albbaim.__core__.BaseTime;
@@ -10,7 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity @Table(name = "userTable")
+@Entity @Table(name = "userTable") @Hidden
 @Getter @Builder @AllArgsConstructor @NoArgsConstructor
 public class User extends BaseTime {
     @Id
