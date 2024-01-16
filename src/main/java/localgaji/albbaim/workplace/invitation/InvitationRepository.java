@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface InvitationRepository extends JpaRepository<Invitation, Long> {
-    Optional<Invitation> findInvitationByInvitationKey(String invitationKey);
-    Optional<Invitation> findInvitationByWorkplace(Workplace workplace);
+    Optional<Invitation> findByInvitationKey(String invitationKey);
+    Optional<Invitation> findByWorkplace(Workplace workplace);
 }
