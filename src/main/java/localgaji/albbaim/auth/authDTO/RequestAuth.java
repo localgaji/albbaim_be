@@ -1,4 +1,4 @@
-package localgaji.albbaim.auth.user.userDTO;
+package localgaji.albbaim.auth.authDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import localgaji.albbaim.auth.user.User;
 

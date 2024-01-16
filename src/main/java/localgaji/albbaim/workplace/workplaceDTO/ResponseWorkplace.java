@@ -11,9 +11,7 @@ import java.util.List;
 public class ResponseWorkplace {
     @Builder
     @Schema(description = "내 그룹 조회")
-    public record GetMyInfoResponse(
-            @Schema(description = "내 이름")
-            String userName,
+    public record GetMyWorkplaceResponse(
             @Schema(description = "내 그룹 이름")
             String groupName,
             @Schema(description = "내 그룹 멤버 리스트")
