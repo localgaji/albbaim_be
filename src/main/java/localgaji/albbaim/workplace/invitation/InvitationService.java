@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class InvitationService {
     private final InvitationRepository invitationRepository;
 
-    public Invitation openInvitation(String invitationKey) {
+    public Invitation readInvitation(String invitationKey) {
         Invitation invitation = invitationRepository.findByInvitationKey(invitationKey)
                 .orElseThrow(() -> new CustomException(ErrorType.INVALID_INVITATION));
 
@@ -25,8 +25,8 @@ public class InvitationService {
         return invitation;
     }
 
-    @Transactional
-    public Invitation getMyInvitation(Workplace workplace) {
+    public Invitation issueMyWorkplaceInvitation(Workplace workplace) {
+        // 없으면 생성, 만료됐으면 재발급, 멀쩡하면 그냥 가져오기
         Invitation invitation = invitationRepository.findByWorkplace(workplace)
                 .orElseGet(() -> createInvitationKey(workplace));
 
