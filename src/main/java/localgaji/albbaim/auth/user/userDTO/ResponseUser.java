@@ -8,12 +8,12 @@ import lombok.Getter;
 public class ResponseUser {
     @Getter
     @Schema(description = "내 정보 조회")
-    public static class GetMyResponse {
+    public static class GetMyInfoResponse {
         @Schema(description = "회원 이름")
         String username;
         @Schema(description = "회원 타입")
         UserType userType;
-        public GetMyResponse(User user) {
+        public GetMyInfoResponse(User user) {
             this.username = user.getUserName();
             this.userType = user.getUserType();
         }
