@@ -63,7 +63,7 @@ public class WorkplaceService {
                 .build();
     }
 
-    // 초대장으로 매장 조회 (초대장 열기)
+    // 초대키로 매장 조회 (초대장 열기)
     public ResponseWorkplace.GetInvitationInfoResponse findWorkplaceByInvitationKey(String invitationKey) {
         // 초대키로 초대장 조회
         Invitation invitation = invitationService.readInvitation(invitationKey);
@@ -78,10 +78,8 @@ public class WorkplaceService {
         // 매니저가 운영 중인 매장을 조회
         Workplace workplace = Optional.ofNullable(user.getWorkplace())
                 .orElseThrow(() -> new CustomException(ErrorType.GROUP_NOT_FOUND));
-
         // 해당 그룹의 초대장 발급
         Invitation invitation = invitationService.issueMyWorkplaceInvitation(workplace);
-
         return new ResponseWorkplace.GetInvitationKeyResponse(invitation.getInvitationKey());
     }
 }
