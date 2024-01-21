@@ -73,16 +73,16 @@ class AuthControllerTest {
 
         // then
         resultActions.andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("error.errorCode").exists());
+                .andExpect(jsonPath("error.errorCode", -10006).exists());
     }
 
     @DisplayName("카카오 회원가입 성공 테스트")
     @Test
     void kakaoSignUpSuccess() throws Exception {
         // given
-        User user = user();
         String token = "Bearer ABC";
         SignUpRequest request = signUpRequest();
+        User user = request.toEntity();
 
         when(authService.kakaoSignUp(any(SignUpRequest.class))).thenReturn(user);
         when(authService.getToken(any(User.class))).thenReturn(token);
