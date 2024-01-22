@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import static localgaji.albbaim.auth.oauth.kakaoAuth.fetch.RequestKakaoAPI.*;
+import static localgaji.albbaim.auth.oauth.kakaoAuth.fetch.ResponseKakaoAPI.*;
+
 @Slf4j @Component
 public class KakaoAPIFetcher {
     @Value("${kakaoAuth.client_id}")
@@ -38,7 +41,7 @@ public class KakaoAPIFetcher {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
-        RequestKakaoAPI.GetTokenRequest requestDTO = RequestKakaoAPI.GetTokenRequest.builder()
+        GetTokenRequest requestDTO = GetTokenRequest.builder()
                 .client_id(client_id)
                 .redirect_uri(redirect_uri)
                 .code(code)
@@ -49,7 +52,7 @@ public class KakaoAPIFetcher {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(requestBody, headers);
         String url = "https://kauth.kakao.com/oauth/token";
 
-        return sendPostRequest(request, url, ResponseKakaoAPI.GetTokenResponse.class).access_token();
+        return sendPostRequest(request, url, GetTokenResponse.class).access_token();
     }
 
     // 2. 토큰으로 카카오 id 호출
@@ -63,7 +66,7 @@ public class KakaoAPIFetcher {
         HttpEntity<String> request = new HttpEntity<>(headers);
         String url = "https://kapi.kakao.com/v2/user/me";
 
-        return sendPostRequest(request, url, ResponseKakaoAPI.GetKakaoIdResponse.class).id();
+        return sendPostRequest(request, url, GetKakaoIdResponse.class).id();
     }
 
     private <RequestDTO, ResponseDTO> ResponseDTO sendPostRequest(HttpEntity<RequestDTO> request,

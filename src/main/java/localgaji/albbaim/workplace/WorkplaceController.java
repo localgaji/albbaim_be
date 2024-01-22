@@ -3,12 +3,14 @@ package localgaji.albbaim.workplace;
 import localgaji.albbaim.__core__.ApiUtil;
 import localgaji.albbaim.__core__.auth.AuthUser;
 import localgaji.albbaim.auth.user.User;
-import localgaji.albbaim.workplace.workplaceDTO.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static localgaji.albbaim.workplace.workplaceDTO.RequestWorkplace.*;
+import static localgaji.albbaim.workplace.workplaceDTO.ResponseWorkplace.*;
 
 @RestController @RequiredArgsConstructor
 @Tag(name = "3. 매장 설정", description = "매장 설정 / 초대 API")
@@ -19,10 +21,10 @@ public class WorkplaceController {
 
     @GetMapping
     @Operation(summary = "내 매장 정보 조회")
-    public ResponseEntity<ApiUtil.Response<ResponseWorkplace.GetMyWorkplaceResponse>> getMemberList(
+    public ResponseEntity<ApiUtil.Response<GetMyWorkplaceResponse>> getMemberList(
             @AuthUser User user) {
 
-        ResponseWorkplace.GetMyWorkplaceResponse responseBody = workplaceService.findGroupInfo(user);
+        GetMyWorkplaceResponse responseBody = workplaceService.findGroupInfo(user);
 
         return ResponseEntity.ok().body(ApiUtil.success(responseBody));
     }
@@ -30,7 +32,7 @@ public class WorkplaceController {
     @PostMapping
     @Operation(summary = "매장 등록")
     public ResponseEntity<ApiUtil.Response<String>> postAddGroup(
-            @RequestBody RequestWorkplace.PostAddGroupRequest requestBody,
+            @RequestBody PostAddGroupRequest requestBody,
             @AuthUser User user) {
 
         workplaceService.addNewWorkplace(user, requestBody);
@@ -41,7 +43,7 @@ public class WorkplaceController {
     @PostMapping("/invitation")
     @Operation(summary = "매장 가입")
     public ResponseEntity<ApiUtil.Response<String>> postJoinGroup(
-            @RequestBody RequestWorkplace.PostJoinGroupRequest requestBody,
+            @RequestBody PostJoinGroupRequest requestBody,
             @AuthUser User user) {
 
         workplaceService.joinWorkplace(user, requestBody);
@@ -51,20 +53,20 @@ public class WorkplaceController {
 
     @GetMapping("/invitation")
     @Operation(summary = "매장 초대키 발급")
-    public ResponseEntity<ApiUtil.Response<ResponseWorkplace.GetInvitationKeyResponse>> getInvitationKey(
+    public ResponseEntity<ApiUtil.Response<GetInvitationKeyResponse>> getInvitationKey(
             @AuthUser User user) {
 
-        ResponseWorkplace.GetInvitationKeyResponse responseBody = workplaceService.getInvitationKey(user);
+        GetInvitationKeyResponse responseBody = workplaceService.getInvitationKey(user);
 
         return ResponseEntity.ok().body(ApiUtil.success(responseBody));
     }
 
     @GetMapping("/invitation/information")
     @Operation(summary = "매장 초대 페이지 조회")
-    public ResponseEntity<ApiUtil.Response<ResponseWorkplace.GetInvitationInfoResponse>> getGroupInfo(
-            RequestWorkplace.GetGroupInfoRequest requestParams) {
+    public ResponseEntity<ApiUtil.Response<GetInvitationInfoResponse>> getGroupInfo(
+            GetGroupInfoRequest requestParams) {
 
-        ResponseWorkplace.GetInvitationInfoResponse responseBody =
+        GetInvitationInfoResponse responseBody =
                 workplaceService.findWorkplaceByInvitationKey(requestParams.invitationKey());
 
         return ResponseEntity.ok().body(ApiUtil.success(responseBody));

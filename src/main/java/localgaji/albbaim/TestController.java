@@ -27,7 +27,7 @@ public class TestController {
     @GetMapping("/error")
     @Operation(summary = "테스트", description = "에러 테스트")
     public ResponseEntity<ApiUtil.Response<String>> errorTest() {
-        throw new CustomException(ErrorType.NOT_OUR_MEMBER);
+        throw new CustomException(ErrorType.MEMBER_NOT_FOUND);
     }
 
 }
