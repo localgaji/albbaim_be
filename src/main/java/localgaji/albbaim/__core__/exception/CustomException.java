@@ -1,6 +1,5 @@
 package localgaji.albbaim.__core__.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
