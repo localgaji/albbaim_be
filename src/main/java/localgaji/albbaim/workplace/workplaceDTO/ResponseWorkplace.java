@@ -38,7 +38,7 @@ public class ResponseWorkplace {
     ) {
     }
 
-    @Schema(description = "초대장으로 그룹 정보 조회")
+    @Schema(description = "초대장으로 그룹 정보 조회") @Getter
     public static class GetInvitationInfoResponse {
         @Schema(description = "매장 이름")
         public String marketName;

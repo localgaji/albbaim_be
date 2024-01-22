@@ -6,6 +6,7 @@ import localgaji.albbaim.workplace.invitation.Invitation;
 import localgaji.albbaim.workplace.invitation.InvitationService;
 import localgaji.albbaim.auth.user.User;
 import localgaji.albbaim.auth.user.UserService;
+import localgaji.albbaim.workplace.workplaceDTO.ResponseWorkplace.GetMyWorkplaceResponse.UserListDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -54,10 +55,10 @@ public class WorkplaceService {
                 .orElseThrow(() -> new CustomException(ErrorType.GROUP_NOT_FOUND));
         // 해당 매장 엔티티 가공
         String groupName = workplace.getMarketName();
-        List<GetMyWorkplaceResponse.UserListDTO> members =
+        List<UserListDTO> members =
                 userService.findUsersByWorkplace(workplace)
                     .stream()
-                    .map(GetMyWorkplaceResponse.UserListDTO::new)
+                    .map(UserListDTO::new)
                     .collect(Collectors.toList());
         return GetMyWorkplaceResponse.builder()
                 .groupName(groupName)
