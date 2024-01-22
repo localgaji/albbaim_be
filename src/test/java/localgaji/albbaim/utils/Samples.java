@@ -17,6 +17,7 @@ public class Samples {
     }
     public static Workplace someWorkplace() {
         return Workplace.builder()
+                .workplaceId(1L)
                 .marketName("라이언 월드")
                 .marketNumber("1111111111")
                 .mainAddress("서울시 성동구 성수대로")
@@ -32,6 +33,13 @@ public class Samples {
                 .build();
     }
 
+    public static Invitation expiredInvitation(Workplace workplace) {
+        return Invitation.builder()
+                .invitationKey("def")
+                .workplace(workplace)
+                .keyUpdatedDate(LocalDateTime.of(2000, 10, 10, 1, 1))
+                .build();
+    }
     public static KakaoAuth someKakaoAuth(User user) {
         return KakaoAuth.builder()
                 .kakaoId(123L)
