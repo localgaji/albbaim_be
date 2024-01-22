@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static localgaji.albbaim.utils.Samples.someUser;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -43,9 +44,9 @@ class AuthControllerTest {
     @Test
     void kakaoLoginSuccess() throws Exception {
         // given
-        User user = user();
-        String token = "Bearer ABC";
         LoginRequest request = loginRequest();
+        String token = "Bearer ABC";
+        User user = someUser();
 
         when(authService.kakaoLogin(any(LoginRequest.class))).thenReturn(user);
         when(authService.getToken(any(User.class))).thenReturn(token);
@@ -102,14 +103,6 @@ class AuthControllerTest {
 
     private LoginRequest loginRequest() {
         return new LoginRequest("zkzkdhzhem");
-    }
-
-    private User user() {
-        return User.builder()
-                .userId(1L)
-                .userName("라이언")
-                .isAdmin(true)
-                .build();
     }
 
 }

@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static localgaji.albbaim.utils.Samples.someUser;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -41,7 +42,7 @@ class UserControllerTest {
     @Test
     void getMyInfoSuccess() throws Exception {
         // given
-        User user = user();
+        User user = someUser();
         String token = "Bearer ABC";
 
         when(authUserArgumentResolver.supportsParameter(any())).thenReturn(true);
@@ -57,13 +58,5 @@ class UserControllerTest {
                 .andExpect(jsonPath("response.userName", user.getUserName()).exists())
                 .andExpect(jsonPath("response.userType", user.getUserType()).exists())
                 .andReturn();
-    }
-
-    private User user() {
-        return User.builder()
-                .userId(1L)
-                .userName("라이언")
-                .isAdmin(true)
-                .build();
     }
 }
