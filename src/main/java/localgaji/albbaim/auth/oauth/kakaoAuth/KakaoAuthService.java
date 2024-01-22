@@ -39,7 +39,7 @@ public class KakaoAuthService {
         Optional<KakaoAuth> optKakaoAuth = kakaoAuthRepository.findByKakaoId(kakaoId);
         if (optKakaoAuth.isEmpty()) {
             kakaoIdCacheService.createKakaoIdCache(code, kakaoId);
-            throw new CustomException(ErrorType.NOT_OUR_MEMBER);
+            throw new CustomException(ErrorType.MEMBER_NOT_FOUND);
         }
         return optKakaoAuth.get();
     }
