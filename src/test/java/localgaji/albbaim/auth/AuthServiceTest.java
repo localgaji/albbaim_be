@@ -1,5 +1,7 @@
 package localgaji.albbaim.auth;
 
+import localgaji.albbaim.__core__.exception.CustomException;
+import localgaji.albbaim.__core__.exception.ErrorType;
 import localgaji.albbaim.auth.authDTO.RequestAuth.LoginRequest;
 import localgaji.albbaim.auth.authDTO.RequestAuth.SignUpRequest;
 import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuth;
@@ -13,7 +15,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static localgaji.albbaim.utils.Samples.someKakaoAuth;
+import static localgaji.albbaim.utils.Samples.someUser;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -26,27 +31,44 @@ class AuthServiceTest {
     @Mock
     private KakaoAuthService kakaoAuthService;
 
-    @DisplayName("카카오 로그인 서비스 테스트")
+    @DisplayName("카카오 로그인 서비스 성공")
     @Test
-    void kakaoLoginSuccess() throws Exception {
+    void kakaoLoginSuccess() {
         // given
         LoginRequest request = loginRequest();
-        KakaoAuth kakaoAuth = kakaoAuth();
+        User someUser = someUser();
+        KakaoAuth kakaoAuth = someKakaoAuth(someUser);
+
         when(kakaoAuthService.findKakaoAuthByCode(any(String.class))).thenReturn(kakaoAuth);
 
         // when
         User user = authService.kakaoLogin(request);
 
         // then
-        assertThat(user.getUserId()).isEqualTo(1L);
+        assertThat(user).isEqualTo(someUser);
+    }
+
+    @DisplayName("카카오 로그인 서비스 실패")
+    @Test
+    void kakaoLoginFail() {
+        // given
+        LoginRequest request = loginRequest();
+
+        when(kakaoAuthService.findKakaoAuthByCode(any(String.class)))
+                .thenThrow(new CustomException(ErrorType.MEMBER_NOT_FOUND));
+
+        // when, then
+        assertThatThrownBy(() -> authService.kakaoLogin(request))
+                .isInstanceOf(CustomException.class);
     }
 
     @DisplayName("카카오 회원가입 서비스 테스트")
     @Test
-    void kakaoSingUpSuccess() throws Exception {
+    void kakaoSingUpSuccess() {
         // given
         SignUpRequest request = signUpRequest();
         User requestUser = request.toEntity();
+
         when(userService.makeNewUser(any(SignUpRequest.class))).thenReturn(requestUser);
         doNothing().when(kakaoAuthService).makeNewKakaoUser(any(), any(User.class));
 
@@ -54,29 +76,14 @@ class AuthServiceTest {
         User newUser = authService.kakaoSignUp(request);
 
         // then
-        assertThat(newUser.getUserId()).isEqualTo(requestUser.getUserId());
+        assertThat(newUser).isEqualTo(requestUser);
     }
 
     private LoginRequest loginRequest() {
-        return new LoginRequest("KAKAO CODE");
+        return new LoginRequest("CODE");
     }
 
     private SignUpRequest signUpRequest() {
-        return new SignUpRequest("라이언", true, "KAKAO CODE");
-    }
-
-    private KakaoAuth kakaoAuth() {
-        return KakaoAuth.builder()
-                .kakaoId(12345678L)
-                .user(user())
-                .build();
-    }
-
-    private User user() {
-        return User.builder()
-                .userId(1L)
-                .userName("라이언")
-                .isAdmin(true)
-                .build();
+        return new SignUpRequest("라이언", true, "CODE");
     }
 }
