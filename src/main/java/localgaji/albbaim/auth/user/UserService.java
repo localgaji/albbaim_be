@@ -2,7 +2,7 @@ package localgaji.albbaim.auth.user;
 
 import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.__core__.exception.ErrorType;
-import localgaji.albbaim.auth.authDTO.RequestAuth;
+import localgaji.albbaim.auth.authDTO.RequestAuth.SignUpRequest;
 import localgaji.albbaim.workplace.Workplace;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     // 유저 추가
-    public User makeNewUser(RequestAuth.SignUpRequest signUpRequest) {
+    public User makeNewUser(SignUpRequest signUpRequest) {
         log.debug("유저 저장 시작");
 
         User newUser = signUpRequest.toEntity();

@@ -6,11 +6,12 @@ import localgaji.albbaim.auth.user.UserService;
 import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuth;
 import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuthService;
 import localgaji.albbaim.__core__.auth.TokenProvider;
-import localgaji.albbaim.auth.authDTO.RequestAuth;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static localgaji.albbaim.auth.authDTO.RequestAuth.*;
 
 @Slf4j @Service
 @RequiredArgsConstructor
@@ -21,13 +22,13 @@ public class AuthService {
     private final TokenProvider tokenProvider;
 
     @Transactional(noRollbackFor = CustomException.class)
-    public User kakaoLogin(RequestAuth.LoginRequest requestBody) {
+    public User kakaoLogin(LoginRequest requestBody) {
         KakaoAuth kakaoAuth = kakaoAuthService.findKakaoAuthByCode(requestBody.code());
         return kakaoAuth.getUser();
     }
 
     @Transactional
-    public User kakaoSignUp(RequestAuth.SignUpRequest requestBody) {
+    public User kakaoSignUp(SignUpRequest requestBody) {
         User newUser = userService.makeNewUser(requestBody);
         kakaoAuthService.makeNewKakaoUser(requestBody.code(), newUser);
         return newUser;
