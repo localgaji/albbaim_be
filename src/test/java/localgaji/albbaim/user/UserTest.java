@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static localgaji.albbaim.utils.Samples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class UserTest {
@@ -51,23 +52,5 @@ class UserTest {
 
         // then
         assertThat(user.getProfileImg()).isEqualTo(profileImg);
-    }
-
-    private User someUser() {
-        return User.builder()
-                .userId(1L)
-                .userName("라이언")
-                .isAdmin(true)
-                .build();
-    }
-
-    private Workplace someWorkplace() {
-        return Workplace.builder()
-                .workplaceId(1L)
-                .marketName("라이언 월드")
-                .marketNumber("1111111111")
-                .mainAddress("서울시 성동구 성수대로")
-                .detailAddress("1번지")
-                .build();
     }
 }
