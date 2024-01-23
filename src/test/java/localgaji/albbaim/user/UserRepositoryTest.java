@@ -2,16 +2,12 @@ package localgaji.albbaim.user;
 
 import localgaji.albbaim.auth.user.User;
 import localgaji.albbaim.auth.user.UserRepository;
-import localgaji.albbaim.utils.Samples;
 import localgaji.albbaim.workplace.Workplace;
 import localgaji.albbaim.workplace.WorkplaceRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import java.util.List;
-import java.util.Optional;
 
 import static localgaji.albbaim.utils.Samples.someUser;
 import static localgaji.albbaim.utils.Samples.someWorkplace;
@@ -37,14 +33,11 @@ class UserRepositoryTest {
         userRepository.save(user1);
         userRepository.save(user2);
 
-        user1.updateGroup(workplace);
-        user2.updateGroup(workplace);
+        user1.updateWorkplace(workplace);
+        user2.updateWorkplace(workplace);
 
-        // when
-        Optional<List<User>> opt = userRepository.findByWorkplace(workplace);
-
-        // then
-        assertThat(opt.get().size()).isEqualTo(2);
+        // when, then
+        assertThat(user1.getWorkplace().getUserList().size()).isEqualTo(2);
     }
 
 }
