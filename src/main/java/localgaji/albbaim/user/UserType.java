@@ -1,4 +1,4 @@
-package localgaji.albbaim.auth.user;
+package localgaji.albbaim.user;
 
 public enum UserType {
     ADMIN,

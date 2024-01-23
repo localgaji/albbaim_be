@@ -5,7 +5,7 @@ import localgaji.albbaim.__core__.exception.ErrorType;
 import localgaji.albbaim.__core__.exception.GlobalErrorHandler;
 import localgaji.albbaim.auth.authDTO.RequestAuth.LoginRequest;
 import localgaji.albbaim.auth.authDTO.RequestAuth.SignUpRequest;
-import localgaji.albbaim.auth.user.User;
+import localgaji.albbaim.user.User;
 import localgaji.albbaim.utils.JsonRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

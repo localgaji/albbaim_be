@@ -1,4 +1,4 @@
-package localgaji.albbaim.auth.user;
+package localgaji.albbaim.user;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.annotation.Nullable;
@@ -11,7 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity @Table(name = "userTable") @Hidden
+@Entity @Table(name = "user_table") @Hidden
 @Getter @Builder @AllArgsConstructor @NoArgsConstructor
 public class User extends BaseTime {
     @Id
@@ -31,8 +31,9 @@ public class User extends BaseTime {
     @Nullable
     private String profileImg;
 
-    public void updateGroup(Workplace workplace) {
+    public void updateWorkplace(Workplace workplace) {
         this.workplace = workplace;
+        workplace.getUserList().add(this);
     }
 
     public void updateProfileImg(String profileImg) {

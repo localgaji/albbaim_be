@@ -1,22 +1,14 @@
 package localgaji.albbaim.workplace;
 
-import localgaji.albbaim.__core__.exception.CustomException;
-import localgaji.albbaim.__core__.exception.ErrorType;
-import localgaji.albbaim.auth.user.User;
-import localgaji.albbaim.auth.user.UserService;
+import localgaji.albbaim.user.User;
 import localgaji.albbaim.workplace.invitation.Invitation;
 import localgaji.albbaim.workplace.invitation.InvitationService;
-import localgaji.albbaim.workplace.workplaceDTO.ResponseWorkplace;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static localgaji.albbaim.utils.Samples.*;
 import static localgaji.albbaim.workplace.workplaceDTO.ResponseWorkplace.*;
@@ -29,8 +21,6 @@ class WorkplaceServiceTest {
     @InjectMocks
     private WorkplaceService workplaceService;
     @Mock
-    private UserService userService;
-    @Mock
     private InvitationService invitationService;
 
     @DisplayName("내 매장 정보 조회")
@@ -40,11 +30,8 @@ class WorkplaceServiceTest {
         User user1 = someUser();
         User user2 = someUser();
         Workplace workplace = someWorkplace();
-        user1.updateGroup(workplace);
-        user2.updateGroup(workplace);
-        List<User> userList = new ArrayList<>(Arrays.asList(user1, user2));
-
-        when(userService.findUsersByWorkplace(workplace)).thenReturn(userList);
+        user1.updateWorkplace(workplace);
+        user2.updateWorkplace(workplace);
 
         // when
         GetMyWorkplaceResponse response = workplaceService.findGroupInfo(user1);
@@ -76,7 +63,7 @@ class WorkplaceServiceTest {
         Workplace workplace = someWorkplace();
         Invitation invitation = someInvitation(workplace);
         User user = someUser();
-        user.updateGroup(workplace);
+        user.updateWorkplace(workplace);
 
         when(invitationService.issueMyWorkplaceInvitation(any(Workplace.class)))
                 .thenReturn(invitation);
@@ -87,4 +74,5 @@ class WorkplaceServiceTest {
         // then
         assertThat(response.invitationKey()).isEqualTo(invitation.getInvitationKey());
     }
+
 }

@@ -1,7 +1,5 @@
 package localgaji.albbaim.user;
 
-import localgaji.albbaim.auth.user.User;
-import localgaji.albbaim.auth.user.UserType;
 import localgaji.albbaim.workplace.Workplace;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,11 +20,12 @@ class UserTest {
         Workplace workplace = someWorkplace();
 
         // when
-        user.updateGroup(workplace);
+        user.updateWorkplace(workplace);
 
         // then
         assertThat(user.getWorkplace()).isEqualTo(workplace);
         assertThat(user.getUserType()).isEqualTo(UserType.ADMIN);
+        assertThat(user.getWorkplace().getUserList().size()).isEqualTo(1);
     }
 
     @DisplayName("유저에 매장 정보 없음")

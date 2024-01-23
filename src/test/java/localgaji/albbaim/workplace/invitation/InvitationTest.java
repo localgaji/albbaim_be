@@ -9,6 +9,15 @@ import static localgaji.albbaim.utils.Samples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class InvitationTest {
+    @DisplayName("만료기간 기본값")
+    @Test
+    void duration() {
+        // given
+        Invitation invitation = someInvitation(someWorkplace());
+
+        // then
+        assertThat(invitation.getDurationHours()).isEqualTo(720);
+    }
 
     @DisplayName("초대장 만료 (안됨)")
     @Test
