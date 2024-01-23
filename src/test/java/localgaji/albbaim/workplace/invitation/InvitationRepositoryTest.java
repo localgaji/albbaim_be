@@ -32,7 +32,7 @@ class InvitationRepositoryTest {
         Optional<Invitation> opt = invitationRepository.findByInvitationKey(invitation.getInvitationKey());
 
         // then
-        assertThat(opt.get()).isEqualTo(invitation);
+        assertThat(opt.orElseThrow()).isEqualTo(invitation);
     }
 
     @DisplayName("초대키로 초대장 조회 실패")
@@ -61,7 +61,7 @@ class InvitationRepositoryTest {
         Optional<Invitation> opt = invitationRepository.findByWorkplace(workplace);
 
         // then
-        assertThat(opt.get()).isEqualTo(invitation);
+        assertThat(opt.orElseThrow()).isEqualTo(invitation);
     }
 
     @DisplayName("만료기간 기본값")
@@ -77,6 +77,6 @@ class InvitationRepositoryTest {
         Optional<Invitation> foundInvitation = invitationRepository.findById(invitation.getInvitationId());
 
         // then
-        assertThat(foundInvitation.get().getDurationHours()).isEqualTo(720);
+        assertThat(foundInvitation.orElseThrow().getDurationHours()).isEqualTo(720);
     }
 }
