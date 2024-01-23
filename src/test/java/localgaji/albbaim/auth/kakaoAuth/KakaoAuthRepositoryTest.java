@@ -2,8 +2,8 @@ package localgaji.albbaim.auth.kakaoAuth;
 
 import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuth;
 import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuthRepository;
-import localgaji.albbaim.auth.user.User;
-import localgaji.albbaim.auth.user.UserRepository;
+import localgaji.albbaim.user.User;
+import localgaji.albbaim.user.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -2,7 +2,7 @@ package localgaji.albbaim.workplace;
 
 import localgaji.albbaim.__core__.ApiUtil;
 import localgaji.albbaim.__core__.auth.AuthUser;
-import localgaji.albbaim.auth.user.User;
+import localgaji.albbaim.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

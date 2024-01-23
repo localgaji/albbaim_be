@@ -2,8 +2,6 @@ package localgaji.albbaim.user;
 
 import localgaji.albbaim.__core__.auth.AuthUserArgumentResolver;
 import localgaji.albbaim.__core__.exception.GlobalErrorHandler;
-import localgaji.albbaim.auth.user.User;
-import localgaji.albbaim.auth.user.UserController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

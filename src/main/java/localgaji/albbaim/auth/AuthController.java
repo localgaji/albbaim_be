@@ -1,7 +1,7 @@
 package localgaji.albbaim.auth;
 
 import localgaji.albbaim.__core__.ApiUtil;
-import localgaji.albbaim.auth.user.User;
+import localgaji.albbaim.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

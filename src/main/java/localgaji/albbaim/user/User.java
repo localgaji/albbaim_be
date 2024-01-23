@@ -1,4 +1,4 @@
-package localgaji.albbaim.auth.user;
+package localgaji.albbaim.user;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.annotation.Nullable;

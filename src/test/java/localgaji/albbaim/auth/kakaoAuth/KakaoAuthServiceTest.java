@@ -7,7 +7,7 @@ import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuthService;
 import localgaji.albbaim.auth.oauth.kakaoAuth.fetch.KakaoAPIFetcher;
 import localgaji.albbaim.auth.oauth.kakaoAuth.kakaoIdCache.KakaoIdCache;
 import localgaji.albbaim.auth.oauth.kakaoAuth.kakaoIdCache.KakaoIdCacheService;
-import localgaji.albbaim.auth.user.User;
+import localgaji.albbaim.user.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

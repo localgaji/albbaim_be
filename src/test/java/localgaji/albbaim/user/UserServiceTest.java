@@ -1,9 +1,6 @@
 package localgaji.albbaim.user;
 
 import localgaji.albbaim.auth.authDTO.RequestAuth.SignUpRequest;
-import localgaji.albbaim.auth.user.User;
-import localgaji.albbaim.auth.user.UserRepository;
-import localgaji.albbaim.auth.user.UserService;
 import localgaji.albbaim.workplace.Workplace;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

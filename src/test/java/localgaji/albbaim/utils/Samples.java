@@ -2,7 +2,7 @@ package localgaji.albbaim.utils;
 
 import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuth;
 import localgaji.albbaim.auth.oauth.kakaoAuth.kakaoIdCache.KakaoIdCache;
-import localgaji.albbaim.auth.user.User;
+import localgaji.albbaim.user.User;
 import localgaji.albbaim.workplace.Workplace;
 import localgaji.albbaim.workplace.invitation.Invitation;
 

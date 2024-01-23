@@ -1,6 +1,6 @@
 package localgaji.albbaim.auth.authDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
-import localgaji.albbaim.auth.user.User;
+import localgaji.albbaim.user.User;
 
 public class RequestAuth {
     @Schema(description = "카카오 로그인")

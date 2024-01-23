@@ -1,4 +1,4 @@
-package localgaji.albbaim.auth.user;
+package localgaji.albbaim.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

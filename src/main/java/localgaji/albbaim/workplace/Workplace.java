@@ -2,7 +2,7 @@ package localgaji.albbaim.workplace;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import localgaji.albbaim.auth.user.User;
+import localgaji.albbaim.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

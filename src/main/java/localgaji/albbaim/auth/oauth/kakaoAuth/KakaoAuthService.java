@@ -5,7 +5,7 @@ import localgaji.albbaim.__core__.exception.ErrorType;
 import localgaji.albbaim.auth.oauth.kakaoAuth.kakaoIdCache.KakaoIdCache;
 import localgaji.albbaim.auth.oauth.kakaoAuth.kakaoIdCache.KakaoIdCacheService;
 import localgaji.albbaim.auth.oauth.kakaoAuth.fetch.KakaoAPIFetcher;
-import localgaji.albbaim.auth.user.User;
+import localgaji.albbaim.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

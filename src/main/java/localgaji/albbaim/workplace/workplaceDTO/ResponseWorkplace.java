@@ -1,6 +1,6 @@
 package localgaji.albbaim.workplace.workplaceDTO;
 
-import localgaji.albbaim.auth.user.User;
+import localgaji.albbaim.user.User;
 import localgaji.albbaim.workplace.Workplace;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

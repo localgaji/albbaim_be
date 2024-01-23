@@ -1,4 +1,4 @@
-package localgaji.albbaim.auth.user;
+package localgaji.albbaim.user;
 
 import localgaji.albbaim.auth.authDTO.RequestAuth.SignUpRequest;
 import localgaji.albbaim.workplace.Workplace;

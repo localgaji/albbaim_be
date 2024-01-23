@@ -1,8 +1,8 @@
 package localgaji.albbaim.auth;
 
 import localgaji.albbaim.__core__.exception.CustomException;
-import localgaji.albbaim.auth.user.User;
-import localgaji.albbaim.auth.user.UserService;
+import localgaji.albbaim.user.User;
+import localgaji.albbaim.user.UserService;
 import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuth;
 import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuthService;
 import localgaji.albbaim.__core__.auth.TokenProvider;

@@ -1,7 +1,5 @@
 package localgaji.albbaim.user;
 
-import localgaji.albbaim.auth.user.User;
-import localgaji.albbaim.auth.user.UserType;
 import localgaji.albbaim.workplace.Workplace;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

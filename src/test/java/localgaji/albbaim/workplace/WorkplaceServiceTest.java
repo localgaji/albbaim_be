@@ -1,7 +1,6 @@
 package localgaji.albbaim.workplace;
 
-import localgaji.albbaim.auth.user.User;
-import localgaji.albbaim.auth.user.UserService;
+import localgaji.albbaim.user.User;
 import localgaji.albbaim.workplace.invitation.Invitation;
 import localgaji.albbaim.workplace.invitation.InvitationService;
 import org.junit.jupiter.api.DisplayName;
@@ -21,8 +20,6 @@ import static org.mockito.Mockito.when;
 class WorkplaceServiceTest {
     @InjectMocks
     private WorkplaceService workplaceService;
-    @Mock
-    private UserService userService;
     @Mock
     private InvitationService invitationService;
 
