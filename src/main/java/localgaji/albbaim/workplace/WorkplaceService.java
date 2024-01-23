@@ -55,11 +55,10 @@ public class WorkplaceService {
                 .orElseThrow(() -> new CustomException(ErrorType.GROUP_NOT_FOUND));
         // 해당 매장 엔티티 가공
         String groupName = workplace.getMarketName();
-        List<UserListDTO> members =
-                userService.findUsersByWorkplace(workplace)
+        List<UserListDTO> members = workplace.getUserList()
                     .stream()
-                    .map(UserListDTO::new)
-                    .collect(Collectors.toList());
+                .map(UserListDTO::new)
+                .collect(Collectors.toList());
         return GetMyWorkplaceResponse.builder()
                 .groupName(groupName)
                 .members(members)
