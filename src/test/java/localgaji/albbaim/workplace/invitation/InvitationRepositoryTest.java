@@ -63,4 +63,20 @@ class InvitationRepositoryTest {
         // then
         assertThat(opt.get()).isEqualTo(invitation);
     }
+
+    @DisplayName("만료기간 기본값")
+    @Test
+    void duration() {
+        // given
+        Workplace workplace = someWorkplace();
+        workplaceRepository.save(workplace);
+        Invitation invitation = someInvitation(workplace);
+        invitationRepository.save(invitation);
+
+        // when
+        Optional<Invitation> foundInvitation = invitationRepository.findById(invitation.getInvitationId());
+
+        // then
+        assertThat(foundInvitation.get().getDurationHours()).isEqualTo(720);
+    }
 }
