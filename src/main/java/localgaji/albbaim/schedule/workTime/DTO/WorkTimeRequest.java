@@ -1,6 +1,7 @@
 package localgaji.albbaim.schedule.workTime.DTO;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import localgaji.albbaim.schedule.__commonDTO__.WorkTimeDTO;
 import localgaji.albbaim.schedule.date.Date;
 import localgaji.albbaim.schedule.week.Week;
 import localgaji.albbaim.schedule.workTime.WorkTime;
@@ -13,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Request {
+public class WorkTimeRequest {
     @Schema(description = "매니저 스케줄 모집 시작 : 정보 저장")
     public record PostOpenRequest(
             @Schema(description = "주 시작 날짜")
