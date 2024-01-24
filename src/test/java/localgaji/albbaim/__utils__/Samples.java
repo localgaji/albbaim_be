@@ -1,4 +1,4 @@
-package localgaji.albbaim.utils;
+package localgaji.albbaim.__utils__;
 
 import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuth;
 import localgaji.albbaim.auth.oauth.kakaoAuth.kakaoIdCache.KakaoIdCache;

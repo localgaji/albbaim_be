@@ -1,4 +1,4 @@
-package localgaji.albbaim.utils;
+package localgaji.albbaim.__utils__;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
