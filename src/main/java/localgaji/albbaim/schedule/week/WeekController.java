@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static localgaji.albbaim.__core__.ApiUtil.*;
-import static localgaji.albbaim.schedule.__DTO__.ResponseSchedule.*;
+import static localgaji.albbaim.schedule.week.DTO.WeekResponse.*;
 
 @RestController @RequiredArgsConstructor
 @Tag(name = "주차 정보", description = "주차 정보 조회")
