@@ -3,7 +3,7 @@ package localgaji.albbaim.schedule.workTime;
 import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.__core__.exception.ErrorType;
 import localgaji.albbaim.schedule.week.WeekService;
-import localgaji.albbaim.schedule.workTime.DTO.WorkTimeDTO;
+import localgaji.albbaim.schedule.__commonDTO__.WorkTimeDTO;
 import localgaji.albbaim.schedule.date.Date;
 import localgaji.albbaim.schedule.date.DateRepository;
 import localgaji.albbaim.schedule.week.Week;
@@ -17,9 +17,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static localgaji.albbaim.schedule.__DTO__.ResponseSchedule.*;
-import static localgaji.albbaim.schedule.workTime.DTO.Request.*;
-import static localgaji.albbaim.schedule.workTime.DTO.Response.*;
+import static localgaji.albbaim.schedule.week.DTO.WeekResponse.*;
+import static localgaji.albbaim.schedule.workTime.DTO.WorkTimeRequest.*;
+import static localgaji.albbaim.schedule.workTime.DTO.WorkTimeResponse.*;
 
 @Service
 @RequiredArgsConstructor

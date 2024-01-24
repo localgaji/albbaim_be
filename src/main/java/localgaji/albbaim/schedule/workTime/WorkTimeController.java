@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static localgaji.albbaim.__core__.ApiUtil.*;
-import static localgaji.albbaim.schedule.workTime.DTO.Request.*;
-import static localgaji.albbaim.schedule.workTime.DTO.Response.*;
+import static localgaji.albbaim.schedule.workTime.DTO.WorkTimeRequest.*;
+import static localgaji.albbaim.schedule.workTime.DTO.WorkTimeResponse.*;
 
 @RestController @RequiredArgsConstructor
 @Tag(name = "스케줄 모집 : 근무 시간", description = "근무 시간 조회 / 수정")
