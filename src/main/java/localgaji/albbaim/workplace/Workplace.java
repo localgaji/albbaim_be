@@ -2,6 +2,7 @@ package localgaji.albbaim.workplace;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import localgaji.albbaim.schedule.week.Week;
 import localgaji.albbaim.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,4 +34,8 @@ public class Workplace {
     @OneToMany(mappedBy = "workplace")
     @Builder.Default @NotNull
     private List<User> userList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "workplace")
+    @Builder.Default @NotNull
+    private List<Week> weekList = new ArrayList<>();
 }
