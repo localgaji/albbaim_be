@@ -2,6 +2,7 @@ package localgaji.albbaim.schedule.workTime;
 
 import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.__core__.exception.ErrorType;
+import localgaji.albbaim.schedule.week.WeekService;
 import localgaji.albbaim.schedule.workTime.DTO.WorkTimeDTO;
 import localgaji.albbaim.schedule.date.Date;
 import localgaji.albbaim.schedule.date.DateRepository;
@@ -16,6 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static localgaji.albbaim.schedule.__DTO__.ResponseSchedule.*;
 import static localgaji.albbaim.schedule.workTime.DTO.Request.*;
 import static localgaji.albbaim.schedule.workTime.DTO.Response.*;
 
@@ -26,10 +28,16 @@ public class WorkTimeService {
     private final WeekRepository weekRepository;
     private final DateRepository dateRepository;
     private final WorkTimeRepository workTimeRepository;
+    private final WeekService weekService;
 
     // 시간대 정보 저장
     @Transactional
     public void saveWorkTimes(User user, PostOpenRequest request) {
+        // 이미 모집 시작된 주일 때 예외 처리
+        WeekStatusType status = weekService.findWeekStatus(user, request.startWeekDate());
+        if (!status.equals(WeekStatusType.ALLOCATABLE)) {
+            throw new CustomException(ErrorType.ALREADY_HAVE);
+        }
         // 주 정보 저장
         Week week = request.toWeekEntity(user.getWorkplace());
         week.addWeekToWorkplace();
@@ -84,7 +92,7 @@ public class WorkTimeService {
     // (해당 그룹의) 가장 최근 모집했던 주 조회
     private Optional<Week> getLastWeek(User user) {
         List<Week> prevWeeks = Optional.ofNullable(user.getWorkplace())
-                .orElseThrow(() -> new CustomException(ErrorType.GROUP_NOT_FOUND))
+                .orElseThrow(() -> new CustomException(ErrorType.FORBIDDEN))
                 .getWeekList();
         // 모집한 적이 한번도 없을 경우
         if (prevWeeks.isEmpty()) {
