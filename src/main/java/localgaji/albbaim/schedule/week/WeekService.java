@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-import static localgaji.albbaim.schedule.__DTO__.ResponseSchedule.*;
+import static localgaji.albbaim.schedule.week.DTO.WeekResponse.*;
 
 @Service @RequiredArgsConstructor
 public class WeekService {
