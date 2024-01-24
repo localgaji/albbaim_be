@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static localgaji.albbaim.utils.Samples.*;
+import static localgaji.albbaim.__utils__.Samples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class UserTest {

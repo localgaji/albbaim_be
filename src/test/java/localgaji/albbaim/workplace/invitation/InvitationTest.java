@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static localgaji.albbaim.utils.Samples.*;
+import static localgaji.albbaim.__utils__.Samples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class InvitationTest {

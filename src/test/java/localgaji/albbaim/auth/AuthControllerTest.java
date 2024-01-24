@@ -6,7 +6,7 @@ import localgaji.albbaim.__core__.exception.GlobalErrorHandler;
 import localgaji.albbaim.auth.authDTO.RequestAuth.LoginRequest;
 import localgaji.albbaim.auth.authDTO.RequestAuth.SignUpRequest;
 import localgaji.albbaim.user.User;
-import localgaji.albbaim.utils.JsonRequest;
+import localgaji.albbaim.__utils__.JsonRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static localgaji.albbaim.utils.Samples.someUser;
+import static localgaji.albbaim.__utils__.Samples.someUser;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

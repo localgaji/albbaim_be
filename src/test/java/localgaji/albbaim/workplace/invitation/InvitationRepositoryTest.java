@@ -9,7 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Optional;
 
-import static localgaji.albbaim.utils.Samples.*;
+import static localgaji.albbaim.__utils__.Samples.*;
 import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
