@@ -1,4 +1,4 @@
-package localgaji.albbaim.schedule.workTime.DTO;
+package localgaji.albbaim.schedule.__commonDTO__;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
