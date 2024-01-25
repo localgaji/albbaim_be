@@ -31,14 +31,7 @@ public class WorkTime {
     @Column
     private int headcount;
 
-    public void updateTime(String startTime, String endTime) {
-        this.startTime = startTime;
-        this.endTime = endTime;
-    }
     public void addWorkTimeToDate() {
         this.date.getWorkTimeList().add(this);
-    }
-    public void updateHeadcount(int headcount) {
-        this.headcount = headcount;
     }
 }

@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity @Table(name = "date") @Hidden
@@ -26,8 +27,8 @@ public class Date {
     @Column
     private LocalDate localDate;
 
-    @OneToMany(mappedBy = "date")
-    private List<WorkTime> workTimeList;
+    @OneToMany(mappedBy = "date") @Builder.Default
+    private List<WorkTime> workTimeList = new ArrayList<>();
 
     public void addDateToWeek() {
         this.week.getDateList().add(this);

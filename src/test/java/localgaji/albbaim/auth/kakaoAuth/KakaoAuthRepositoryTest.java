@@ -15,8 +15,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static localgaji.albbaim.utils.Samples.someKakaoAuth;
-import static localgaji.albbaim.utils.Samples.someUser;
+import static localgaji.albbaim.__utils__.Samples.someKakaoAuth;
+import static localgaji.albbaim.__utils__.Samples.someUser;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest @ExtendWith(MockitoExtension.class)

@@ -1,11 +1,15 @@
-package localgaji.albbaim.utils;
+package localgaji.albbaim.__utils__;
 
 import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuth;
 import localgaji.albbaim.auth.oauth.kakaoAuth.kakaoIdCache.KakaoIdCache;
+import localgaji.albbaim.schedule.date.Date;
+import localgaji.albbaim.schedule.week.Week;
+import localgaji.albbaim.schedule.workTime.WorkTime;
 import localgaji.albbaim.user.User;
 import localgaji.albbaim.workplace.Workplace;
 import localgaji.albbaim.workplace.invitation.Invitation;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Samples {
@@ -56,4 +60,30 @@ public class Samples {
 
     public static String someCode = "CODE";
     public static Long someKakaoId = 123L;
+
+    public static Week someWeek(Workplace workplace) {
+        return Week.builder()
+                .weekId(1L)
+                .workplace(workplace)
+                .startWeekDate(LocalDate.of(2030,4,1))
+                .build();
+    }
+
+    public static Date someDate(Week week) {
+        return Date.builder()
+                .dateId(1L)
+                .week(week)
+                .localDate(LocalDate.of(2025,4,1))
+                .build();
+    }
+
+    public static WorkTime someWorkTime(Date date) {
+        return WorkTime.builder()
+                .workTimeId(1L)
+                .date(date)
+                .workTimeName("샘플")
+                .startTime("12:00")
+                .endTime("22:00")
+                .build();
+    }
 }
