@@ -31,7 +31,7 @@ public class WorkTimeController {
     @Operation(summary = "매니저 스케줄 모집 시작", description = "스케줄 템플릿 조회")
     public ResponseEntity<Response<GetTemplateResponse>> getTemplate(@AuthUser User user) {
 
-        GetTemplateResponse response = workTimeService.getLastWorkTime(user);
+        GetTemplateResponse response = workTimeService.getLastWorkTimeTemplate(user);
         return ResponseEntity.ok().body(success(response));
     }
 
