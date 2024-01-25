@@ -1,11 +1,11 @@
 package localgaji.albbaim.schedule.__commonDTO__;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-@Getter @Builder @AllArgsConstructor @NoArgsConstructor
+@Getter @AllArgsConstructor @NoArgsConstructor @SuperBuilder
 public class WorkTimeDTO {
     private String title;
     private String startTime;
