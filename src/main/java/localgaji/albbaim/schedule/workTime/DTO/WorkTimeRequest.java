@@ -30,12 +30,10 @@ public class WorkTimeRequest {
         }
 
         public Week toWeekEntity(Workplace workplace) {
-            Week week = Week.builder()
+            return Week.builder()
                     .workplace(workplace)
                     .startWeekDate(LocalDate.parse(this.startWeekDate, DateTimeFormatter.ISO_DATE))
                     .build();
-            week.addWeekToWorkplace();
-            return week;
         }
         public List<Date> toDateEntities(Week week) {
             List<Date> dateList = new ArrayList<>();
