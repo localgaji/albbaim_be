@@ -7,6 +7,7 @@ import localgaji.albbaim.schedule.week.Week;
 import localgaji.albbaim.schedule.workTime.WorkTime;
 import localgaji.albbaim.workplace.Workplace;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -23,9 +24,9 @@ public class WorkTimeRequest {
             List<List<WorkTimeHeadDTO>> template
     ) {
 
-        @Getter
-        private static class WorkTimeHeadDTO extends WorkTimeDTO {
-            private Integer headCount;
+        @Getter @SuperBuilder
+        public static class WorkTimeHeadDTO extends WorkTimeDTO {
+            private final Integer headCount;
         }
 
         public Week toWeekEntity(Workplace workplace) {
