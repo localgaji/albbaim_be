@@ -2,13 +2,13 @@ package localgaji.albbaim.schedule.workTime;
 
 import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.__core__.exception.ErrorType;
+import localgaji.albbaim.schedule.date.DateService;
 import localgaji.albbaim.schedule.week.WeekService;
 import localgaji.albbaim.schedule.__commonDTO__.WorkTimeDTO;
 import localgaji.albbaim.schedule.date.Date;
-import localgaji.albbaim.schedule.date.DateRepository;
 import localgaji.albbaim.schedule.week.Week;
-import localgaji.albbaim.schedule.week.WeekRepository;
 import localgaji.albbaim.user.User;
+import localgaji.albbaim.workplace.Workplace;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,9 +25,8 @@ import static localgaji.albbaim.schedule.workTime.DTO.WorkTimeResponse.*;
 @RequiredArgsConstructor
 public class WorkTimeService {
 
-    private final WeekRepository weekRepository;
-    private final DateRepository dateRepository;
     private final WorkTimeRepository workTimeRepository;
+    private final DateService dateService;
     private final WeekService weekService;
 
     // 시간대 정보 저장
@@ -40,28 +39,25 @@ public class WorkTimeService {
         }
         // 주 정보 저장
         Week week = request.toWeekEntity(user.getWorkplace());
-        week.addWeekToWorkplace();
-        weekRepository.save(week);
+        weekService.createNewWeek(week);
 
         List<Date> dateList = request.toDateEntities(week);
         for (Date date : dateList) {
             // 일 정보 저장
-            dateRepository.save(date);
-            date.addDateToWeek();
+            dateService.createNewDate(date);
 
             List<WorkTime> workTimeList = request.toWorkTimeEntities(date);
             for (WorkTime workTime : workTimeList) {
                 // 시간대 정보 저장
-                workTime.addWorkTimeToDate();
-                workTimeRepository.save(workTime);
+                createNewWorkTime(workTime);
             }
         }
     }
 
     // 가장 최근 모집했던 시간대 템플릿 가져오기
-    public GetTemplateResponse getLastWorkTime(User user) {
+    public GetTemplateResponse getLastWorkTimeTemplate(User user) {
         // 최근 모집했던 주
-        Optional<Week> lastWeek = getLastWeek(user);
+        Optional<Week> lastWeek = weekService.getLastWeek(user);
 
         // 없으면 디폴트 시간대 템플릿
         if (lastWeek.isEmpty()) {
@@ -79,27 +75,27 @@ public class WorkTimeService {
         return new GetTemplateResponse(template);
     }
 
+    // work time 엔티티 저장
+    @Transactional
+    private void createNewWorkTime(WorkTime workTime) {
+        workTime.addWorkTimeToDate();
+        workTimeRepository.save(workTime);
+    }
+
+    // 기본 WorkTime
     private final WorkTimeDTO defaultTime = WorkTimeDTO.builder()
             .title("오픈")
             .startTime("09:00")
             .endTime("12:00")
             .build();
+
+    // 기본 weekly worktime template
     private final List<List<WorkTimeDTO>> defaultTemplate = Stream.generate(() ->
                     new ArrayList<>(Collections.singletonList(defaultTime)))
             .limit(7)
             .collect(Collectors.toList());
 
-    // (해당 그룹의) 가장 최근 모집했던 주 조회
-    private Optional<Week> getLastWeek(User user) {
-        List<Week> prevWeeks = Optional.ofNullable(user.getWorkplace())
-                .orElseThrow(() -> new CustomException(ErrorType.FORBIDDEN))
-                .getWeekList();
-        // 모집한 적이 한번도 없을 경우
-        if (prevWeeks.isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(prevWeeks.get(prevWeeks.size() - 1));
-    }
+
     private WorkTimeDTO entityToDTO(WorkTime workTime) {
         return WorkTimeDTO.builder()
                 .title(workTime.getWorkTimeName())
