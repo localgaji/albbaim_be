@@ -7,6 +7,7 @@ import localgaji.albbaim.schedule.workTime.WorkTime;
 import localgaji.albbaim.workplace.Workplace;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class WorkTimeRequest {
             @Schema(description = "주 시작 날짜")
             String startWeekDate,
             @Schema(description = "해당 주차의 근무 시간대 정보")
-            List<List<WorkTimeHeadDTO>> template
+            List<List<WorkTimeHeadCountDTO>> template
     ) {
 
         public Week toWeekEntity(Workplace workplace) {
@@ -41,11 +42,11 @@ public class WorkTimeRequest {
         }
 
         public List<WorkTime> toWorkTimeEntities(Date date) {
-            List<WorkTimeHeadDTO> workTimeDTOList = template.get(
+            List<WorkTimeHeadCountDTO> workTimeDTOList = template.get(
                     Period.between(LocalDate.parse(this.startWeekDate, DateTimeFormatter.ISO_DATE),
                             date.getLocalDate()).getDays());
             List<WorkTime> workTimes = new ArrayList<>();
-            for (WorkTimeHeadDTO dto : workTimeDTOList) {
+            for (WorkTimeHeadCountDTO dto : workTimeDTOList) {
                 WorkTime workTime = WorkTime.builder()
                         .date(date)
                         .workTimeName(dto.getTitle())
