@@ -7,15 +7,11 @@ public enum ErrorType {
 
     ETC_ERROR(400, -10001, "기타 에러"),
 
-    FORBIDDEN(403, -10001, "권한 없음"),
-
-    OAUTH_FAIL(401, -10001, "oauth 인증 실패"),
+    OAUTH_FAIL(401, -10007, "oauth 인증 실패"),
     INVALID_TOKEN(401, -21000, "유효하지 않은 토큰"),
-    EXPIRED_TOKEN(401, -21000, "만료된 토큰"),
+    FORBIDDEN(403, -21001, "권한 없음"),
 
     INVALID_INVITATION(404, -20004, "유효하지 않은 초대장"),
-
-    GROUP_NOT_FOUND(404, -10001, "매장 정보 없음"),
     MEMBER_NOT_FOUND(404, -10006, "유저 정보 없음"),
     NOT_FOUND(404, -11001, "없음"),
 
