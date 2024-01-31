@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 
 @Entity @Table(name = "kakao_auth")
 @Getter @Builder @NoArgsConstructor @AllArgsConstructor
@@ -19,7 +18,7 @@ public class KakaoAuth {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column @NotNull
+    @Column
     private Long kakaoId;
 
 }
