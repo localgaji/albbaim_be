@@ -13,13 +13,8 @@ public class UserService {
 
     // 유저 추가
     public User makeNewUser(SignUpRequest signUpRequest) {
-        log.debug("유저 저장 시작");
-
         User newUser = signUpRequest.toEntity();
         userRepository.save(newUser);
-
-        log.debug("유저 저장 완료 {}", newUser.getUserId());
-
         return newUser;
     }
 
