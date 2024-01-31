@@ -20,10 +20,10 @@ public class Workplace {
     private Long workplaceId;
 
     @Column
-    private String marketName;
+    private String workplaceName;
 
     @Column
-    private String marketNumber;
+    private String workplaceNumber;
 
     @Column
     private String mainAddress;
