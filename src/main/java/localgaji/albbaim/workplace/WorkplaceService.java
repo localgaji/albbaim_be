@@ -85,7 +85,7 @@ public class WorkplaceService {
         Workplace workplace = Optional.ofNullable(user.getWorkplace())
                 .orElseThrow(() -> new CustomException(ErrorType.FORBIDDEN));
         // 해당 그룹의 초대장 발급
-        Invitation invitation = invitationService.issueMyWorkplaceInvitation(workplace);
+        Invitation invitation = invitationService.getMyWorkplaceInvitation(workplace);
         return new GetInvitationKeyResponse(invitation.getInvitationKey());
     }
 }
