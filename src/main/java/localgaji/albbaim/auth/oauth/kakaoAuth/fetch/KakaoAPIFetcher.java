@@ -1,7 +1,6 @@
 package localgaji.albbaim.auth.oauth.kakaoAuth.fetch;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -14,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import static localgaji.albbaim.auth.oauth.kakaoAuth.fetch.RequestKakaoAPI.*;
 import static localgaji.albbaim.auth.oauth.kakaoAuth.fetch.ResponseKakaoAPI.*;
 
-@Slf4j @Component
+@Component
 public class KakaoAPIFetcher {
     @Value("${kakaoAuth.client_id}")
     private String client_id;
@@ -23,14 +22,8 @@ public class KakaoAPIFetcher {
     private String redirect_uri;
 
     public Long codeToKakaoId(String code) {
-        log.debug("카카오 인가 코드 {}", code);
-
         String token = codeToKakaoToken(code);
-        log.debug("카카오 토큰 {}", token);
-
         String kakaoId = tokenToKakaoId(token);
-        log.debug("카카오 아이디 {}", kakaoId);
-
         return Long.parseLong(kakaoId);
     }
 
@@ -69,6 +62,7 @@ public class KakaoAPIFetcher {
         return sendPostRequest(request, url, GetKakaoIdResponse.class).id();
     }
 
+    // 외부 api에 post 요청 전송
     private <RequestDTO, ResponseDTO> ResponseDTO sendPostRequest(HttpEntity<RequestDTO> request,
                                                                   String requestUrl,
                                                                   Class<ResponseDTO> responseDTO) {

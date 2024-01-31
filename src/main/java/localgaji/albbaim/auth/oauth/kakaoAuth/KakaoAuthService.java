@@ -7,12 +7,11 @@ import localgaji.albbaim.auth.oauth.kakaoAuth.kakaoIdCache.KakaoIdCacheService;
 import localgaji.albbaim.auth.oauth.kakaoAuth.fetch.KakaoAPIFetcher;
 import localgaji.albbaim.user.User;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service @Slf4j @RequiredArgsConstructor
+@Service @RequiredArgsConstructor
 public class KakaoAuthService {
 
     private final KakaoAPIFetcher kakaoAPIFetcher;
@@ -20,17 +19,18 @@ public class KakaoAuthService {
     private final KakaoIdCacheService kakaoIdCacheService;
 
     public void makeNewKakaoUser(String code, User newUser) {
+        // 캐시로 카카오 아이디 찾기
         KakaoIdCache kakaoIdCache = kakaoIdCacheService.findKakaoIdByCode(code);
 
-        log.debug("카카오 정보 객체 생성 시작");
+        // 카카오 정보 객체 생성
         KakaoAuth newKakaoAuth = KakaoAuth.builder()
                 .user(newUser)
                 .kakaoId(kakaoIdCache.getKakaoId())
                 .build();
-
-        log.debug("카카오 정보 저장 시작");
+        // 카카오 정보 객체 저장
         kakaoAuthRepository.save(newKakaoAuth);
 
+        // 캐시 삭제
         kakaoIdCacheService.deleteWaiting(kakaoIdCache);
     }
 
