@@ -11,6 +11,7 @@ import localgaji.albbaim.workplace.invitation.Invitation;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Samples {
     public static User someUser() {
@@ -22,8 +23,8 @@ public class Samples {
     public static Workplace someWorkplace() {
         return Workplace.builder()
                 .workplaceId(1L)
-                .marketName("라이언 월드")
-                .marketNumber("1111111111")
+                .workplaceName("라이언 월드")
+                .workplaceNumber("1111111111")
                 .mainAddress("서울시 성동구 성수대로")
                 .detailAddress("1번지")
                 .build();
