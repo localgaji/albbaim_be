@@ -1,12 +1,13 @@
 package localgaji.albbaim.schedule.workTime;
 
-import localgaji.albbaim.schedule.__commonDTO__.WorkTimeDTO;
 import localgaji.albbaim.schedule.date.Date;
 import localgaji.albbaim.schedule.date.DateService;
 import localgaji.albbaim.schedule.week.DTO.WeekResponse;
 import localgaji.albbaim.schedule.week.Week;
 import localgaji.albbaim.schedule.week.WeekService;
+import localgaji.albbaim.schedule.workTime.DTO.WorkTimeHeadCountDTO;
 import localgaji.albbaim.user.User;
+import localgaji.albbaim.workplace.Workplace;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +26,6 @@ import java.util.stream.Stream;
 
 import static localgaji.albbaim.__utils__.Samples.*;
 import static localgaji.albbaim.schedule.workTime.DTO.WorkTimeRequest.*;
-import static localgaji.albbaim.schedule.workTime.DTO.WorkTimeRequest.PostOpenRequest.*;
 import static localgaji.albbaim.schedule.workTime.DTO.WorkTimeResponse.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -42,12 +43,12 @@ class WorkTimeServiceTest {
     @Mock
     private WeekService weekService;
 
-    private User user;
+    private final User user = someUser();
+    private final Workplace workplace = someWorkplace();
 
     @BeforeEach
     void init() {
-        user = someUser();
-        user.updateWorkplace(someWorkplace());
+        user.updateWorkplace(workplace);
     }
 
     @DisplayName("시간대 정보 저장")
@@ -68,7 +69,6 @@ class WorkTimeServiceTest {
                 () -> verify(weekService).createNewWeek(any(Week.class))
         );
     }
-
     @DisplayName("최근 저장 템플릿 가져오기 : 없을 때")
     @Test
     void getLastWorkTimeNoLast() {
@@ -78,7 +78,7 @@ class WorkTimeServiceTest {
 
         // when
         GetTemplateResponse response = workTimeService.getLastWorkTimeTemplate(user);
-        List<List<WorkTimeDTO>> template = response.template();
+        List<List<WorkTimeHeadCountDTO>> template = response.template();
 
         // then
         assertAll(
@@ -87,8 +87,6 @@ class WorkTimeServiceTest {
                 () -> assertThat(template.get(0).get(0).getTitle()).isEqualTo("오픈")
         );
     }
-
-
     @DisplayName("최근 저장 템플릿 가져오기 : 있을 때")
     @Test
     void getLastWorkTimeHaveLast() {
@@ -107,7 +105,7 @@ class WorkTimeServiceTest {
 
         // when
         GetTemplateResponse response = workTimeService.getLastWorkTimeTemplate(user);
-        List<List<WorkTimeDTO>> template = response.template();
+        List<List<WorkTimeHeadCountDTO>> template = response.template();
 
         // then
         assertAll(
@@ -116,15 +114,27 @@ class WorkTimeServiceTest {
                 () -> assertThat(template.get(0).get(0).getTitle()).isEqualTo("샘플")
         );
     }
+    @DisplayName("dto -> 엔티티 변환")
+    @Test
+    void DTOtoEntity() {
+        // given
+        PostOpenRequest request = postOpenRequest();
+
+        // when
+        Week week = request.toWeekEntity(workplace);
+
+        // then
+        assertThat(week.getStartWeekDate().toString()).isEqualTo(request.startWeekDate());
+    }
     private PostOpenRequest postOpenRequest() {
-        WorkTimeHeadDTO dto = WorkTimeHeadDTO.builder()
+        WorkTimeHeadCountDTO dto = WorkTimeHeadCountDTO.builder()
                 .title("미들")
                 .startTime("09:00")
                 .endTime("12:00")
                 .headCount(10)
                 .build();
 
-        List<List<WorkTimeHeadDTO>> template = Stream.generate(() ->
+        List<List<WorkTimeHeadCountDTO>> template = Stream.generate(() ->
                         new ArrayList<>(Collections.singletonList(dto)))
                 .limit(7)
                 .collect(Collectors.toList());

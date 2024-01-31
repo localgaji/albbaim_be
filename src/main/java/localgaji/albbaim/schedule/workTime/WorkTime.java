@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalTime;
+
 @Entity @Table(name = "workTime") @Hidden
 @Getter @Builder @AllArgsConstructor @NoArgsConstructor
 public class WorkTime {
@@ -23,10 +25,10 @@ public class WorkTime {
     private String workTimeName;
 
     @Column
-    private String startTime;
+    private LocalTime startTime;
 
     @Column
-    private String endTime;
+    private LocalTime endTime;
 
     @Column
     private int headcount;
