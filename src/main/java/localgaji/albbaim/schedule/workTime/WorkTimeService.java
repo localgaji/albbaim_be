@@ -4,9 +4,9 @@ import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.__core__.exception.ErrorType;
 import localgaji.albbaim.schedule.date.DateService;
 import localgaji.albbaim.schedule.week.WeekService;
-import localgaji.albbaim.schedule.__commonDTO__.WorkTimeDTO;
 import localgaji.albbaim.schedule.date.Date;
 import localgaji.albbaim.schedule.week.Week;
+import localgaji.albbaim.schedule.workTime.DTO.WorkTimeHeadCountDTO;
 import localgaji.albbaim.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -65,8 +65,8 @@ public class WorkTimeService {
 
         // 있으면 주에서 일들 다 꺼냄
         List<Date> dailyWorkTimes = lastWeek.get().getDateList();
-        // 일들에서 시간대들 다 꺼냄 -> 시간대엔티티를 WorkTimeDTO 로 변환
-        List<List<WorkTimeDTO>> template = dailyWorkTimes.stream().map(date ->
+        // 일들에서 시간대들 다 꺼냄 -> 시간대엔티티를 WorkTimeHeadCountDTO 로 변환
+        List<List<WorkTimeHeadCountDTO>> template = dailyWorkTimes.stream().map(date ->
                 date.getWorkTimeList().stream().map(
                         this::entityToDTO
                 ).toList()
@@ -82,24 +82,26 @@ public class WorkTimeService {
     }
 
     // 기본 WorkTime
-    private final WorkTimeDTO defaultTime = WorkTimeDTO.builder()
+    private final WorkTimeHeadCountDTO defaultTime = WorkTimeHeadCountDTO.builder()
             .title("오픈")
             .startTime("09:00")
             .endTime("12:00")
+            .headCount(0)
             .build();
 
     // 기본 weekly worktime template
-    private final List<List<WorkTimeDTO>> defaultTemplate = Stream.generate(() ->
+    private final List<List<WorkTimeHeadCountDTO>> defaultTemplate = Stream.generate(() ->
                     new ArrayList<>(Collections.singletonList(defaultTime)))
             .limit(7)
             .collect(Collectors.toList());
 
 
-    private WorkTimeDTO entityToDTO(WorkTime workTime) {
-        return WorkTimeDTO.builder()
+    private WorkTimeHeadCountDTO entityToDTO(WorkTime workTime) {
+        return WorkTimeHeadCountDTO.builder()
                 .title(workTime.getWorkTimeName())
-                .startTime(workTime.getStartTime())
-                .endTime(workTime.getEndTime())
+                .startTime(workTime.getStartTime().toString())
+                .endTime(workTime.getEndTime().toString())
+                .headCount(workTime.getHeadcount())
                 .build();
     }
 }

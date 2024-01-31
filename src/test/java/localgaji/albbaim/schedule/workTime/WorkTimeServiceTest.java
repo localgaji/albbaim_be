@@ -6,6 +6,7 @@ import localgaji.albbaim.schedule.date.DateService;
 import localgaji.albbaim.schedule.week.DTO.WeekResponse;
 import localgaji.albbaim.schedule.week.Week;
 import localgaji.albbaim.schedule.week.WeekService;
+import localgaji.albbaim.schedule.workTime.DTO.WorkTimeHeadCountDTO;
 import localgaji.albbaim.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -78,7 +79,7 @@ class WorkTimeServiceTest {
 
         // when
         GetTemplateResponse response = workTimeService.getLastWorkTimeTemplate(user);
-        List<List<WorkTimeDTO>> template = response.template();
+        List<List<WorkTimeHeadCountDTO>> template = response.template();
 
         // then
         assertAll(
@@ -107,7 +108,7 @@ class WorkTimeServiceTest {
 
         // when
         GetTemplateResponse response = workTimeService.getLastWorkTimeTemplate(user);
-        List<List<WorkTimeDTO>> template = response.template();
+        List<List<WorkTimeHeadCountDTO>> template = response.template();
 
         // then
         assertAll(
@@ -117,14 +118,14 @@ class WorkTimeServiceTest {
         );
     }
     private PostOpenRequest postOpenRequest() {
-        WorkTimeHeadDTO dto = WorkTimeHeadDTO.builder()
+        WorkTimeHeadCountDTO dto = WorkTimeHeadCountDTO.builder()
                 .title("미들")
                 .startTime("09:00")
                 .endTime("12:00")
                 .headCount(10)
                 .build();
 
-        List<List<WorkTimeHeadDTO>> template = Stream.generate(() ->
+        List<List<WorkTimeHeadCountDTO>> template = Stream.generate(() ->
                         new ArrayList<>(Collections.singletonList(dto)))
                 .limit(7)
                 .collect(Collectors.toList());
