@@ -64,7 +64,7 @@ public class WorkplaceService {
                 .map(UserListDTO::new)
                 .collect(Collectors.toList());
         return GetMyWorkplaceResponse.builder()
-                .groupName(groupName)
+                .workplaceName(workplace.getWorkplaceName())
                 .members(members)
                 .build();
     }
