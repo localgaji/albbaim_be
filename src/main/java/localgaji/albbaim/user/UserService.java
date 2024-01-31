@@ -1,7 +1,6 @@
 package localgaji.albbaim.user;
 
 import localgaji.albbaim.auth.authDTO.RequestAuth.SignUpRequest;
-import localgaji.albbaim.workplace.Workplace;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,15 +15,5 @@ public class UserService {
         User newUser = signUpRequest.toEntity();
         userRepository.save(newUser);
         return newUser;
-    }
-
-    // 유저에 매장 추가
-    public void addWorkplace(User user, Workplace workplace) {
-        log.debug("그룹 업데이트 시작");
-
-        user.updateWorkplace(workplace);
-        userRepository.save(user);
-
-        log.debug("그룹 업데이트 완료");
     }
 }
