@@ -13,11 +13,11 @@ public class GlobalErrorHandler {
     public static ResponseEntity<ApiUtil.Response<String>> handleCustomException(CustomException exception) {
         ErrorType errorType = exception.getErrorType();
 
-        log.debug("에러 {}", errorType.getInternalCode());
+        log.error("에러 {}", errorType.getInternalCode());
 
         HttpStatus httpStatus = HttpStatus.valueOf(errorType.getStatusCode());
 
-        log.debug("에러 {}", httpStatus);
+        log.error("에러 {}", httpStatus);
 
         return new ResponseEntity<>(ApiUtil.fail(errorType.getInternalCode()), httpStatus);
     }
