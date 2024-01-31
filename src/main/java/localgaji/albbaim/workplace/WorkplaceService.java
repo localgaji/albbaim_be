@@ -30,6 +30,10 @@ public class WorkplaceService {
     // 매장 생성
     @Transactional
     public void addNewWorkplace(User user, PostAddGroupRequest requestBody) {
+        // 이미 매장 있을때 : 예외 처리
+        if (user.getWorkplace() != null) {
+            throw new CustomException(ErrorType.ALREADY_HAVE);
+        }
         // 요청 정보로 매장 엔티티 생성
         Workplace newWorkplace = requestBody.toEntity();
         // 매장 엔티티 저장
@@ -40,8 +44,11 @@ public class WorkplaceService {
 
     // 매장에 유저 가입 (초대 페이지 승인하기)
     @Transactional
-    public void joinWorkplace(User user, PostJoinGroupRequest requestBody) {
-        String invitationKey = requestBody.invitationKey();
+    public void joinWorkplace(User user, String invitationKey) {
+        // 이미 매장 있을때 : 예외 처리
+        if (user.getWorkplace() != null) {
+            throw new CustomException(ErrorType.ALREADY_HAVE);
+        }
         // 초대키로 초대장 조회
         Invitation invitation = invitationService.readInvitation(invitationKey);
         // 초대장으로 매장 조회 -> 유저 엔티티에 매장 정보 업데이트
