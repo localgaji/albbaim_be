@@ -37,10 +37,12 @@ class KakaoAuthRepositoryTest {
         kakaoAuthRepository.save(kakaoAuth);
 
         // when
-        Optional<KakaoAuth> opt = kakaoAuthRepository.findByKakaoId(123L);
+        Optional<KakaoAuth> opt = kakaoAuthRepository.findByKakaoId(kakaoAuth.getKakaoId());
 
         // then
-        assertThat(opt.get().getKakaoId()).isEqualTo(123L);
+        assertThat(opt)
+                .isPresent()
+                .contains(kakaoAuth);
     }
 
     @DisplayName("조회 실패")
