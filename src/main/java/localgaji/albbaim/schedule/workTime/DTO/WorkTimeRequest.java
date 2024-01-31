@@ -1,13 +1,10 @@
 package localgaji.albbaim.schedule.workTime.DTO;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import localgaji.albbaim.schedule.__commonDTO__.WorkTimeDTO;
 import localgaji.albbaim.schedule.date.Date;
 import localgaji.albbaim.schedule.week.Week;
 import localgaji.albbaim.schedule.workTime.WorkTime;
 import localgaji.albbaim.workplace.Workplace;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -23,11 +20,6 @@ public class WorkTimeRequest {
             @Schema(description = "해당 주차의 근무 시간대 정보")
             List<List<WorkTimeHeadDTO>> template
     ) {
-
-        @Getter @SuperBuilder
-        public static class WorkTimeHeadDTO extends WorkTimeDTO {
-            private final Integer headCount;
-        }
 
         public Week toWeekEntity(Workplace workplace) {
             return Week.builder()
