@@ -52,9 +52,8 @@ public class WorkplaceService {
     public GetMyWorkplaceResponse findGroupInfo(User user)  {
         // 유저가 소속된 매장 엔티티 조회
         Workplace workplace = Optional.ofNullable(user.getWorkplace())
-                .orElseThrow(() -> new CustomException(ErrorType.GROUP_NOT_FOUND));
-        // 해당 매장 엔티티 가공
-        String groupName = workplace.getMarketName();
+                .orElseThrow(() -> new CustomException(ErrorType.FORBIDDEN));
+        // 해당 매장의 직원 리스트 가공
         List<UserListDTO> members = workplace.getUserList()
                     .stream()
                 .map(UserListDTO::new)
@@ -79,7 +78,7 @@ public class WorkplaceService {
     public GetInvitationKeyResponse getInvitationKey(User user) {
         // 매니저가 운영 중인 매장을 조회
         Workplace workplace = Optional.ofNullable(user.getWorkplace())
-                .orElseThrow(() -> new CustomException(ErrorType.GROUP_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(ErrorType.FORBIDDEN));
         // 해당 그룹의 초대장 발급
         Invitation invitation = invitationService.issueMyWorkplaceInvitation(workplace);
         return new GetInvitationKeyResponse(invitation.getInvitationKey());
