@@ -5,7 +5,6 @@ import localgaji.albbaim.__core__.exception.ErrorType;
 import localgaji.albbaim.workplace.invitation.Invitation;
 import localgaji.albbaim.workplace.invitation.InvitationService;
 import localgaji.albbaim.user.User;
-import localgaji.albbaim.user.UserService;
 import localgaji.albbaim.workplace.workplaceDTO.ResponseWorkplace.GetMyWorkplaceResponse.UserListDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +23,6 @@ import static localgaji.albbaim.workplace.workplaceDTO.ResponseWorkplace.*;
 public class WorkplaceService {
 
     private final WorkplaceRepository workplaceRepository;
-    private final UserService userService;
     private final InvitationService invitationService;
 
     // 매장 생성
@@ -39,7 +37,7 @@ public class WorkplaceService {
         // 매장 엔티티 저장
         workplaceRepository.save(newWorkplace);
         // 유저 엔티티에 매장 정보 업데이트
-        userService.addWorkplace(user, newWorkplace);
+        user.updateWorkplace(newWorkplace);
     }
 
     // 매장에 유저 가입 (초대 페이지 승인하기)
@@ -52,7 +50,7 @@ public class WorkplaceService {
         // 초대키로 초대장 조회
         Invitation invitation = invitationService.readInvitation(invitationKey);
         // 초대장으로 매장 조회 -> 유저 엔티티에 매장 정보 업데이트
-        userService.addWorkplace(user, invitation.getWorkplace());
+        user.updateWorkplace(invitation.getWorkplace());
     }
 
     // 내 매장 정보 조회
