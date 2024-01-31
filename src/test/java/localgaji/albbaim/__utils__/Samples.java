@@ -82,8 +82,8 @@ public class Samples {
                 .workTimeId(1L)
                 .date(date)
                 .workTimeName("샘플")
-                .startTime("12:00")
-                .endTime("22:00")
+                .startTime(LocalTime.of(12, 0))
+                .endTime(LocalTime.of(22, 0))
                 .build();
     }
 }
