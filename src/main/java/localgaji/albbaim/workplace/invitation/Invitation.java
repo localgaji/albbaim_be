@@ -17,7 +17,7 @@ public class Invitation extends BaseTime {
     private Long invitationId;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "workplace_id")
     private Workplace workplace;
 
     @Column(unique = true)

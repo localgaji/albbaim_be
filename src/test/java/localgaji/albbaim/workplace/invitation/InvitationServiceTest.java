@@ -55,7 +55,7 @@ class InvitationServiceTest {
 
     @DisplayName("초대장 발행 (유효한 초대장 있을때)")
     @Test
-    void issueMyWorkplaceInvitation() {
+    void getMyWorkplaceInvitation_valid() {
         // given
         Workplace workplace = someWorkplace();
         Invitation invitation = someInvitation(workplace);
@@ -64,7 +64,7 @@ class InvitationServiceTest {
                 .thenReturn(Optional.of(invitation));
 
         // when
-        Invitation newInvitation = invitationService.issueMyWorkplaceInvitation(workplace);
+        Invitation newInvitation = invitationService.getMyWorkplaceInvitation(workplace);
 
         // then
         assertThat(newInvitation).isEqualTo(invitation);
@@ -72,7 +72,7 @@ class InvitationServiceTest {
 
     @DisplayName("초대장 발행 (초대장 만료일 때)")
     @Test
-    void issueMyWorkplaceInvitationExpired() {
+    void getMyWorkplaceInvitation_expired() {
         // given
         Workplace workplace = someWorkplace();
         Invitation invitation = expiredInvitation(workplace);
@@ -82,7 +82,7 @@ class InvitationServiceTest {
                 .thenReturn(Optional.of(invitation));
 
         // when
-        Invitation newInvitation = invitationService.issueMyWorkplaceInvitation(workplace);
+        Invitation newInvitation = invitationService.getMyWorkplaceInvitation(workplace);
 
         // then
         assertThat(newInvitation.getInvitationKey()).isNotEqualTo(oldKey);
@@ -90,7 +90,7 @@ class InvitationServiceTest {
 
     @DisplayName("초대장 발행 (초대장 없을때)")
     @Test
-    void issueMyWorkplaceInvitationNo() {
+    void getMyWorkplaceInvitation_nothing() {
         // given
         Workplace workplace = someWorkplace();
 
@@ -98,7 +98,7 @@ class InvitationServiceTest {
                 .thenReturn(Optional.empty());
 
         // when
-        Invitation newInvitation = invitationService.issueMyWorkplaceInvitation(workplace);
+        Invitation newInvitation = invitationService.getMyWorkplaceInvitation(workplace);
 
         // then
         assertThat(newInvitation).isNotNull();

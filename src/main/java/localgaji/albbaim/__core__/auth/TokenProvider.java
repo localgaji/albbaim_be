@@ -6,7 +6,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +17,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component @Slf4j
+@Component
 public class TokenProvider {
     private final Long tokenValidityInSeconds;
     private final Key secretKey;
@@ -31,29 +30,23 @@ public class TokenProvider {
 
     // 토큰 생성
     public String createToken(Long userId) {
-        log.debug("토큰 생성 시작 {}", userId);
-
         //Header 부분 설정
         Map<String, Object> headers = new HashMap<>();
         headers.put("typ", "JWT");
         headers.put("alg", "HS256");
 
-        LocalDateTime now = LocalDateTime.now(); // 토큰 만료 시간
+        // 토큰 만료 시간 구하기
+        LocalDateTime now = LocalDateTime.now();
         LocalDateTime expireTime = now.plusSeconds(tokenValidityInSeconds);
 
-        String sub = String.valueOf(userId);
-
-        log.debug("토큰 정보 설정 완료");
-
+        // 토큰 생성
         String jwt = Jwts.builder()
                 .setHeader(headers)
-                .setSubject(sub)
+                .setSubject(String.valueOf(userId))
                 .setIssuedAt(Date.from(now.atZone(ZoneId.systemDefault()).toInstant()))
                 .setExpiration(Date.from(expireTime.atZone(ZoneId.systemDefault()).toInstant()))
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
-
-        log.debug("토큰 생성 완료 {}", jwt);
 
         return "Bearer " + jwt;
     }

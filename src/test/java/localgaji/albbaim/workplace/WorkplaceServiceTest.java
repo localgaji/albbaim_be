@@ -88,7 +88,7 @@ class WorkplaceServiceTest {
         Invitation invitation = someInvitation(workplace);
         user.updateWorkplace(workplace);
 
-        when(invitationService.issueMyWorkplaceInvitation(any(Workplace.class)))
+        when(invitationService.getMyWorkplaceInvitation(any(Workplace.class)))
                 .thenReturn(invitation);
 
         // when
