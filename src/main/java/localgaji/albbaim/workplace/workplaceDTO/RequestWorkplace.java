@@ -28,11 +28,4 @@ public class RequestWorkplace {
                     .build();
         }
     }
-
-    @Schema(description = "초대장으로 그룹 정보 조회")
-    public record GetGroupInfoRequest(
-        @Schema(description = "초대키")
-        String invitationKey
-    ) {
-    }
 }
