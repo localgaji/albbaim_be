@@ -50,8 +50,8 @@ public class WorkTimeRequest {
                 WorkTime workTime = WorkTime.builder()
                         .date(date)
                         .workTimeName(dto.getTitle())
-                        .startTime(dto.getStartTime())
-                        .endTime(dto.getEndTime())
+                        .startTime(LocalTime.parse(dto.getStartTime(), DateTimeFormatter.ofPattern("HH:mm")))
+                        .endTime(LocalTime.parse(dto.getEndTime(), DateTimeFormatter.ofPattern("HH:mm")))
                         .headcount(dto.getHeadCount())
                         .build();
                 workTimes.add(workTime);
