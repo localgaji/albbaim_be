@@ -22,7 +22,7 @@ public class WorkTimeController {
     @PostMapping
     @Operation(summary = "매니저 스케줄 모집 시작", description = "시간대 정보 저장")
     public ResponseEntity<Response<String>> postOpen(@AuthUser User user,
-                                                     PostOpenRequest requestBody) {
+                                                     @RequestBody PostOpenRequest requestBody) {
         workTimeService.saveWorkTimes(user, requestBody);
         return ResponseEntity.ok().body(success(null));
     }
