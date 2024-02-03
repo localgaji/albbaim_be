@@ -1,11 +1,13 @@
 package localgaji.albbaim.schedule.__commonDTO__;
 
+import localgaji.albbaim.schedule.workTime.WorkTime;
 import localgaji.albbaim.user.User;
+import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
-@SuperBuilder
+@SuperBuilder @Getter
 public class WorkTimeWorkerListDTO extends WorkTimeDTO {
     List<Worker> workerList;
 
@@ -17,8 +19,10 @@ public class WorkTimeWorkerListDTO extends WorkTimeDTO {
             this(user.getUserId(), user.getUserName());
         }
     }
-    public WorkTimeWorkerListDTO(String title, String startTime, String endTime, List<Worker> workerList) {
-        super(title, startTime, endTime);
+    public WorkTimeWorkerListDTO(WorkTime workTime, List<Worker> workerList) {
+        super(workTime.getWorkTimeName(),
+                workTime.getStartTime().toString(),
+                workTime.getEndTime().toString());
         this.workerList = workerList;
     }
 }
