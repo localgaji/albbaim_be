@@ -10,7 +10,7 @@ import static localgaji.albbaim.schedule.application.DTO.ApplicationDTO.*;
 public class ApplicationResponse {
     @Schema(description = "알바 스케줄 신청 : 체크 리스트 조회")
     public record GetApplyFormResponse(
-            List<List<Choices>> selected
+            List<List<WorkTimeChoice>> selected
     ) {
     }
     @Schema(description = "매니저 : 신청자 명단 조회")
