@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
+import static localgaji.albbaim.schedule.__commonDTO__.WorkTimeWorkerListDTO.*;
 import static localgaji.albbaim.schedule.application.DTO.ApplicationResponse.*;
 
 @Service @RequiredArgsConstructor
@@ -22,25 +22,28 @@ public class ApplicationRecommendService {
     private final WeekService weekService;
 
     // 인원수가 미달이거나 딱 맞을 때 : 다 받기
-    private List<List<List<User>>> noOverWorkTime(Week week, Map<User, Integer> userFixedTime) {
+    private List<List<WorkTimeWorkerListDTO>> noOverWorkTime(Week week, Map<User, Integer> userFixedTime) {
 
         return week.getDateList().stream().map(date ->
-                        date.getWorkTimeList().stream().map(workTime -> {
-                            List<Application> applicationList = workTime.getApplicationList();
-                            List<User> userList = new ArrayList<>();
+                date.getWorkTimeList().stream().map(workTime -> {
+                    List<Worker> workerList = new ArrayList<>();
+                    WorkTimeWorkerListDTO dto = new WorkTimeWorkerListDTO(workTime, workerList);
 
-                            // 인원수가 미달이거나 딱 맞으면 다 넣기
-                            if (applicationList.size() <= workTime.getHeadcount()) {
-                                for (Application application : applicationList) {
-                                    pushIntoMap(userFixedTime, application);
-                                    userList.add(application.getUser());
-                                }
-                            }
-                            return userList;
-                        }).collect(Collectors.toList())
-                ).toList();
+                    // 인원수가 미달이거나 딱 맞으면 다 넣기
+                    List<Application> applicationList = workTime.getApplicationList();
+
+                    if (applicationList.size() <= workTime.getHeadcount()) {
+                        for (Application application : applicationList) {
+                            pushIntoMap(userFixedTime, application);
+                            workerList.add(new Worker(application.getUser()));
+                        }
+                    }
+                    return dto;
+                }).collect(Collectors.toList())
+        ).toList();
     }
 
+    // { 유저 : 확정된 총 근무 시간 } map 업데이트
     private void pushIntoMap(Map<User, Integer> userFixedTime, Application application) {
         User applicant = application.getUser();
         int time = (int) Duration.between(
@@ -58,7 +61,7 @@ public class ApplicationRecommendService {
     public GetRecommendsResponse getRecommends(User user, String startWeekDate) {
         Week week = weekService.getWeekByStartWeekDate(user, startWeekDate);
         Map<User, Integer> userFixedTime = new HashMap<>();
-        List<List<List<User>>> weekly = noOverWorkTime(week, userFixedTime);
+        List<List<WorkTimeWorkerListDTO>> weekly = noOverWorkTime(week, userFixedTime);
 
         /* 남는 자리 채우기
             1. 이미 해당일 근무면 제외
@@ -66,38 +69,40 @@ public class ApplicationRecommendService {
         for (int d = 0; d < 7; d++) {
             Date date = week.getDateList().get(d);
             List<WorkTime> workTimeList = date.getWorkTimeList();
-            List<List<User>> dailyFixed = weekly.get(d);
+            List<WorkTimeWorkerListDTO> dailyFixed = weekly.get(d);
 
             for (int w = 0; w < workTimeList.size(); w++) {
                 WorkTime workTime = workTimeList.get(w);
                 List<Application> applicationList = workTime.getApplicationList();
-                // 채워야할 인원 이미 다 채워졌다면
-                if (applicationList.size() <= workTime.getHeadcount()) {
+                List<Worker> fixedWorkersOfThisTime = dailyFixed.get(w).getWorkerList();
+
+                // 해당 시간 이미 채워졌다면
+                if (fixedWorkersOfThisTime.size() == applicationList.size()) {
                     continue;
                 }
 
                 // applicationList를 확정된 근무시간이 적은 순서대로 정렬
-                workTime.getApplicationList()
+                applicationList
                         .sort(Comparator.comparingInt(application ->
                                 userFixedTime.getOrDefault(application.getUser(), 0))
-                );
-
-                List<User> workTimeFixed = dailyFixed.get(w);
+                        );
 
                 // 확정 근무시간이 적은 순서대로 지원자 채우기
-                for (Application application : workTime.getApplicationList()) {
+                for (Application application : applicationList) {
                     User applicant = application.getUser();
 
                     // 이미 직원이 해당일 근무일이면 패스
-                    boolean alreadyWorkInDay = dailyFixed
-                            .stream().flatMap(List::stream)
-                            .anyMatch(u -> u.equals(applicant));
+                    boolean alreadyFixedInThisDay = dailyFixed.stream().anyMatch(time ->
+                            time.getWorkerList().stream().anyMatch(worker ->
+                                    worker.userId().equals(applicant.getUserId())));
 
-                    if (!alreadyWorkInDay) {
-                        workTimeFixed.add(applicant);
+                    // 지원자를 해당 시간에 넣기
+                    if (!alreadyFixedInThisDay) {
+                        fixedWorkersOfThisTime.add(new Worker(applicant));
                         pushIntoMap(userFixedTime, application);
 
-                        if (workTimeFixed.size() == workTime.getHeadcount()) {
+                        // 다 찼으면 종료
+                        if (fixedWorkersOfThisTime.size() == workTime.getHeadcount()) {
                             break;
                         }
                     }
@@ -105,33 +110,6 @@ public class ApplicationRecommendService {
             }
         }
 
-        return toDTO(weekly, week);
+        return new GetRecommendsResponse(List.of(weekly));
     }
-
-    private GetRecommendsResponse toDTO(List<List<List<User>>> weekly, Week week) {
-        List<List<WorkTimeWorkerListDTO>> weeklyData = new ArrayList<>();
-
-        IntStream.range(0, 7).forEach(d -> {
-            List<WorkTime> workTimeList = week.getDateList().get(d).getWorkTimeList();
-            List<WorkTimeWorkerListDTO> daily = new ArrayList<>();
-
-            IntStream.range(0, workTimeList.size()).forEach(w -> {
-                WorkTime workTime = workTimeList.get(w);
-                WorkTimeWorkerListDTO dto = WorkTimeWorkerListDTO.builder()
-                        .title(workTime.getWorkTimeName())
-                        .startTime(workTime.getStartTime().toString())
-                        .endTime(workTime.getEndTime().toString())
-                        .workerList(weekly.get(d).get(w).stream().map(WorkTimeWorkerListDTO.Worker::new).toList())
-                        .build();
-                daily.add(dto);
-            });
-            weeklyData.add(daily);
-        });
-
-        return new GetRecommendsResponse(List.of(weeklyData));
-   }
 }
-
-
-
-
