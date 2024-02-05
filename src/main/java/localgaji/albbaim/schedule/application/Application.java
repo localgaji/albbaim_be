@@ -28,4 +28,8 @@ public class Application extends BaseTime {
     public void applyToWorkTime() {
         workTime.getApplicationList().add(this);
     }
+
+    public void deleteInWorkTime() {
+        workTime.getApplicationList().remove(this);
+    }
 }
