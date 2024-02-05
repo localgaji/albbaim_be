@@ -1,13 +1,11 @@
 package localgaji.albbaim.schedule.application;
 
-import localgaji.albbaim.__core__.exception.CustomException;
-import localgaji.albbaim.__core__.exception.ErrorType;
 import localgaji.albbaim.schedule.__commonDTO__.WorkTimeWorkerListDTO;
 import localgaji.albbaim.schedule.date.Date;
 import localgaji.albbaim.schedule.week.Week;
 import localgaji.albbaim.schedule.week.WeekService;
 import localgaji.albbaim.schedule.workTime.WorkTime;
-import localgaji.albbaim.schedule.workTime.WorkTimeRepository;
+import localgaji.albbaim.schedule.workTime.WorkTimeService;
 import localgaji.albbaim.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,16 +16,17 @@ import java.util.List;
 import java.util.Optional;
 
 import static localgaji.albbaim.schedule.__commonDTO__.WorkTimeWorkerListDTO.*;
-import static localgaji.albbaim.schedule.application.DTO.ApplicationDTO.*;
 import static localgaji.albbaim.schedule.application.DTO.ApplicationRequest.*;
+import static localgaji.albbaim.schedule.application.DTO.ApplicationRequest.PostApplyRequest.*;
 import static localgaji.albbaim.schedule.application.DTO.ApplicationResponse.*;
+import static localgaji.albbaim.schedule.application.DTO.ApplicationResponse.GetApplyFormResponse.*;
 
 @Service @RequiredArgsConstructor
 public class ApplicationService {
 
     private final WeekService weekService;
     private final ApplicationRepository applicationRepository;
-    private final WorkTimeRepository workTimeRepository;
+    private final WorkTimeService workTimeService;
 
     // 해당 주의 모든 날짜 -> 모든 시간대 -> 모든 신청자 리스트 조회
     public GetApplyStatusResponse getApplicationList(User user, String startWeekDateString) {
@@ -92,8 +91,8 @@ public class ApplicationService {
         List<List<HasWorkTimeChecked>> weekly = request.apply();
         for (List<HasWorkTimeChecked> daily : weekly) {
             for (HasWorkTimeChecked workTimeChecked : daily) {
-                WorkTime workTime = workTimeRepository.findById(workTimeChecked.workTimeId())
-                        .orElseThrow(() -> new CustomException(ErrorType.NOT_FOUND));
+                // workTime entity 조회
+                WorkTime workTime = workTimeService.findWorkTimeById(workTimeChecked.workTimeId());
 
                 Optional<Application> opt = getApplicationByWorkTime(user, workTime);
 
