@@ -94,8 +94,10 @@ public class ApplicationService {
                 // workTime entity 조회
                 WorkTime workTime = workTimeService.findWorkTimeById(workTimeChecked.workTimeId());
 
+                // 해당 workTime 의 applicants 중, 해당 유저가 신청한 entity 찾기
                 Optional<Application> opt = getApplicationByWorkTime(user, workTime);
 
+                // 선택했을 때
                 if (workTimeChecked.isChecked()) {
                     // true : 이미 있을 때
                     if (opt.isPresent()) {
