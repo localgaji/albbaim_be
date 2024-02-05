@@ -69,15 +69,10 @@ public class ApplicationService {
         for (Date date : foundWeek.getDateList()) {
             List<WorkTimeChoice> daily = new ArrayList<>();
             for (WorkTime workTime : date.getWorkTimeList()) {
+                // 기존 신청 여부
+                Boolean isChecked = getApplicationByWorkTime(user, workTime).isPresent();
                 // 해당 시간대 정보 + 신청자 정보 dto 생성
-                WorkTimeChoice dto = WorkTimeChoice.builder()
-                        .workTimeId(workTime.getWorkTimeId())
-                        .title(workTime.getWorkTimeName())
-                        .startTime(workTime.getStartTime().toString())
-                        .endTime(workTime.getEndTime().toString())
-                        // application 존재하는지
-                        .isChecked(getApplicationByWorkTime(user, workTime).isPresent())
-                        .build();
+                WorkTimeChoice dto = new WorkTimeChoice(workTime, isChecked);
                 daily.add(dto);
             }
             weekly.add(daily);

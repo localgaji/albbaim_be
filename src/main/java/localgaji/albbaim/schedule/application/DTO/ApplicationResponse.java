@@ -3,6 +3,7 @@ package localgaji.albbaim.schedule.application.DTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import localgaji.albbaim.schedule.__commonDTO__.WorkTimeDTO;
 import localgaji.albbaim.schedule.__commonDTO__.WorkTimeWorkerListDTO;
+import localgaji.albbaim.schedule.workTime.WorkTime;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -17,9 +18,12 @@ public class ApplicationResponse {
         public static class WorkTimeChoice extends WorkTimeDTO {
             Long workTimeId;
             Boolean isChecked;
-            public WorkTimeChoice(String title, String startTime, String endTime, Long workTimeId, Boolean isChecked) {
-                super(title, startTime, endTime);
-                this.workTimeId = workTimeId;
+            public WorkTimeChoice(WorkTime workTime, Boolean isChecked) {
+                super(workTime.getWorkTimeName(),
+                        workTime.getStartTime().toString(),
+                        workTime.getEndTime().toString()
+                );
+                this.workTimeId = workTime.getWorkTimeId();
                 this.isChecked = isChecked;
             }
         }
