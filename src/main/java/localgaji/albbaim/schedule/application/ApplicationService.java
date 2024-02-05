@@ -108,13 +108,19 @@ public class ApplicationService {
                             .workTime(workTime)
                             .build();
                     applicationRepository.save(application);
-                } else {
+                    application.applyToWorkTime();
+                }
+                // 선택 해제일 때
+                else {
                     // false : 이미 없을 때
                     if (opt.isEmpty()) {
                         continue;
                     }
                     // false : 있을 때 -> 없애기
-                    applicationRepository.delete(opt.get());
+                    Application application = opt.get();
+                    application.deleteInWorkTime();
+                    applicationRepository.delete(application);
+
                 }
             }
         }
