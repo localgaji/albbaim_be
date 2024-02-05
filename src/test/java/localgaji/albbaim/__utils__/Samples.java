@@ -2,8 +2,11 @@ package localgaji.albbaim.__utils__;
 
 import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuth;
 import localgaji.albbaim.auth.oauth.kakaoAuth.kakaoIdCache.KakaoIdCache;
+import localgaji.albbaim.schedule.application.Application;
 import localgaji.albbaim.schedule.date.Date;
 import localgaji.albbaim.schedule.week.Week;
+import localgaji.albbaim.schedule.workTime.DTO.WorkTimeHeadCountDTO;
+import localgaji.albbaim.schedule.workTime.DTO.WorkTimeRequest;
 import localgaji.albbaim.schedule.workTime.WorkTime;
 import localgaji.albbaim.user.User;
 import localgaji.albbaim.workplace.Workplace;
@@ -12,6 +15,11 @@ import localgaji.albbaim.workplace.invitation.Invitation;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static localgaji.albbaim.schedule.workTime.DTO.WorkTimeRequest.*;
 
 public class Samples {
     public static User someUser() {
@@ -74,7 +82,7 @@ public class Samples {
         return Date.builder()
                 .dateId(1L)
                 .week(week)
-                .localDate(LocalDate.of(2025,4,1))
+                .localDate(LocalDate.of(2030,4,1))
                 .build();
     }
 
@@ -85,6 +93,25 @@ public class Samples {
                 .workTimeName("샘플")
                 .startTime(LocalTime.of(12, 0))
                 .endTime(LocalTime.of(22, 0))
+                .build();
+    }
+
+    public static PostOpenRequest postOpenRequest() {
+        List<List<WorkTimeHeadCountDTO>> template = IntStream.range(0, 7).mapToObj(d ->
+                IntStream.range(0, 3).mapToObj(w -> new WorkTimeHeadCountDTO(
+                        Character.toString((char) w + 64),
+                        (w * 5 + 10) + ":00",
+                        (w * 5 + 14) + ":00",
+                        10
+                )).collect(Collectors.toList())
+        ).collect(Collectors.toList());
+        return new PostOpenRequest("2030-04-01", template);
+    }
+
+    public static Application someApplication(User user, WorkTime workTime) {
+        return Application.builder()
+                .workTime(workTime)
+                .user(user)
                 .build();
     }
 }

@@ -3,16 +3,15 @@ package localgaji.albbaim.schedule.week;
 import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.__core__.exception.ErrorType;
 import localgaji.albbaim.user.User;
-import localgaji.albbaim.workplace.Workplace;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
+import static localgaji.albbaim.__core__.StringToLocalDate.stringToLocalDate;
 import static localgaji.albbaim.schedule.week.DTO.WeekResponse.*;
 
 @Service @RequiredArgsConstructor
@@ -22,14 +21,11 @@ public class WeekService {
 
     // 주 상태 조회
     public WeekStatusType findWeekStatus(User user, String startWeekDate) {
-        // 소속 매장 조회
-        Workplace workplace = Optional.ofNullable(user.getWorkplace())
-                .orElseThrow(() -> new CustomException(ErrorType.FORBIDDEN));
-
         // 매장의 week list 중에서 startWeekDate 가 일치하는 Week 조회
-        Optional<Week> opt = workplace.getWeekList().stream()
+        Optional<Week> opt = getWeekListByUser(user)
+                .stream()
                 .filter(week ->
-                        week.getStartWeekDate().equals(LocalDate.parse(startWeekDate, DateTimeFormatter.ISO_DATE))
+                        week.getStartWeekDate().equals(stringToLocalDate(startWeekDate))
                 ).findAny();
 
         // startWeekDate 와 일치하는 주가 없을 때
@@ -53,13 +49,33 @@ public class WeekService {
 
     // 가장 최근 모집했던 주 조회
     public Optional<Week> getLastWeek(User user) {
-        List<Week> prevWeeks = Optional.ofNullable(user.getWorkplace())
-                .orElseThrow(() -> new CustomException(ErrorType.FORBIDDEN))
-                .getWeekList();
+        List<Week> prevWeeks = getWeekListByUser(user);
+
         // 모집한 적이 한번도 없을 경우
         if (prevWeeks.isEmpty()) {
             return Optional.empty();
         }
         return Optional.of(prevWeeks.get(prevWeeks.size() - 1));
+    }
+
+    // 해당 유저가 속한 매장의 week list 중, 시작 날짜와 일치하는 주 찾기
+    public Week getWeekByStartWeekDate(User user, String startWeekDateString) {
+        // 유저의 매장의 주 리스트 조회
+        List<Week> weekList = getWeekListByUser(user);
+
+        LocalDate startWeekDate = stringToLocalDate(startWeekDateString);
+
+        // 매장 주 리스트 중 시작 날짜가 일치하는 주를 찾기
+        return weekList.stream()
+                .filter(week -> week.getStartWeekDate().equals(startWeekDate))
+                .findAny()
+                .orElseThrow(() -> new CustomException(ErrorType.NOT_FOUND));
+    }
+
+    // 해당 유저가 속한 매장의 week list
+    private List<Week> getWeekListByUser(User user) {
+        return Optional.ofNullable(user.getWorkplace())
+                .orElseThrow(() -> new CustomException(ErrorType.FORBIDDEN))
+                .getWeekList();
     }
 }

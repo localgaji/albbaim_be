@@ -7,11 +7,11 @@ import localgaji.albbaim.schedule.workTime.WorkTime;
 import localgaji.albbaim.workplace.Workplace;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static localgaji.albbaim.__core__.StringToLocalDate.*;
 
 public class WorkTimeRequest {
     @Schema(description = "매니저 스케줄 모집 시작 : 정보 저장")
@@ -25,7 +25,7 @@ public class WorkTimeRequest {
         public Week toWeekEntity(Workplace workplace) {
             return Week.builder()
                     .workplace(workplace)
-                    .startWeekDate(LocalDate.parse(this.startWeekDate, DateTimeFormatter.ISO_DATE))
+                    .startWeekDate(stringToLocalDate(startWeekDate))
                     .build();
         }
         public List<Date> toDateEntities(Week week) {
@@ -43,15 +43,18 @@ public class WorkTimeRequest {
 
         public List<WorkTime> toWorkTimeEntities(Date date) {
             List<WorkTimeHeadCountDTO> workTimeDTOList = template.get(
-                    Period.between(LocalDate.parse(this.startWeekDate, DateTimeFormatter.ISO_DATE),
-                            date.getLocalDate()).getDays());
+                    Period.between(stringToLocalDate(startWeekDate),
+                                    date.getLocalDate()
+                    ).getDays());
+
             List<WorkTime> workTimes = new ArrayList<>();
+
             for (WorkTimeHeadCountDTO dto : workTimeDTOList) {
                 WorkTime workTime = WorkTime.builder()
                         .date(date)
                         .workTimeName(dto.getTitle())
-                        .startTime(LocalTime.parse(dto.getStartTime(), DateTimeFormatter.ofPattern("HH:mm")))
-                        .endTime(LocalTime.parse(dto.getEndTime(), DateTimeFormatter.ofPattern("HH:mm")))
+                        .startTime(stringToLocalTime(dto.getStartTime()))
+                        .endTime(stringToLocalTime(dto.getEndTime()))
                         .headcount(dto.getHeadCount())
                         .build();
                 workTimes.add(workTime);
