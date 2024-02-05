@@ -10,9 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static localgaji.albbaim.__core__.StringToLocalDate.*;
 import static localgaji.albbaim.schedule.__commonDTO__.WorkTimeWorkerListDTO.*;
 import static localgaji.albbaim.schedule.application.DTO.ApplicationResponse.*;
 
@@ -26,8 +28,7 @@ public class ApplicationRecommendService {
 
         return week.getDateList().stream().map(date ->
                 date.getWorkTimeList().stream().map(workTime -> {
-                    List<Worker> workerList = new ArrayList<>();
-                    WorkTimeWorkerListDTO dto = new WorkTimeWorkerListDTO(workTime, workerList);
+                    WorkTimeWorkerListDTO dto = new WorkTimeWorkerListDTO(workTime, new ArrayList<>());
 
                     // 인원수가 미달이거나 딱 맞으면 다 넣기
                     List<Application> applicationList = workTime.getApplicationList();
@@ -35,7 +36,7 @@ public class ApplicationRecommendService {
                     if (applicationList.size() <= workTime.getHeadcount()) {
                         for (Application application : applicationList) {
                             pushIntoMap(userFixedTime, application);
-                            workerList.add(new Worker(application.getUser()));
+                            dto.getWorkerList().add(new Worker(application.getUser()));
                         }
                     }
                     return dto;
@@ -47,7 +48,7 @@ public class ApplicationRecommendService {
     private void pushIntoMap(Map<User, Integer> userFixedTime, Application application) {
         User applicant = application.getUser();
         int time = (int) Duration.between(
-                application.getWorkTime().getEndTime(),
+                application.getWorkTime().getStartTime(),
                 application.getWorkTime().getEndTime()
         ).toMinutes();
 
@@ -91,13 +92,10 @@ public class ApplicationRecommendService {
                 for (Application application : applicationList) {
                     User applicant = application.getUser();
 
-                    // 이미 직원이 해당일 근무일이면 패스
-                    boolean alreadyFixedInThisDay = dailyFixed.stream().anyMatch(time ->
-                            time.getWorkerList().stream().anyMatch(worker ->
-                                    worker.userId().equals(applicant.getUserId())));
+                    boolean cannotWorkInThisDay = cannotWorkInThisDay(dailyFixed, w, applicant);
 
                     // 지원자를 해당 시간에 넣기
-                    if (!alreadyFixedInThisDay) {
+                    if (!cannotWorkInThisDay) {
                         fixedWorkersOfThisTime.add(new Worker(applicant));
                         pushIntoMap(userFixedTime, application);
 
@@ -111,5 +109,36 @@ public class ApplicationRecommendService {
         }
 
         return new GetRecommendsResponse(List.of(weekly));
+    }
+
+    private boolean cannotWorkInThisDay(List<WorkTimeWorkerListDTO> dailyFixed,
+                                        int workTimeIndex,
+                                        User applicant) {
+
+        LocalTime startTime = stringToLocalTime(dailyFixed.get(workTimeIndex).getStartTime());
+        LocalTime endTime = stringToLocalTime(dailyFixed.get(workTimeIndex).getEndTime());
+
+        return dailyFixed.stream().anyMatch(wt -> {
+            // 이날 다른 시간대에 일 하는지
+            boolean isWorkThisTime = wt.getWorkerList().stream().anyMatch(wk ->
+                    wk.userId().equals(applicant.getUserId())
+            );
+            // 일 안하면 false
+            if (!isWorkThisTime) {
+                return false;
+            }
+            // 겹치거나 띄엄띄엄이면 true, 연속해서 할 수 있으면 false
+            LocalTime wtStartTime = stringToLocalTime(wt.getStartTime());
+            LocalTime wtEndTime = stringToLocalTime(wt.getEndTime());
+
+            boolean isNotContinuous = !wtEndTime.equals(startTime) &&
+                    !wtStartTime.equals(endTime);
+            if (isNotContinuous) {
+                return true;
+            }
+            // 하루 근무 시간이 12시간 이상이면 true
+            return Duration.between(endTime, wtStartTime).toMinutes() > 720 ||
+                    Duration.between(wtEndTime, startTime).toMinutes() > 720;
+        });
     }
 }
