@@ -104,4 +104,9 @@ public class WorkTimeService {
                 .headCount(workTime.getHeadcount())
                 .build();
     }
+
+    public WorkTime findWorkTimeById(Long workTimeId) {
+        return workTimeRepository.findById(workTimeId)
+                .orElseThrow(() -> new CustomException(ErrorType.NOT_FOUND));
+    }
 }
