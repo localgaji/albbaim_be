@@ -1,6 +1,6 @@
 package localgaji.albbaim.schedule.application;
 
-import localgaji.albbaim.schedule.__commonDTO__.WorkTimeWorkerListDTO;
+import localgaji.albbaim.schedule.__commonDTO__.WorkerListDTO;
 import localgaji.albbaim.schedule.date.Date;
 import localgaji.albbaim.schedule.week.Week;
 import localgaji.albbaim.schedule.week.WeekService;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static localgaji.albbaim.schedule.__commonDTO__.WorkTimeWorkerListDTO.*;
+import static localgaji.albbaim.schedule.__commonDTO__.WorkerListDTO.*;
 import static localgaji.albbaim.schedule.application.DTO.ApplicationRequest.*;
 import static localgaji.albbaim.schedule.application.DTO.ApplicationRequest.PostApplyRequest.*;
 import static localgaji.albbaim.schedule.application.DTO.ApplicationResponse.*;
@@ -34,10 +34,10 @@ public class ApplicationService {
         Week foundWeek = weekService.getWeekByStartWeekDate(user, startWeekDateString);
 
         // 주 -> 일 -> 시간대 -> 신청자 정보를 시간대 중심으로 가공
-        List<List<WorkTimeWorkerListDTO>> weekly = new ArrayList<>();
+        List<List<WorkerListDTO>> weekly = new ArrayList<>();
 
         for (Date date : foundWeek.getDateList()) {
-            List<WorkTimeWorkerListDTO> daily = new ArrayList<>();
+            List<WorkerListDTO> daily = new ArrayList<>();
             for (WorkTime workTime : date.getWorkTimeList()) {
                 // 해당 시간대 신청자 리스트에서 필요한 정보만 worker dto 로 가공
                 List<Worker> workers = workTime.getApplicationList()
@@ -45,7 +45,7 @@ public class ApplicationService {
                         .map(application -> new Worker(application.getUser()))
                         .toList();
                 // 해당 시간대 정보 + 신청자 정보 dto 생성
-                WorkTimeWorkerListDTO dto = WorkTimeWorkerListDTO.builder()
+                WorkerListDTO dto = WorkerListDTO.builder()
                         .title(workTime.getWorkTimeName())
                         .startTime(workTime.getStartTime().toString())
                         .endTime(workTime.getEndTime().toString())
