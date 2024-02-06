@@ -44,9 +44,9 @@ public class ApplicationController {
     }
     @GetMapping("/recommend/{startWeekDate}")
     @Operation(summary = "매니저 스케줄 모집 마감", description = "추천 후보 조회")
-    public ResponseEntity<Response<GetRecommendsResponse>> getRecommends(@AuthUser User user,
-                                                                         @PathVariable String startWeekDate) {
-        GetRecommendsResponse response = applicationRecommendService.getRecommends(user, startWeekDate);
+    public ResponseEntity<Response<GetRecommendResponse>> getRecommend(@AuthUser User user,
+                                                                        @PathVariable String startWeekDate) {
+        GetRecommendResponse response = applicationRecommendService.getRecommends(user, startWeekDate);
         return ResponseEntity.ok().body(success(response));
     }
 }
