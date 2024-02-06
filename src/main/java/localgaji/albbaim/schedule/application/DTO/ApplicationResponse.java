@@ -2,7 +2,7 @@ package localgaji.albbaim.schedule.application.DTO;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import localgaji.albbaim.schedule.__commonDTO__.WorkTimeDTO;
-import localgaji.albbaim.schedule.__commonDTO__.WorkTimeWorkerListDTO;
+import localgaji.albbaim.schedule.__commonDTO__.WorkerListDTO;
 import localgaji.albbaim.schedule.workTime.WorkTime;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -30,7 +30,7 @@ public class ApplicationResponse {
     }
     @Schema(description = "매니저 : 신청자 명단 조회")
     public record GetApplyStatusResponse(
-            List<List<WorkTimeWorkerListDTO>> applyStatus
+            List<List<WorkerListDTO>> applyStatus
     ) {
     }
     @Schema(description = "매니저 스케줄 모집 마감 : 추천 후보 조회")
