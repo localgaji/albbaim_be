@@ -67,9 +67,15 @@ public class WeekService {
 
         // 매장 주 리스트 중 시작 날짜가 일치하는 주를 찾기
         return weekList.stream()
-                .filter(week -> week.getStartWeekDate().equals(startWeekDate))
+                .filter(week -> week.getStartWeekDate().isEqual(startWeekDate))
                 .findAny()
                 .orElseThrow(() -> new CustomException(ErrorType.NOT_FOUND));
+    }
+
+    public Optional<Week> getWeekByLocalDate(User user, LocalDate startWeekDate) {
+        return getWeekListByUser(user).stream()
+                .filter(week -> week.getStartWeekDate().isEqual(startWeekDate))
+                .findAny();
     }
 
     // 해당 유저가 속한 매장의 week list
