@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import localgaji.albbaim.schedule.application.Application;
 import localgaji.albbaim.schedule.date.Date;
+import localgaji.albbaim.schedule.fixed.Fixed;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,6 +38,10 @@ public class WorkTime {
     @OneToMany(mappedBy = "workTime")
     @Builder.Default @NotNull
     private List<Application> applicationList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "workTime")
+    @Builder.Default @NotNull
+    private List<Fixed> fixedList = new ArrayList<>();
 
     @Column
     private int headcount;
