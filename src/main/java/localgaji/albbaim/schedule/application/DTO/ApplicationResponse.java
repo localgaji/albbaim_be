@@ -9,6 +9,8 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
+import static localgaji.albbaim.schedule.__commonDTO__.WorkerListDTO.*;
+
 public class ApplicationResponse {
     @Schema(description = "알바 스케줄 신청 : 체크 리스트 조회")
     public record GetApplyFormResponse(
@@ -33,9 +35,24 @@ public class ApplicationResponse {
             List<List<WorkerListDTO>> applyStatus
     ) {
     }
-    @Schema(description = "매니저 스케줄 모집 마감 : 추천 후보 조회")
-    public record GetRecommendsResponse(
-            List<List<List<WorkTimeWorkerListDTO>>> recommends
+    @Schema(description = "매니저 스케줄 모집 마감 : 추천 스케줄 조회")
+    public record GetRecommendResponse(
+            List<List<WorkTimeRecommendWorkers>> recommends
     ) {
+        @Getter
+        public static class WorkTimeRecommendWorkers extends WorkTimeDTO {
+            private final Long workTimeId;
+            private final List<Worker> workerList;
+
+            public WorkTimeRecommendWorkers(WorkTime workTime, List<Worker> workerList) {
+                super(
+                        workTime.getWorkTimeName(),
+                        workTime.getStartTime().toString(),
+                        workTime.getEndTime().toString()
+                );
+                this.workTimeId = workTime.getWorkTimeId();
+                this.workerList = workerList;
+            }
+        }
     }
 }
