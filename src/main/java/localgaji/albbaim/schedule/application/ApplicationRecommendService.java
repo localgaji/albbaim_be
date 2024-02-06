@@ -1,6 +1,5 @@
 package localgaji.albbaim.schedule.application;
 
-import localgaji.albbaim.schedule.__commonDTO__.WorkTimeWorkerListDTO;
 import localgaji.albbaim.schedule.date.Date;
 import localgaji.albbaim.schedule.week.Week;
 import localgaji.albbaim.schedule.week.WeekService;
@@ -15,8 +14,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static localgaji.albbaim.__core__.StringToLocalDate.*;
-import static localgaji.albbaim.schedule.__commonDTO__.WorkTimeWorkerListDTO.*;
+import static localgaji.albbaim.schedule.__commonDTO__.WorkerListDTO.*;
 import static localgaji.albbaim.schedule.application.DTO.ApplicationResponse.*;
+import static localgaji.albbaim.schedule.application.DTO.ApplicationResponse.GetRecommendResponse.*;
 
 @Service @RequiredArgsConstructor
 public class ApplicationRecommendService {
@@ -24,11 +24,11 @@ public class ApplicationRecommendService {
     private final WeekService weekService;
 
     // 인원수가 미달이거나 딱 맞을 때 : 다 받기
-    private List<List<WorkTimeWorkerListDTO>> noOverWorkTime(Week week, Map<User, Integer> userFixedTime) {
+    private List<List<WorkTimeRecommendWorkers>> noOverWorkTime(Week week, Map<User, Integer> userFixedTime) {
 
         return week.getDateList().stream().map(date ->
                 date.getWorkTimeList().stream().map(workTime -> {
-                    WorkTimeWorkerListDTO dto = new WorkTimeWorkerListDTO(workTime, new ArrayList<>());
+                    WorkTimeRecommendWorkers dto = new WorkTimeRecommendWorkers(workTime, new ArrayList<>());
 
                     // 인원수가 미달이거나 딱 맞으면 다 넣기
                     List<Application> applicationList = workTime.getApplicationList();
@@ -59,10 +59,10 @@ public class ApplicationRecommendService {
         }
     }
 
-    public GetRecommendsResponse getRecommends(User user, String startWeekDate) {
+    public GetRecommendResponse getRecommends(User user, String startWeekDate) {
         Week week = weekService.getWeekByStartWeekDate(user, startWeekDate);
         Map<User, Integer> userFixedTime = new HashMap<>();
-        List<List<WorkTimeWorkerListDTO>> weekly = noOverWorkTime(week, userFixedTime);
+        List<List<WorkTimeRecommendWorkers>> weekly = noOverWorkTime(week, userFixedTime);
 
         /* 남는 자리 채우기
             1. 이미 해당일 근무면 제외
@@ -70,7 +70,7 @@ public class ApplicationRecommendService {
         for (int d = 0; d < 7; d++) {
             Date date = week.getDateList().get(d);
             List<WorkTime> workTimeList = date.getWorkTimeList();
-            List<WorkTimeWorkerListDTO> dailyFixed = weekly.get(d);
+            List<WorkTimeRecommendWorkers> dailyFixed = weekly.get(d);
 
             for (int w = 0; w < workTimeList.size(); w++) {
                 WorkTime workTime = workTimeList.get(w);
@@ -107,11 +107,10 @@ public class ApplicationRecommendService {
                 }
             }
         }
-
-        return new GetRecommendsResponse(List.of(weekly));
+        return new GetRecommendResponse(weekly);
     }
 
-    private boolean cannotWorkInThisDay(List<WorkTimeWorkerListDTO> dailyFixed,
+    private boolean cannotWorkInThisDay(List<WorkTimeRecommendWorkers> dailyFixed,
                                         int workTimeIndex,
                                         User applicant) {
 
@@ -137,8 +136,8 @@ public class ApplicationRecommendService {
                 return true;
             }
             // 하루 근무 시간이 12시간 이상이면 true
-            return Duration.between(endTime, wtStartTime).toMinutes() > 720 ||
-                    Duration.between(wtEndTime, startTime).toMinutes() > 720;
+            return Duration.between(wtStartTime, endTime).toMinutes() > 720 ||
+                    Duration.between(startTime, wtEndTime).toMinutes() > 720;
         });
     }
 }
