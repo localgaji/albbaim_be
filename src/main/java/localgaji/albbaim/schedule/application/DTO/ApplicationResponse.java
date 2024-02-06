@@ -12,7 +12,7 @@ import java.util.List;
 public class ApplicationResponse {
     @Schema(description = "알바 스케줄 신청 : 체크 리스트 조회")
     public record GetApplyFormResponse(
-            List<List<WorkTimeChoice>> selected
+            List<List<WorkTimeChoice>> checklist
     ) {
         @SuperBuilder @Getter
         public static class WorkTimeChoice extends WorkTimeDTO {
