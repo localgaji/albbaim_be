@@ -1,7 +1,5 @@
 package localgaji.albbaim.schedule.fixed;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import localgaji.albbaim.__utils__.Samples;
 import localgaji.albbaim.schedule.__commonDTO__.WorkerListDTO;
 import localgaji.albbaim.schedule.date.Date;
@@ -88,7 +86,7 @@ class FixedServiceTest {
     }
 
     @Test
-    void getMonthlyFixed() throws JsonProcessingException {
+    void getMonthlyFixed() {
         // given
         week.getDateList().forEach(date ->
                 date.getWorkTimeList().forEach(workTime -> {
@@ -106,10 +104,6 @@ class FixedServiceTest {
                 week.getStartWeekDate().getYear(),
                 week.getStartWeekDate().getMonthValue()
         ).monthly();
-
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(monthly);
-        System.out.println("json = " + json);
 
         // then
         assertThat(monthly.get(0).get(0).workTimes().size()).isEqualTo(3);
