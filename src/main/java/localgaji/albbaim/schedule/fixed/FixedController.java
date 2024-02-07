@@ -42,7 +42,7 @@ public class FixedController {
     @Operation(summary = "스케줄 확정하기", description = "모집 마감: 추천 스케줄 중 선택")
     public ResponseEntity<Response<String>> postRecommends(@AuthUser User user,
                                                            @PathVariable String startWeekDate,
-                                                           @RequestBody PostRequest request) {
+                                                           @RequestBody PostFixRequest request) {
         fixedService.saveFixed(user, startWeekDate, request);
         return ResponseEntity.ok().body(success(null));
     }
