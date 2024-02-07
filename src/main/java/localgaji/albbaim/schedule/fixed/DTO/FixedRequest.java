@@ -10,7 +10,7 @@ import static localgaji.albbaim.schedule.__commonDTO__.WorkerListDTO.*;
 
 public class FixedRequest {
     @Schema(description = "주간 근무 확정")
-    public record PostRequest(
+    public record PostFixRequest(
             List<List<WorkTimeWorkers>> weeklyWorkerListWannaFix
     ) {
         @AllArgsConstructor @Getter

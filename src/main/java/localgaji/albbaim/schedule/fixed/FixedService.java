@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 import static localgaji.albbaim.__core__.StringToLocalDate.*;
 import static localgaji.albbaim.schedule.__commonDTO__.WorkerListDTO.*;
 import static localgaji.albbaim.schedule.fixed.DTO.FixedRequest.*;
+import static localgaji.albbaim.schedule.fixed.DTO.FixedRequest.PostFixRequest.*;
 import static localgaji.albbaim.schedule.fixed.DTO.FixedResponse.*;
 import static localgaji.albbaim.schedule.fixed.DTO.FixedResponse.GetMonthlyResponse.*;
 
@@ -38,13 +39,13 @@ public class FixedService {
 
     // 저장 (추천에서)
     @Transactional
-    public void saveFixed(User user, String startWeekDate, PostRequest request) {
+    public void saveFixed(User user, String startWeekDate, PostFixRequest request) {
         // hasFixed 바꾸기
         Week week = weekService.getWeekByStartWeekDate(user, startWeekDate);
         week.fixWeekly();
 
         // fixed entity 저장
-        List<List<PostRequest.WorkTimeWorkers>> schedule = request.weeklyWorkerListWannaFix();
+        List<List<WorkTimeWorkers>> schedule = request.weeklyWorkerListWannaFix();
         schedule.forEach(daily ->
                 daily.forEach(time -> {
                         WorkTime workTime = workTimeService.findWorkTimeById(time.getWorkTimeId());
