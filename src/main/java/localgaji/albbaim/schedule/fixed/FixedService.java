@@ -123,6 +123,11 @@ public class FixedService {
         Date date = dateService.findByLocalDate(user, stringToLocalDate(selectedDate))
                 .orElseThrow(() -> new CustomException(ErrorType.NOT_FOUND));
 
+        // 확정되지 않은 일일 때
+        if (!date.getWeek().getHasFixed()) {
+            throw new CustomException(ErrorType.NOT_FOUND);
+        }
+
         // date -> workTime -> fixed 조회
         List<WorkerListDTO> schedule = date.getWorkTimeList().stream().map(workTime -> {
             List<Worker> workerList = workTime.getFixedList().stream().map(u ->
