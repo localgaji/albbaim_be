@@ -16,12 +16,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static localgaji.albbaim.__utils__.Samples.*;
 import static localgaji.albbaim.schedule.workTime.DTO.WorkTimeRequest.*;
@@ -42,11 +38,13 @@ class WorkTimeServiceTest {
     @Mock
     private WeekService weekService;
 
-    private final User user = someUser();
-    private final Workplace workplace = someWorkplace();
+    private User user;
+    private Workplace workplace;
 
     @BeforeEach
     void init() {
+        user = someUser();
+        workplace = someWorkplace();
         user.updateWorkplace(workplace);
     }
 
@@ -63,8 +61,8 @@ class WorkTimeServiceTest {
 
         // then
         assertAll(
-                () -> verify(workTimeRepository, times(7)).save(any(WorkTime.class)),
                 () -> verify(dateService, times(7)).createNewDate(any(Date.class)),
+                () -> verify(workTimeRepository, times(21)).save(any(WorkTime.class)),
                 () -> verify(weekService).createNewWeek(any(Week.class))
         );
     }
@@ -124,19 +122,5 @@ class WorkTimeServiceTest {
 
         // then
         assertThat(week.getStartWeekDate().toString()).isEqualTo(request.startWeekDate());
-    }
-    private PostOpenRequest postOpenRequest() {
-        WorkTimeHeadCountDTO dto = WorkTimeHeadCountDTO.builder()
-                .title("미들")
-                .startTime("09:00")
-                .endTime("12:00")
-                .headCount(10)
-                .build();
-
-        List<List<WorkTimeHeadCountDTO>> template = Stream.generate(() ->
-                        new ArrayList<>(Collections.singletonList(dto)))
-                .limit(7)
-                .collect(Collectors.toList());
-        return new PostOpenRequest("2030-04-01", template);
     }
 }
