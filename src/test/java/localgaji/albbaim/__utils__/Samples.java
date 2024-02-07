@@ -4,9 +4,9 @@ import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuth;
 import localgaji.albbaim.auth.oauth.kakaoAuth.kakaoIdCache.KakaoIdCache;
 import localgaji.albbaim.schedule.application.Application;
 import localgaji.albbaim.schedule.date.Date;
+import localgaji.albbaim.schedule.fixed.Fixed;
 import localgaji.albbaim.schedule.week.Week;
 import localgaji.albbaim.schedule.workTime.DTO.WorkTimeHeadCountDTO;
-import localgaji.albbaim.schedule.workTime.DTO.WorkTimeRequest;
 import localgaji.albbaim.schedule.workTime.WorkTime;
 import localgaji.albbaim.user.User;
 import localgaji.albbaim.workplace.Workplace;
@@ -99,7 +99,7 @@ public class Samples {
     public static PostOpenRequest postOpenRequest() {
         List<List<WorkTimeHeadCountDTO>> template = IntStream.range(0, 7).mapToObj(d ->
                 IntStream.range(0, 3).mapToObj(w -> new WorkTimeHeadCountDTO(
-                        Character.toString((char) w + 64),
+                        Character.toString((char) w + 65),
                         (w * 5 + 10) + ":00",
                         (w * 5 + 14) + ":00",
                         10
@@ -110,6 +110,13 @@ public class Samples {
 
     public static Application someApplication(User user, WorkTime workTime) {
         return Application.builder()
+                .workTime(workTime)
+                .user(user)
+                .build();
+    }
+
+    public static Fixed someFixed(User user, WorkTime workTime) {
+        return Fixed.builder()
                 .workTime(workTime)
                 .user(user)
                 .build();
