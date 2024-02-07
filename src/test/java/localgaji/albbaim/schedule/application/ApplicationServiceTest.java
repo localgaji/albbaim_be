@@ -1,6 +1,6 @@
 package localgaji.albbaim.schedule.application;
 
-import localgaji.albbaim.schedule.__commonDTO__.WorkTimeWorkerListDTO;
+import localgaji.albbaim.schedule.__commonDTO__.WorkerListDTO;
 import localgaji.albbaim.schedule.date.Date;
 import localgaji.albbaim.schedule.week.Week;
 import localgaji.albbaim.schedule.week.WeekService;
@@ -77,7 +77,7 @@ class ApplicationServiceTest {
         when(weekService.getWeekByStartWeekDate(any(), any())).thenReturn(week);
 
         // when
-        List<List<WorkTimeWorkerListDTO>> applyStatus = applicationService.getApplicationList(someUser(),
+        List<List<WorkerListDTO>> applyStatus = applicationService.getApplicationList(someUser(),
                 week.getStartWeekDate().toString())
                 .applyStatus();
 
@@ -98,7 +98,7 @@ class ApplicationServiceTest {
         // when
         List<List<WorkTimeChoice>> selected = applicationService
                 .getApplicationCheckForm(someUser(), week.getStartWeekDate().toString())
-                .selected();
+                .checklist();
 
         // then
         assertAll(
@@ -117,7 +117,7 @@ class ApplicationServiceTest {
         // when
         List<List<WorkTimeChoice>> selected = applicationService
                 .getApplicationCheckForm(user, week.getStartWeekDate().toString())
-                .selected();
+                .checklist();
 
         // then
         assertAll(

@@ -1,7 +1,9 @@
 package localgaji.albbaim.schedule.week;
 
+import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.user.User;
 import localgaji.albbaim.workplace.Workplace;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -133,5 +135,31 @@ class WeekServiceTest {
         assertThat(optWeek)
                 .isPresent()
                 .contains(week2);
+    }
+
+    @DisplayName("string date 로 Week 찾기")
+    @Test
+    void getWeekByStartWeekDate() {
+        // given
+        Week week = someWeek(workplace);
+        week.addWeekToWorkplace();
+
+        // when
+        Week foundWeek = weekService.getWeekByStartWeekDate(user, week.getStartWeekDate().toString());
+
+        // then
+        assertThat(foundWeek).isEqualTo(week);
+    }
+
+    @DisplayName("string date 로 Week 찾기 실패")
+    @Test
+    void getWeekByStartWeekDate_fail() {
+        // given
+        Week week = someWeek(workplace);
+
+        // when, then
+        Assertions.assertThatThrownBy(
+                () -> weekService.getWeekByStartWeekDate(user, week.getStartWeekDate().toString())
+        ).isInstanceOf(CustomException.class);
     }
 }

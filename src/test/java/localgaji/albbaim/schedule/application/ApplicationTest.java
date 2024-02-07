@@ -13,13 +13,12 @@ import static localgaji.albbaim.__utils__.Samples.*;
 import static org.assertj.core.api.Assertions.*;
 
 class ApplicationTest {
-    private User user;
     private WorkTime workTime;
     private Application application;
 
     @BeforeEach
     void init () {
-        user = someUser();
+        User user = someUser();
         Workplace workplace = someWorkplace();
         Week week = someWeek(workplace);
         Date date = someDate(week);
