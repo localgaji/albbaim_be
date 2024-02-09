@@ -62,6 +62,5 @@ public class InvitationService {
         String newKey = invitation.getWorkplace().getWorkplaceId().toString() + now;
 
         invitation.updateInvitation(newKey, now);
-        invitationRepository.save(invitation);
     }
 }
