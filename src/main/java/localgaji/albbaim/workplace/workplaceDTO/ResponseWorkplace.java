@@ -17,14 +17,12 @@ public class ResponseWorkplace {
             @Schema(description = "내 매장 멤버 리스트")
             List<UserListDTO> members) {
 
-        @Getter
-        public static class UserListDTO {
-            Long userId;
-            String userName;
-
+        public record UserListDTO (
+                Long userId,
+                String userName
+        ) {
             public UserListDTO(User user) {
-                this.userId = user.getUserId();
-                this.userName = user.getUserName();
+                this(user.getUserId(), user.getUserName());
             }
         }
     }
