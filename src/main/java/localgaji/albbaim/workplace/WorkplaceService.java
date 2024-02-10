@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static localgaji.albbaim.workplace.workplaceDTO.RequestWorkplace.*;
 import static localgaji.albbaim.workplace.workplaceDTO.ResponseWorkplace.*;
@@ -61,8 +60,8 @@ public class WorkplaceService {
         // 해당 매장의 직원 리스트 가공
         List<UserListDTO> members = workplace.getUserList()
                     .stream()
-                .map(UserListDTO::new)
-                .collect(Collectors.toList());
+                    .map(UserListDTO::new)
+                    .toList();
         return GetMyWorkplaceResponse.builder()
                 .workplaceName(workplace.getWorkplaceName())
                 .members(members)

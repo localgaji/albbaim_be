@@ -13,7 +13,7 @@ import static localgaji.albbaim.workplace.workplaceDTO.RequestWorkplace.*;
 import static localgaji.albbaim.workplace.workplaceDTO.ResponseWorkplace.*;
 
 @RestController @RequiredArgsConstructor
-@Tag(name = "3. 매장 설정", description = "매장 설정 / 초대 API")
+@Tag(name = "매장 설정", description = "매장 설정 / 초대 API")
 @RequestMapping("/workplace")
 public class WorkplaceController {
 
@@ -56,7 +56,7 @@ public class WorkplaceController {
         return ResponseEntity.ok().body(success(null));
     }
 
-    @GetMapping("/invitation/information/{invitationKey}")
+    @GetMapping("/invitation/{invitationKey}")
     @Operation(summary = "매장 초대 페이지 조회")
     public ResponseEntity<Response<GetInvitationInfoResponse>> getGroupInfo(@PathVariable String invitationKey) {
 
