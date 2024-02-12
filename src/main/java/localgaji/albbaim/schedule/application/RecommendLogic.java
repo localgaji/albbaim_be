@@ -41,9 +41,9 @@ public class RecommendLogic {
     // { 시간대 : 근무자리스트 } map 생성
     private void init_weeklyWorkTimeWorkersMap() {
         week.getDateList().forEach(date ->
-                date.getWorkTimeList().forEach(workTime ->{
-                    weeklyWorkTimeWorkersMap.put(workTime, new ArrayList<>());
-                })
+                date.getWorkTimeList().forEach(workTime ->
+                    weeklyWorkTimeWorkersMap.put(workTime, new ArrayList<>())
+                )
         );
     }
 
