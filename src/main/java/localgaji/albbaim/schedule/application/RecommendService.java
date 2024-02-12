@@ -20,7 +20,7 @@ import static localgaji.albbaim.schedule.application.DTO.ApplicationResponse.Get
 
 @Service
 @RequiredArgsConstructor
-public class ApplicationRecommendService {
+public class RecommendService {
 
     private final WeekService weekService;
 
