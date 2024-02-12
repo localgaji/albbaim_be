@@ -19,7 +19,7 @@ import static localgaji.albbaim.schedule.application.DTO.ApplicationResponse.*;
 public class ApplicationController {
 
     private final ApplicationService applicationService;
-    private final ApplicationRecommendService applicationRecommendService;
+    private final RecommendService recommendService;
 
     @GetMapping("/{startWeekDate}")
     @Operation(summary = "매니저 : 스케줄 신청자 명단 조회")
@@ -46,7 +46,7 @@ public class ApplicationController {
     @Operation(summary = "매니저 스케줄 모집 마감", description = "추천 후보 조회")
     public ResponseEntity<Response<GetRecommendResponse>> getRecommend(@AuthUser User user,
                                                                         @PathVariable String startWeekDate) {
-        GetRecommendResponse response = applicationRecommendService.getRecommend(user, startWeekDate);
+        GetRecommendResponse response = recommendService.getRecommend(user, startWeekDate);
         return ResponseEntity.ok().body(success(response));
     }
 }

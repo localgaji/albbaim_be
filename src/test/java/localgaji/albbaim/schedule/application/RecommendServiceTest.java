@@ -25,9 +25,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ApplicationRecommendServiceTest {
+class RecommendServiceTest {
     @InjectMocks
-    private ApplicationRecommendService recommendService;
+    private RecommendService recommendService;
     @Mock
     private WeekService weekService;
 
@@ -69,13 +69,13 @@ class ApplicationRecommendServiceTest {
     }
 
     @Test
-    void getRecommends() {
+    void getRecommend() {
         // given
         when(weekService.getWeekByStartWeekDate(any(), any())).thenReturn(week);
 
         // when
         List<List<WorkTimeRecommendWorkers>> recommends =
-                recommendService.getRecommends(user, week.getStartWeekDate().toString())
+                recommendService.getRecommend(user, week.getStartWeekDate().toString())
                         .recommends();
 
         // then
