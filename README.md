@@ -11,7 +11,7 @@
 
 ## 🖇 Links
 - [ERD](https://www.erdcloud.com/d/eLam3QpQPYo74w8xR)  
-- [API 문서](http://ec2-15-165-255-197.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/index.html)
+- [API 문서](http://ec2-43-200-106-145.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/index.html)
 
 <br/>
 
