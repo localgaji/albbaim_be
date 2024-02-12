@@ -70,9 +70,9 @@ jobs:
           key: ${{ secrets.AWS_KEY }}
           script: |
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/albbaim
-            sudo docker stop $(sudo docker ps -qa)
-            sudo docker run -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/albbaim
+            sudo docker stop spring
             sudo docker container prune -a -f
+            sudo docker run -d -p 8080:8080 --name spring ${{ secrets.DOCKER_USERNAME }}/albbaim
             sudo docker image prune -a -f
 
       # 8. 보안 그룹 ip 삭제
