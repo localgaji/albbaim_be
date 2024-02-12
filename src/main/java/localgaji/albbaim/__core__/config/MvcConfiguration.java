@@ -2,6 +2,7 @@ package localgaji.albbaim.__core__.config;
 
 import localgaji.albbaim.__core__.auth.AuthUserArgumentResolver;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.HandlerTypePredicate;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -19,6 +20,9 @@ public class MvcConfiguration implements WebMvcConfigurer {
 
     private final AuthUserArgumentResolver authUserArgumentResolver;
 
+    @Value("${client.url}")
+    private String url;
+
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(authUserArgumentResolver);
@@ -32,7 +36,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
+                .allowedOrigins(url)
                 .allowedMethods("OPTIONS", "GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
                 .exposedHeaders("Authorization")
