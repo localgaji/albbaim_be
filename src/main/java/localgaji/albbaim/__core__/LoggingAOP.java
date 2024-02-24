@@ -25,7 +25,7 @@ public class LoggingAOP {
     @Before("controller()")
     public void beforeController(JoinPoint joinPoint) {
         Method method = getMethod(joinPoint);
-        log.info("================ controller start = {} ================", method.getName());
+        log.trace("================ controller start = {} ================", method.getName());
     }
 
     // 서비스 메서드 시작
@@ -33,13 +33,13 @@ public class LoggingAOP {
     public void beforeService(JoinPoint joinPoint) {
         // 메서드 정보
         Method method = getMethod(joinPoint);
-        log.info("================== method start = {} ==================", method.getName());
+        log.trace("================== method start = {} ==================", method.getName());
 
         // 파라미터 정보
         Object[] args = joinPoint.getArgs();
-        if (args.length == 0) log.info("no parameter");
+        if (args.length == 0) log.trace("no parameter");
         for (Object arg : args) {
-            log.info("parameter : {}", arg);
+            log.trace("parameter : {}", arg);
         }
     }
 
@@ -47,15 +47,15 @@ public class LoggingAOP {
     @AfterReturning(value = "service()", returning = "returnObj")
     public void afterService(JoinPoint joinPoint, Object returnObj) {
         Method method = getMethod(joinPoint);
-        log.info("return : {}", returnObj);
-        log.info("================== method end === {} ==================", method.getName());
+        log.trace("return : {}", returnObj);
+        log.trace("================== method end === {} ==================", method.getName());
     }
 
     // 컨트롤러 메서드 끝
     @AfterReturning(value = "controller()", returning = "returnObj")
     public void afterController(JoinPoint joinPoint) {
         Method method = getMethod(joinPoint);
-        log.info("================ controller end === {} ================", method.getName());
+        log.trace("================ controller end === {} ================", method.getName());
     }
 
     // 메서드 정보 조회
