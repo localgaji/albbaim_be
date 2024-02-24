@@ -22,7 +22,9 @@ public class TokenProvider {
     private final Long tokenValidityInSeconds;
     private final Key secretKey;
 
-    public TokenProvider(@Value("${jwt.secret}") String secret, @Value("${jwt.tokenValidityInSeconds}") long tokenValidityInSeconds) {
+    public TokenProvider(@Value("${jwt.secret}") String secret,
+                         @Value("${jwt.tokenValidityInSeconds}") long tokenValidityInSeconds
+    ) {
         byte[] keyBytes = Base64.getDecoder().decode(secret);
         this.secretKey = Keys.hmacShaKeyFor(keyBytes);
         this.tokenValidityInSeconds = tokenValidityInSeconds;
