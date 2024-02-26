@@ -2,7 +2,9 @@ FROM openjdk:17-jdk
 ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} app.jar
 
-ADD https://github.com/pinpoint-apm/pinpoint/releases/download/v2.5.3/pinpoint-agent-2.5.3.tar.gz /usr/local
-RUN tar -zxvf /usr/local/pinpoint-agent-2.5.3.tar.gz -C /usr/local
+ARG PINPOINT_VER=2.5.3
+ARG ROOT=/usr/local
+ADD https://github.com/pinpoint-apm/pinpoint/releases/download/v${PINPOINT_VER}/pinpoint-agent-${PINPOINT_VER}.tar.gz ${ROOT}
+RUN tar -zxvf ${ROOT}/pinpoint-agent-${PINPOINT_VER}.tar.gz -C ${ROOT}
 
-ENTRYPOINT ["java", "-jar", "-javaagent:/usr/local/pinpoint-agent-2.5.3/pinpoint-bootstrap-2.5.3.jar", "-Dpinpoint.agentId=albbaim", "-Dpinpoint.applicationName=albbaim", "-Xms512m", "-Xmx512m", "-Dspring.profiles.active=test", "app.jar"]
+ENTRYPOINT ["java", "-jar", "-javaagent:${ROOT}/pinpoint-agent-${PINPOINT_VER}/pinpoint-bootstrap-${PINPOINT_VER}.jar", "-Dpinpoint.agentId=albbaim", "-Dpinpoint.applicationName=albbaim", "-Xms512m", "-Xmx512m", "-Dspring.profiles.active=test", "app.jar"]
