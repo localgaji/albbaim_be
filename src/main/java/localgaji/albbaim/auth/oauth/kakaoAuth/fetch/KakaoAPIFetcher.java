@@ -21,6 +21,13 @@ public class KakaoAPIFetcher {
     @Value("${kakaoAuth.redirect_uri}")
     private String redirect_uri;
 
+    @Value("${kakaoAuth.token_url}")
+    private String token_url;
+
+    @Value("${kakaoAuth.user_info_url}")
+    private String user_info_url;
+
+
     public Long codeToKakaoId(String code) {
         String token = codeToKakaoToken(code);
         String kakaoId = tokenToKakaoId(token);
@@ -43,9 +50,9 @@ public class KakaoAPIFetcher {
         MultiValueMap<String, String> requestBody = DTOtoMultiMap.convert(new ObjectMapper(), requestDTO);
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(requestBody, headers);
-        String url = "https://kauth.kakao.com/oauth/token";
+        String url = token_url;
 
-        return sendPostRequest(request, url, GetTokenResponse.class).access_token();
+        return sendRequest(request, url, HttpMethod.POST, GetTokenResponse.class).access_token();
     }
 
     // 2. 토큰으로 카카오 id 호출
@@ -57,19 +64,20 @@ public class KakaoAPIFetcher {
 
         // 요청 보내기
         HttpEntity<String> request = new HttpEntity<>(headers);
-        String url = "https://kapi.kakao.com/v2/user/me";
+        String url = user_info_url;
 
-        return sendPostRequest(request, url, GetKakaoIdResponse.class).id();
+        return sendRequest(request, url, HttpMethod.GET, GetKakaoIdResponse.class).id();
     }
 
     // 외부 api에 post 요청 전송
-    private <RequestDTO, ResponseDTO> ResponseDTO sendPostRequest(HttpEntity<RequestDTO> request,
-                                                                  String requestUrl,
-                                                                  Class<ResponseDTO> responseDTO) {
+    private <RequestDTO, ResponseDTO> ResponseDTO sendRequest(HttpEntity<RequestDTO> request,
+                                                              String requestUrl,
+                                                              HttpMethod method,
+                                                              Class<ResponseDTO> responseDTO) {
         RestTemplate rt = new RestTemplate();
         ResponseEntity<ResponseDTO> response = rt.exchange(
                 requestUrl,
-                HttpMethod.POST,
+                method,
                 request,
                 responseDTO
         );
