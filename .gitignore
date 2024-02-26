@@ -39,3 +39,4 @@ out/
 /log/
 application-local.yml
 application-prod.yml
+application-test.yml
