@@ -6,5 +6,5 @@ ENTRYPOINT ["java", "-jar", \
 "-Xms512m", "-Xmx512m", \
 "-Dspring.profiles.active=test", \
 "-javaagent:scouter/agent.java/scouter.agent.jar" \
-"-Dscouter.config=scouter/agent.java/conf/scouter.conf"
+"-Dscouter.config=scouter/agent.java/conf/scouter.conf" \
 "app.jar"]
