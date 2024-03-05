@@ -30,7 +30,7 @@ public class TokenProvider {
         this.tokenValidityInSeconds = tokenValidityInSeconds;
     }
 
-    // 토큰 생성
+    /** 토큰 생성 */
     public String createToken(Long userId) {
         //Header 부분 설정
         Map<String, Object> headers = new HashMap<>();
@@ -62,6 +62,7 @@ public class TokenProvider {
         return Long.parseLong(sub);
     }
 
+    /** 토큰에서 claim set 뽑기 (+ 유효성 검증, 만료 검증) */
     private Claims parseToken(String authorization) {
         String token = authorization.substring("Bearer ".length());
 
