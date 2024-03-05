@@ -19,15 +19,14 @@ import java.util.Map;
 
 @Component
 public class TokenProvider {
-    private final Long tokenValidityInSeconds;
+    @Value("${jwt.tokenValidityInSeconds}")
+    private Long tokenValidityInSeconds;
     private final Key secretKey;
 
-    public TokenProvider(@Value("${jwt.secret}") String secret,
-                         @Value("${jwt.tokenValidityInSeconds}") long tokenValidityInSeconds
+    public TokenProvider(@Value("${jwt.secret}") String secret
     ) {
         byte[] keyBytes = Base64.getDecoder().decode(secret);
         this.secretKey = Keys.hmacShaKeyFor(keyBytes);
-        this.tokenValidityInSeconds = tokenValidityInSeconds;
     }
 
     /** 토큰 생성 */
