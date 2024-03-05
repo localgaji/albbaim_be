@@ -55,6 +55,8 @@ public class TokenProvider {
 
     public Long tokenToId(String authorization) {
         Claims claims = parseToken(authorization);
+
+        // claim set 에서 subject claim (== userId) 뽑기
         String sub = claims.getSubject();
         if (sub == null) {
             throw new CustomException(ErrorType.INVALID_TOKEN);
