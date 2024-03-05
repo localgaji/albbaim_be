@@ -53,7 +53,8 @@ public class TokenProvider {
         return "Bearer " + jwt;
     }
 
-    public Long tokenToId(String authorization) {
+    /** JWT 토큰 검증하고 userId 얻기 */
+    public Long getUserIdByToken(String authorization) {
         Claims claims = parseToken(authorization);
 
         // claim set 에서 subject claim (== userId) 뽑기

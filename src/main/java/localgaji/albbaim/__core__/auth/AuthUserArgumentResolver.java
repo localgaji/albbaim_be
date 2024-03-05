@@ -30,7 +30,7 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
 
         String token = webRequest.getHeader("Authorization");
-        Long userId = tokenProvider.tokenToId(token);
+        Long userId = tokenProvider.getUserIdByToken(token);
 
         return userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorType.MEMBER_NOT_FOUND));
