@@ -1,5 +1,6 @@
 package localgaji.albbaim.__core__.auth;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import localgaji.albbaim.__core__.exception.CustomException;
 import localgaji.albbaim.__core__.exception.ErrorType;
 import io.jsonwebtoken.Claims;
@@ -22,6 +23,7 @@ public class TokenProvider {
     @Value("${jwt.tokenValidityInSeconds}")
     private Long tokenValidityInSeconds;
     private final Key secretKey;
+    private final String tokenTypeKeyword = "Bearer ";
 
     public TokenProvider(@Value("${jwt.secret}") String secret
     ) {
@@ -49,7 +51,7 @@ public class TokenProvider {
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
 
-        return "Bearer " + jwt;
+        return tokenTypeKeyword + jwt;
     }
 
     /** JWT 토큰 검증하고 userId 얻기 */
@@ -66,18 +68,25 @@ public class TokenProvider {
 
     /** 토큰에서 claim set 뽑기 (+ 유효성 검증, 만료 검증) */
     private Claims parseToken(String authorization) {
-        String token = authorization.substring("Bearer ".length());
+        // 토큰 시작 키워드 검증
+        if (!authorization.startsWith(tokenTypeKeyword)) {
+            throw new CustomException(ErrorType.INVALID_TOKEN);
+        }
 
-        return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
+        // 시작 키워드 제거
+        String token = authorization.substring(tokenTypeKeyword.length());
 
-    private boolean checkExpired(Claims claims) {
-        Date expiration = claims.getExpiration();
-        Date now = new Date();
-        return now.before(expiration);
+        // 토큰에서 claime set 뽑기 + 예외 처리
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            throw new CustomException(ErrorType.EXPIRED_TOKEN);
+        } catch (Exception e) {
+            throw new CustomException(ErrorType.INVALID_INVITATION);
+        }
     }
 }
