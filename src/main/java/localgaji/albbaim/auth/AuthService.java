@@ -5,7 +5,7 @@ import localgaji.albbaim.user.User;
 import localgaji.albbaim.user.UserService;
 import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuth;
 import localgaji.albbaim.auth.oauth.kakaoAuth.KakaoAuthService;
-import localgaji.albbaim.__core__.auth.TokenProvider;
+import localgaji.albbaim.auth.__common__.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
