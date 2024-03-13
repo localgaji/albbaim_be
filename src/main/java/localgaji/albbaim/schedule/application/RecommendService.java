@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
-import java.time.Duration;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -40,7 +40,7 @@ public class RecommendService {
         ).collect(Collectors.toList());
 
         weeklyWorkTimeWorkersMap.keySet().forEach(workTime -> {
-                    int dayIndex = (int) Duration.between(startWeekDate, workTime.getDate().getLocalDate()).toDays();
+                    int dayIndex = Period.between(startWeekDate, workTime.getDate().getLocalDate()).getDays();
                     List<User> fixedUserList = weeklyWorkTimeWorkersMap.get(workTime);
                     WorkTimeRecommendWorkers dto = new WorkTimeRecommendWorkers(
                             workTime,
