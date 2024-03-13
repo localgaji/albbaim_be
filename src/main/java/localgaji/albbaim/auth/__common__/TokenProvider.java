@@ -1,4 +1,4 @@
-package localgaji.albbaim.__core__.auth;
+package localgaji.albbaim.auth.__common__;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import localgaji.albbaim.__core__.exception.CustomException;
