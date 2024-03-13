@@ -1,6 +1,6 @@
 package localgaji.albbaim.__core__.config;
 
-import localgaji.albbaim.__core__.auth.AuthUserArgumentResolver;
+import localgaji.albbaim.auth.__common__.AuthUserArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
