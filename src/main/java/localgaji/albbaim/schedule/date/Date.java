@@ -2,6 +2,7 @@ package localgaji.albbaim.schedule.date;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import localgaji.albbaim.schedule.week.Week;
 import localgaji.albbaim.schedule.workTime.WorkTime;
 import lombok.AllArgsConstructor;
@@ -21,13 +22,13 @@ public class Date {
     private Long dateId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "week_id")
+    @JoinColumn(name = "week_id") @NotNull
     private Week week;
 
-    @Column
+    @Column @NotNull
     private LocalDate localDate;
 
-    @OneToMany(mappedBy = "date") @Builder.Default
+    @OneToMany(mappedBy = "date") @Builder.Default @NotNull
     private List<WorkTime> workTimeList = new ArrayList<>();
 
     public void addDateToWeek() {

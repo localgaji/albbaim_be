@@ -19,16 +19,16 @@ public class Workplace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long workplaceId;
 
-    @Column
+    @Column @NotNull
     private String workplaceName;
 
-    @Column
+    @Column @NotNull
     private String workplaceNumber;
 
-    @Column
+    @Column @NotNull
     private String mainAddress;
 
-    @Column
+    @Column @NotNull
     private String detailAddress;
 
     @OneToMany(mappedBy = "workplace")

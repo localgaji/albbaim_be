@@ -2,6 +2,7 @@ package localgaji.albbaim.schedule.application;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import localgaji.albbaim.__core__.BaseTime;
 import localgaji.albbaim.schedule.workTime.WorkTime;
 import localgaji.albbaim.user.User;
@@ -18,11 +19,11 @@ public class Application extends BaseTime {
     private Long applicationId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id") @NotNull
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "workTime_id")
+    @JoinColumn(name = "workTime_id") @NotNull
     private WorkTime workTime;
 
     public void applyToWorkTime() {

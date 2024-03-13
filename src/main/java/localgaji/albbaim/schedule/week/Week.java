@@ -23,16 +23,16 @@ public class Week {
     private Long weekId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "workplace_id")
+    @JoinColumn(name = "workplace_id") @NotNull
     private Workplace workplace;
 
-    @Column
+    @Column @NotNull
     private LocalDate startWeekDate;
 
     @OneToMany(mappedBy = "week") @Builder.Default @NotNull
     private List<Date> dateList = new ArrayList<>();
 
-    @Column @Builder.Default
+    @Column @Builder.Default @NotNull
     private Boolean hasFixed = false;
 
     public void fixWeekly() {

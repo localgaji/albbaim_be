@@ -23,16 +23,16 @@ public class WorkTime {
     private Long workTimeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "date_id")
+    @JoinColumn(name = "date_id") @NotNull
     private Date date;
 
-    @Column
+    @Column @NotNull
     private String workTimeName;
 
-    @Column
+    @Column @NotNull
     private LocalTime startTime;
 
-    @Column
+    @Column @NotNull
     private LocalTime endTime;
 
     @OneToMany(mappedBy = "workTime")
@@ -43,7 +43,7 @@ public class WorkTime {
     @Builder.Default @NotNull
     private List<Fixed> fixedList = new ArrayList<>();
 
-    @Column
+    @Column @NotNull
     private int headcount;
 
     public void addWorkTimeToDate() {

@@ -25,7 +25,7 @@ public class User extends BaseTime {
     @NotNull
     private Boolean isAdmin;
 
-    @NotNull
+    @NotNull @NotNull
     private String userName;
 
     @ManyToOne(fetch = FetchType.LAZY)
