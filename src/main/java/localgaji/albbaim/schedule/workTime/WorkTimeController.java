@@ -2,7 +2,7 @@ package localgaji.albbaim.schedule.workTime;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import localgaji.albbaim.__core__.auth.AuthUser;
+import localgaji.albbaim.auth.__common__.AuthUser;
 import localgaji.albbaim.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

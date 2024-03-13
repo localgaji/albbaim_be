@@ -3,7 +3,7 @@ package localgaji.albbaim.user;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import localgaji.albbaim.__core__.ApiUtil;
-import localgaji.albbaim.__core__.auth.AuthUser;
+import localgaji.albbaim.auth.__common__.AuthUser;
 import localgaji.albbaim.user.userDTO.ResponseUser.GetMyInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
