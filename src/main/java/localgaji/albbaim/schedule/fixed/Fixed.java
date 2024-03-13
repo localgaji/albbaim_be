@@ -2,6 +2,7 @@ package localgaji.albbaim.schedule.fixed;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import localgaji.albbaim.schedule.workTime.WorkTime;
 import localgaji.albbaim.user.User;
 import lombok.AllArgsConstructor;
@@ -17,14 +18,14 @@ public class Fixed {
     private Long fixedId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id") @NotNull
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "workTime_id")
+    @JoinColumn(name = "workTime_id") @NotNull
     private WorkTime workTime;
 
-    @Builder.Default
+    @Builder.Default @NotNull
     private Boolean isFindingReplacement = false;
 
     public void addNewFixed() {
