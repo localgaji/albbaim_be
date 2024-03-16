@@ -13,10 +13,11 @@ public class FixedRequest {
     public record PostFixRequest(
             List<List<WorkTimeWorkers>> weeklyWorkerListWannaFix
     ) {
-        @AllArgsConstructor @Getter
-        public static class WorkTimeWorkers {
-            private Long workTimeId;
-            private List<Worker> workerList;
-        }
+    }
+
+    @AllArgsConstructor @Getter
+    public static class WorkTimeWorkers {
+        private Long workTimeId;
+        private List<Worker> workerList;
     }
 }
