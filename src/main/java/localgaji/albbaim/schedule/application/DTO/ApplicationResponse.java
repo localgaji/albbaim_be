@@ -16,20 +16,22 @@ public class ApplicationResponse {
     public record GetApplyFormResponse(
             List<List<WorkTimeChoice>> checklist
     ) {
-        @SuperBuilder @Getter
-        public static class WorkTimeChoice extends WorkTimeDTO {
-            Long workTimeId;
-            Boolean isChecked;
-            public WorkTimeChoice(WorkTime workTime, Boolean isChecked) {
-                super(workTime.getWorkTimeName(),
-                        workTime.getStartTime().toString(),
-                        workTime.getEndTime().toString()
-                );
-                this.workTimeId = workTime.getWorkTimeId();
-                this.isChecked = isChecked;
-            }
+    }
+
+    @SuperBuilder @Getter
+    public static class WorkTimeChoice extends WorkTimeDTO {
+        Long workTimeId;
+        Boolean isChecked;
+        public WorkTimeChoice(WorkTime workTime, Boolean isChecked) {
+            super(workTime.getWorkTimeName(),
+                    workTime.getStartTime().toString(),
+                    workTime.getEndTime().toString()
+            );
+            this.workTimeId = workTime.getWorkTimeId();
+            this.isChecked = isChecked;
         }
     }
+
     @Schema(description = "매니저 : 신청자 명단 조회")
     public record GetApplyStatusResponse(
             List<List<WorkerListDTO>> applyStatus
@@ -39,20 +41,21 @@ public class ApplicationResponse {
     public record GetRecommendResponse(
             List<List<WorkTimeRecommendWorkers>> recommends
     ) {
-        @Getter
-        public static class WorkTimeRecommendWorkers extends WorkTimeDTO {
-            private final Long workTimeId;
-            private final List<Worker> workerList;
+    }
 
-            public WorkTimeRecommendWorkers(WorkTime workTime, List<Worker> workerList) {
-                super(
-                        workTime.getWorkTimeName(),
-                        workTime.getStartTime().toString(),
-                        workTime.getEndTime().toString()
-                );
-                this.workTimeId = workTime.getWorkTimeId();
-                this.workerList = workerList;
-            }
+    @Getter
+    public static class WorkTimeRecommendWorkers extends WorkTimeDTO {
+        private final Long workTimeId;
+        private final List<Worker> workerList;
+
+        public WorkTimeRecommendWorkers(WorkTime workTime, List<Worker> workerList) {
+            super(
+                    workTime.getWorkTimeName(),
+                    workTime.getStartTime().toString(),
+                    workTime.getEndTime().toString()
+            );
+            this.workTimeId = workTime.getWorkTimeId();
+            this.workerList = workerList;
         }
     }
 }
