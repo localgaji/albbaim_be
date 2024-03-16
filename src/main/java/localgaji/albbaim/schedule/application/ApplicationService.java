@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +18,6 @@ import static localgaji.albbaim.schedule.__commonDTO__.WorkerListDTO.*;
 import static localgaji.albbaim.schedule.application.DTO.ApplicationRequest.*;
 import static localgaji.albbaim.schedule.application.DTO.ApplicationRequest.PostApplyRequest.*;
 import static localgaji.albbaim.schedule.application.DTO.ApplicationResponse.*;
-import static localgaji.albbaim.schedule.application.DTO.ApplicationResponse.GetApplyFormResponse.*;
 
 @Service @RequiredArgsConstructor
 public class ApplicationService {
@@ -28,17 +26,22 @@ public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final WorkTimeService workTimeService;
 
-    // 해당 주의 모든 날짜 -> 모든 시간대 -> 모든 신청자 리스트 조회
+    /** 해당 주의 모든 날짜 -> 모든 시간대 -> 모든 신청자 리스트 조회 */
     public GetApplyStatusResponse getApplicationList(User user, String startWeekDateString) {
         // 주 entity 찾기
         Week foundWeek = weekService.getWeekByStartWeekDate(user, startWeekDateString);
 
         // 주 -> 일 -> 시간대 -> 신청자 정보를 시간대 중심으로 가공
-        List<List<WorkerListDTO>> weekly = new ArrayList<>();
+        List<List<WorkerListDTO>> weekly = foundWeek.getDateList()
+                .stream()
+                .map(this::dailyDTOMaker)
+                .toList();
 
-        for (Date date : foundWeek.getDateList()) {
-            List<WorkerListDTO> daily = new ArrayList<>();
-            for (WorkTime workTime : date.getWorkTimeList()) {
+        return new GetApplyStatusResponse(weekly);
+    }
+
+    private List<WorkerListDTO> dailyDTOMaker(Date date) {
+        return date.getWorkTimeList().stream().map(workTime -> {
                 // 해당 시간대 신청자 리스트에서 필요한 정보만 worker dto 로 가공
                 List<Worker> workers = workTime.getApplicationList()
                         .stream()
@@ -51,36 +54,29 @@ public class ApplicationService {
                         .endTime(workTime.getEndTime().toString())
                         .workerList(workers)
                         .build();
-                daily.add(dto);
-            }
-            weekly.add(daily);
-        }
-        return new GetApplyStatusResponse(weekly);
+                return dto;
+        }).toList();
     }
 
-    // 해당 주의 스케줄 신청 선택리스트 조회
+    /** 해당 주의 스케줄 신청 선택리스트 조회 */
     public GetApplyFormResponse getApplicationCheckForm(User user, String startWeekDateString) {
         // 주 entity 찾기
         Week foundWeek = weekService.getWeekByStartWeekDate(user, startWeekDateString);
 
         // 주 -> 일 -> 시간대 -> 신청여부 정보를 시간대 중심으로 가공
-        List<List<WorkTimeChoice>> weekly = new ArrayList<>();
-
-        for (Date date : foundWeek.getDateList()) {
-            List<WorkTimeChoice> daily = new ArrayList<>();
-            for (WorkTime workTime : date.getWorkTimeList()) {
+        List<List<WorkTimeChoice>> weekly = foundWeek.getDateList().stream().map(date ->
+            date.getWorkTimeList().stream().map(workTime -> {
                 // 기존 신청 여부
                 Boolean isChecked = getApplicationByWorkTime(user, workTime).isPresent();
                 // 해당 시간대 정보 + 신청자 정보 dto 생성
-                WorkTimeChoice dto = new WorkTimeChoice(workTime, isChecked);
-                daily.add(dto);
-            }
-            weekly.add(daily);
-        }
+                return new WorkTimeChoice(workTime, isChecked);
+            }).toList()
+        ).toList();
+
         return new GetApplyFormResponse(weekly);
     }
 
-    // 신청 정보 저장
+    /** 신청 정보 저장 */
     @Transactional
     public void saveApplication(User user, PostApplyRequest request) {
         List<List<HasWorkTimeChecked>> weekly = request.apply();
