@@ -72,7 +72,7 @@ public class WeekService {
                 .orElseThrow(() -> new CustomException(ErrorType.NOT_FOUND));
     }
 
-    public Optional<Week> getWeekByLocalDate(User user, LocalDate startWeekDate) {
+    public Optional<Week> findWeekByLocalDate(User user, LocalDate startWeekDate) {
         return getWeekListByUser(user).stream()
                 .filter(week -> week.getStartWeekDate().isEqual(startWeekDate))
                 .findAny();
