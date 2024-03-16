@@ -100,6 +100,7 @@ public class FixedService {
         while (is_week_in_month(firstDateOfMonthly.plusWeeks(week), year, month)) {
             LocalDate startWeekDate = firstDateOfMonthly.plusWeeks(week);
             weeksOfThisMonth.add(startWeekDate);
+            week++;
         }
 
         // 스케줄 담기
@@ -111,7 +112,10 @@ public class FixedService {
     }
 
     private boolean is_week_in_month(LocalDate startWeekDate, int year, int month) {
-        return startWeekDate.getMonthValue() > month || startWeekDate.getYear() > year;
+        LocalDate lastDateOfMonth = LocalDate.of(year, month, 1)
+                .plusMonths(1)
+                .minusDays(1);
+        return startWeekDate.isBefore(lastDateOfMonth);
     }
 
     private List<DailySchedule> weekly(User user, LocalDate startWeekDate) {
@@ -163,6 +167,42 @@ public class FixedService {
         int firstDateDay = firstDate.getDayOfWeek().getValue();
         // 달력의 시작일 (첫번째 월요일)
         return firstDate.minusDays(firstDateDay - 1);
+    }
+
+    public GetMonthlyResponse getMonthlyFixed1(User user, Integer year, Integer month) {
+        // 달력의 시작일 (첫번째 월요일)
+        LocalDate firstOfDate = getFirstStartWeekDate(year, month);
+
+        List<List<DailySchedule>> monthly = new ArrayList<>();
+
+        LocalDate startWeekDate = firstOfDate;
+        while (is_week_in_month(startWeekDate, year, month)) {
+            monthly.add(weekly(user, startWeekDate));
+            startWeekDate = startWeekDate.plusDays(WEEK_DATES_COUNT);
+        }
+
+        return new GetMonthlyResponse(monthly);
+    }
+    private List<DailySchedule> weekly1(User user, LocalDate startWeekDate) {
+        if (has_not_fixed(user, startWeekDate)) {
+            return Arrays.stream(WeekDay.values()).map(day ->
+                    emptyDailySchedule(getLocalDateByDay(startWeekDate, day))
+            ).toList();
+        }
+
+        return Arrays.stream(WeekDay.values()).map(day -> {
+            LocalDate nowDate = getLocalDateByDay(startWeekDate, day);
+
+            List<String> dailyWorkTimeList = user.getFixedList().stream()
+                    .filter(fixed ->
+                            fixed.getWorkTime().getDate().getLocalDate().isEqual(nowDate)
+                    ).map(fixed ->
+                            fixed.getWorkTime().getWorkTimeName()
+                    ).toList();
+
+            return new DailySchedule(nowDate.toString(), true, dailyWorkTimeList);
+
+        }).toList();
     }
 
 }
