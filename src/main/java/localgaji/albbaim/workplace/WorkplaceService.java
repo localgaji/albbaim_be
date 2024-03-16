@@ -78,7 +78,6 @@ public class WorkplaceService {
     }
 
     // (매니저) 초대 키 발급
-    @Transactional
     public GetInvitationKeyResponse getInvitationKey(User user) {
         // 매니저가 운영 중인 매장을 조회
         Workplace workplace = Optional.ofNullable(user.getWorkplace())

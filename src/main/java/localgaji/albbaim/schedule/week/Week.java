@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import localgaji.albbaim.schedule.date.Date;
+import localgaji.albbaim.schedule.replacement.Replacement;
 import localgaji.albbaim.workplace.Workplace;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,17 +24,20 @@ public class Week {
     private Long weekId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "workplace_id")
+    @JoinColumn(name = "workplace_id") @NotNull
     private Workplace workplace;
 
-    @Column
+    @Column @NotNull
     private LocalDate startWeekDate;
 
     @OneToMany(mappedBy = "week") @Builder.Default @NotNull
     private List<Date> dateList = new ArrayList<>();
 
-    @Column @Builder.Default
+    @Column @Builder.Default @NotNull
     private Boolean hasFixed = false;
+
+    @OneToMany(mappedBy = "week") @Builder.Default @NotNull
+    private List<Replacement> replacementList = new ArrayList<>();
 
     public void fixWeekly() {
         this.hasFixed = true;

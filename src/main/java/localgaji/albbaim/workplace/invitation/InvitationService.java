@@ -5,6 +5,7 @@ import localgaji.albbaim.__core__.exception.ErrorType;
 import localgaji.albbaim.workplace.Workplace;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 public class InvitationService {
     private final InvitationRepository invitationRepository;
 
-    // 초대장 열기
+    /** 초대장 열기 (초대장으로 그룹 정보 얻기) */
     public Invitation readInvitation(String invitationKey) {
         // 초대키로 초대장 조회 : 없으면 에러
         Invitation invitation = invitationRepository.findByInvitationKey(invitationKey)
@@ -26,7 +27,7 @@ public class InvitationService {
         return invitation;
     }
 
-    // 초대장 조회
+    /** 초대장 조회 */
     public Invitation getMyWorkplaceInvitation(Workplace workplace) {
         // 없으면 생성, 있으면 가져오기
         Invitation invitation = invitationRepository.findByWorkplace(workplace)
@@ -39,7 +40,8 @@ public class InvitationService {
         return invitation;
     }
 
-    // 신규 초대장 생성
+    /** 신규 초대장 생성 */
+    @Transactional
     private Invitation createInvitationKey(Workplace workplace) {
         // 임시 초대키 생성 로직
         LocalDateTime now = LocalDateTime.now();
@@ -55,7 +57,8 @@ public class InvitationService {
         return newInvitation;
     }
 
-    // 초대장 재발급
+    /** 초대장 재발급 */
+    @Transactional
     private void recreateInvitationKey(Invitation invitation) {
         // 임시 초대키 생성 로직
         LocalDateTime now = LocalDateTime.now();

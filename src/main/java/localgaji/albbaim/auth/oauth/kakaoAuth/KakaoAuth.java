@@ -1,5 +1,6 @@
 package localgaji.albbaim.auth.oauth.kakaoAuth;
 
+import jakarta.validation.constraints.NotNull;
 import localgaji.albbaim.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,10 +16,10 @@ public class KakaoAuth {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id") @NotNull
     private User user;
 
-    @Column
+    @Column @NotNull
     private Long kakaoId;
 
 }

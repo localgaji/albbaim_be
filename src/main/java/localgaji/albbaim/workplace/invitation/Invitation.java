@@ -1,5 +1,6 @@
 package localgaji.albbaim.workplace.invitation;
 
+import jakarta.validation.constraints.NotNull;
 import localgaji.albbaim.__core__.BaseTime;
 import localgaji.albbaim.workplace.Workplace;
 import jakarta.persistence.*;
@@ -17,16 +18,16 @@ public class Invitation extends BaseTime {
     private Long invitationId;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "workplace_id")
+    @JoinColumn(name = "workplace_id") @NotNull
     private Workplace workplace;
 
-    @Column(unique = true)
+    @Column(unique = true) @NotNull
     private String invitationKey;
 
-    @Column
+    @Column @NotNull
     private LocalDateTime keyUpdatedDate;
 
-    @Column @Builder.Default
+    @Column @Builder.Default @NotNull
     private int durationHours = 720;
 
     public void updateInvitation(String invitationKey, LocalDateTime keyUpdatedDate) {
