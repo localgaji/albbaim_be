@@ -40,4 +40,9 @@ public class Replacement {
         return expirationTime.isBefore(LocalDateTime.now());
     }
 
+    public void addReplacementToWeek() {
+        this.week.getReplacementList().add(this);
+    }
+
+
 }
