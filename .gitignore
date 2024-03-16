@@ -41,4 +41,4 @@ application-local.yml
 application-prod.yml
 application-test.yml
 
-scouter/
+**/test/**/etc/

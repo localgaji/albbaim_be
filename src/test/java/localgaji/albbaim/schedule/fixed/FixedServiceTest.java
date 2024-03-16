@@ -24,8 +24,7 @@ import java.util.Optional;
 import static localgaji.albbaim.__utils__.Samples.*;
 import static localgaji.albbaim.schedule.__commonDTO__.WorkerListDTO.*;
 import static localgaji.albbaim.schedule.fixed.DTO.FixedRequest.*;
-import static localgaji.albbaim.schedule.fixed.DTO.FixedRequest.PostFixRequest.*;
-import static localgaji.albbaim.schedule.fixed.DTO.FixedResponse.GetMonthlyResponse.*;
+import static localgaji.albbaim.schedule.fixed.DTO.FixedResponse.*;
 import static localgaji.albbaim.schedule.workTime.DTO.WorkTimeRequest.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -96,7 +95,7 @@ class FixedServiceTest {
         );
         week.fixWeekly();
 
-        when(weekService.getWeekByLocalDate(any(), any()))
+        when(weekService.findWeekByLocalDate(any(), any()))
                 .thenReturn(Optional.of(week));
         // when
         List<List<DailySchedule>> monthly = fixedService.getMonthlyFixed(

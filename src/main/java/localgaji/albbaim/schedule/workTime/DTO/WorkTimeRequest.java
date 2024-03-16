@@ -1,6 +1,7 @@
 package localgaji.albbaim.schedule.workTime.DTO;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import localgaji.albbaim.__core__.WeekDay;
 import localgaji.albbaim.schedule.date.Date;
 import localgaji.albbaim.schedule.week.Week;
 import localgaji.albbaim.schedule.workTime.WorkTime;
@@ -8,7 +9,7 @@ import localgaji.albbaim.workplace.Workplace;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static localgaji.albbaim.__core__.StringToLocalDate.*;
@@ -29,37 +30,31 @@ public class WorkTimeRequest {
                     .build();
         }
         public List<Date> toDateEntities(Week week) {
-            List<Date> dateList = new ArrayList<>();
             LocalDate startWeek = week.getStartWeekDate();
-            for (int i = 0; i < 7; i++) {
-                Date date = Date.builder()
-                        .localDate(startWeek.plusDays(i))
-                        .week(week)
-                        .build();
-                dateList.add(date);
-            }
-            return dateList;
+
+            return Arrays.stream(WeekDay.values()).map(day -> Date.builder()
+                    .localDate(startWeek.plusDays(day.getIndex()))
+                    .week(week)
+                    .build()
+            ).toList();
         }
 
         public List<WorkTime> toWorkTimeEntities(Date date) {
             List<WorkTimeHeadCountDTO> workTimeDTOList = template.get(
-                    Period.between(stringToLocalDate(startWeekDate),
-                                    date.getLocalDate()
+                    Period.between(
+                            stringToLocalDate(startWeekDate),
+                            date.getLocalDate()
                     ).getDays());
 
-            List<WorkTime> workTimes = new ArrayList<>();
-
-            for (WorkTimeHeadCountDTO dto : workTimeDTOList) {
-                WorkTime workTime = WorkTime.builder()
-                        .date(date)
-                        .workTimeName(dto.getTitle())
-                        .startTime(stringToLocalTime(dto.getStartTime()))
-                        .endTime(stringToLocalTime(dto.getEndTime()))
-                        .headcount(dto.getHeadCount())
-                        .build();
-                workTimes.add(workTime);
-            }
-            return workTimes;
+            return workTimeDTOList.stream().map(dto ->
+                    WorkTime.builder()
+                            .date(date)
+                            .workTimeName(dto.getTitle())
+                            .startTime(stringToLocalTime(dto.getStartTime()))
+                            .endTime(stringToLocalTime(dto.getEndTime()))
+                            .headcount(dto.getHeadCount())
+                            .build()
+            ).toList();
         }
     }
 }
