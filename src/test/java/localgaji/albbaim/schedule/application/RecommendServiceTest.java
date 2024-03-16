@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import static localgaji.albbaim.__utils__.Samples.*;
-import static localgaji.albbaim.schedule.application.DTO.ApplicationResponse.GetRecommendResponse.*;
+import static localgaji.albbaim.schedule.application.DTO.ApplicationResponse.*;
 import static localgaji.albbaim.schedule.workTime.DTO.WorkTimeRequest.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
