@@ -6,8 +6,6 @@ import lombok.Getter;
 
 import java.util.List;
 
-import static localgaji.albbaim.schedule.__commonDTO__.WorkerListDTO.*;
-
 public class FixedRequest {
     @Schema(description = "주간 근무 확정")
     public record PostFixRequest(
@@ -18,6 +16,6 @@ public class FixedRequest {
     @AllArgsConstructor @Getter
     public static class WorkTimeWorkers {
         private Long workTimeId;
-        private List<Worker> workerList;
+        private List<Long> workerIdList;
     }
 }
