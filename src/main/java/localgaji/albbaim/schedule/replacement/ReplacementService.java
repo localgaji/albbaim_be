@@ -41,7 +41,7 @@ public class ReplacementService {
     /** 해당 스케줄의 직원 변경 (대타) */
     @Transactional
     public void changeWorker(User newUser, String replacementIdString) {
-        Replacement replacement = replacementRepository.findById(
+        Replacement replacement = replacementRepository.findWithPessimisticLock(
                 Long.parseLong(replacementIdString)
         ).orElseThrow(() -> new CustomException(ErrorType.NOT_FOUND));
 
