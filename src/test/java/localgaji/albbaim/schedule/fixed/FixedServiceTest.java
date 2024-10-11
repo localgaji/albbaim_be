@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static localgaji.albbaim.__utils__.Samples.*;
-import static localgaji.albbaim.schedule.__commonDTO__.WorkerListDTO.*;
 import static localgaji.albbaim.schedule.fixed.DTO.FixedRequest.*;
 import static localgaji.albbaim.schedule.fixed.DTO.FixedResponse.*;
 import static localgaji.albbaim.schedule.workTime.DTO.WorkTimeRequest.*;
@@ -67,7 +66,7 @@ class FixedServiceTest {
         // given
         List<List<WorkTimeWorkers>> weeklyWorkerListWannaFix = week.getDateList().stream().map(date ->
                 date.getWorkTimeList().stream().map(workTime ->
-                        new WorkTimeWorkers(workTime.getWorkTimeId(), List.of(new Worker(user)))
+                        new WorkTimeWorkers(workTime.getWorkTimeId(), List.of(user.getUserId()))
                 ).toList()
         ).toList();
         PostFixRequest request = new PostFixRequest(weeklyWorkerListWannaFix);

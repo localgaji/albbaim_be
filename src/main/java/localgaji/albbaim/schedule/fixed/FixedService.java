@@ -54,8 +54,8 @@ public class FixedService {
                         // week 안에 있는 workTime 맞는지 확인
 
                         // 저장
-                        for (Worker worker : time.getWorkerList()) {
-                            User userWorker = userService.findUserById(worker.userId());
+                        for (Long workerUserId : time.getWorkerIdList()) {
+                            User userWorker = userService.findUserById(workerUserId);
                             Fixed fixed = Fixed.builder()
                                     .user(userWorker)
                                     .workTime(workTime)
