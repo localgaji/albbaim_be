@@ -11,7 +11,9 @@ import java.util.List;
 public class ReplacementResponse {
     @Schema(description = "모집 중인 대타 리스트")
     public record GetReplacementList(
-            List<ReplacementInfo> replacementList
+            List<ReplacementInfo> replacementList,
+            Integer pageNumber,
+            Boolean hasNext
     ) {
     }
 
