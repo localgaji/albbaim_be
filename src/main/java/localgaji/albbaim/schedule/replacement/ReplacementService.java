@@ -9,6 +9,7 @@ import localgaji.albbaim.schedule.week.WeekService;
 import localgaji.albbaim.schedule.workTime.WorkTime;
 import localgaji.albbaim.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,17 +27,18 @@ public class ReplacementService {
     private final WeekService weekService;
 
     /** 모집 중인 대타 리스트 (주별) */
-    public GetReplacementList getReplacementList(User user, String startWeekDate) {
+    public GetReplacementList getReplacementList(User user, String startWeekDate, int page) {
         Week week = weekService.getWeekByStartWeekDate(user, startWeekDate);
 
-        List<ReplacementInfo> replacementInfoList = week.getReplacementList().stream()
-                .filter(replacement ->
-                        !replacement.hasExpired() && !replacement.getHasFound()
-                ).map(ReplacementInfo::new).toList();
+        Pageable pageRequest = PageRequest.of(page - 1, 5, Sort.Direction.ASC, "expirationTime");
+        Slice<Replacement> replacementPage = replacementRepository
+                .findByWeekAndExpirationTimeAfterAndHasFoundFalse(week, LocalDateTime.now(), pageRequest);
 
-        return new GetReplacementList(replacementInfoList);
+        List<ReplacementInfo> replacementInfoList = replacementPage.getContent().stream()
+            .map(ReplacementInfo::new).toList();
+
+        return new GetReplacementList(replacementInfoList, replacementPage.getNumber(), replacementPage.hasNext());
     }
-
 
     /** 해당 스케줄의 직원 변경 (대타) */
     @Transactional
