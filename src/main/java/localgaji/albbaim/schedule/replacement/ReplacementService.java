@@ -30,12 +30,14 @@ public class ReplacementService {
     public GetReplacementList getReplacementList(User user, String startWeekDate, int page) {
         Week week = weekService.getWeekByStartWeekDate(user, startWeekDate);
 
-        Pageable pageRequest = PageRequest.of(page - 1, 5, Sort.Direction.ASC, "expirationTime");
-        Slice<Replacement> replacementPage = replacementRepository
-                .findByWeekAndExpirationTimeAfterAndHasFoundFalse(week, LocalDateTime.now(), pageRequest);
+        Slice<Replacement> replacementPage = replacementRepository.findByWeekFetchJoin(
+                week,
+                LocalDateTime.now(),
+                PageRequest.of(page - 1, 5, Sort.Direction.ASC, "expirationTime")
+        );
 
         List<ReplacementInfo> replacementInfoList = replacementPage.getContent().stream()
-            .map(ReplacementInfo::new).toList();
+                .map(ReplacementInfo::new).toList();
 
         return new GetReplacementList(replacementInfoList, replacementPage.getNumber(), replacementPage.hasNext());
     }
