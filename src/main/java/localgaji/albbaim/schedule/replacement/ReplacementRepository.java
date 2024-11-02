@@ -23,4 +23,18 @@ public interface ReplacementRepository extends JpaRepository<Replacement, Long> 
             LocalDateTime now,
             Pageable pageable
     );
+
+    @Query(value = "SELECT r FROM Replacement r"
+            + " JOIN FETCH r.fixed f"
+            + " JOIN FETCH f.workTime w"
+            + " JOIN FETCH w.date"
+            + " WHERE r.week = :week"
+            + " AND r.expirationTime > :now"
+            + " AND NOT r.hasFound"
+    )
+    Slice<Replacement> findByWeekFetchJoin(
+            Week week,
+            LocalDateTime now,
+            Pageable pageable
+    );
 }
